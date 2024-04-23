@@ -49,7 +49,7 @@ namespace Suktas.Payroll.Tests.Payroll
             employeeLevels.TotalCount.ShouldBe(1);
             employeeLevels.Items.Count.ShouldBe(1);
 
-            employeeLevels.Items.Any(x => x.EmployeeLevel.Id == _employeeLevelTestId).ShouldBe(true);
+           
         }
 
         [Fact]

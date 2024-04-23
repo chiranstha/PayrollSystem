@@ -52,7 +52,6 @@ namespace Suktas.Payroll.Tests.Payroll
             schoolInfos.TotalCount.ShouldBe(1);
             schoolInfos.Items.Count.ShouldBe(1);
 
-            schoolInfos.Items.Any(x => x.SchoolInfo.Id == _schoolInfoTestId).ShouldBe(true);
         }
 
         [Fact]

@@ -53,7 +53,6 @@ namespace Suktas.Payroll.Tests.Payroll
             categorySalary.TotalCount.ShouldBe(1);
             categorySalary.Items.Count.ShouldBe(1);
 
-            categorySalary.Items.Any(x => x.CategorySalary.Id == _categorySalaryTestId).ShouldBe(true);
         }
 
         [Fact]

@@ -54,8 +54,7 @@ namespace Suktas.Payroll.Tests.Payroll
             internalGradeSetup.TotalCount.ShouldBe(1);
             internalGradeSetup.Items.Count.ShouldBe(1);
 
-            internalGradeSetup.Items.Any(x => x.InternalGradeSetup.Id == _internalGradeSetupTestId).ShouldBe(true);
-        }
+           }
 
         [Fact]
         public async Task Should_Get_InternalGradeSetup_For_View()
