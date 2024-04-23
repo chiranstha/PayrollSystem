@@ -1,7 +1,6 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { GetEmployeeLevelForViewDto, EmployeeLevelDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
@@ -15,18 +14,13 @@ export class ViewEmployeeLevelModalComponent extends AppComponentBase {
     active = false;
     saving = false;
 
-    item: GetEmployeeLevelForViewDto;
 
     constructor(injector: Injector) {
         super(injector);
-        this.item = new GetEmployeeLevelForViewDto();
-        this.item.employeeLevel = new EmployeeLevelDto();
     }
 
-    show(item: GetEmployeeLevelForViewDto): void {
-        this.item = item;
-        this.active = true;
-        this.modal.show();
+    show(id: string): void {
+
     }
 
     close(): void {

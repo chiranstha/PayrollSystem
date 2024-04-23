@@ -1,10 +1,8 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeeLevelsServiceProxy, EmployeeLevelDto } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+import { EmployeeLevelsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditEmployeeLevelModalComponent } from './create-or-edit-employeeLevel-modal.component';
 
 import { ViewEmployeeLevelModalComponent } from './view-employeeLevel-modal.component';
@@ -37,7 +35,6 @@ export class EmployeeLevelsComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _employeeLevelsServiceProxy: EmployeeLevelsServiceProxy,
-        private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
@@ -78,10 +75,10 @@ export class EmployeeLevelsComponent extends AppComponentBase {
         this.createOrEditEmployeeLevelModal.show();
     }
 
-    deleteEmployeeLevel(employeeLevel: EmployeeLevelDto): void {
+    deleteEmployeeLevel(id: string): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._employeeLevelsServiceProxy.delete(employeeLevel.id).subscribe(() => {
+                this._employeeLevelsServiceProxy.delete(id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
@@ -90,9 +87,9 @@ export class EmployeeLevelsComponent extends AppComponentBase {
     }
 
     exportToExcel(): void {
-        this._employeeLevelsServiceProxy.getEmployeeLevelsToExcel(this.filterText).subscribe((result) => {
-            this._fileDownloadService.downloadTempFile(result);
-        });
+        // this._employeeLevelsServiceProxy.getEmployeeLevelsToExcel(this.filterText).subscribe((result) => {
+        //     this._fileDownloadService.downloadTempFile(result);
+        // });
     }
 
     resetFilters(): void {

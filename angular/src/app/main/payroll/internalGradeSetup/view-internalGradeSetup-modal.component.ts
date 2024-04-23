@@ -3,7 +3,6 @@ import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/c
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
     GetInternalGradeSetupForViewDto,
-    InternalGradeSetupDto,
     EmployeeCategory,
     EmployeeGrade,
 } from '@shared/service-proxies/service-proxies';
@@ -27,7 +26,6 @@ export class ViewInternalGradeSetupModalComponent extends AppComponentBase {
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetInternalGradeSetupForViewDto();
-        this.item.internalGradeSetup = new InternalGradeSetupDto();
     }
 
     show(item: GetInternalGradeSetupForViewDto): void {

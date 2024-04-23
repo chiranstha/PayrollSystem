@@ -7,7 +7,6 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { FileUploader, FileUploaderOptions } from '@node_modules/ng2-file-upload';
-import { IAjaxResponse, TokenService } from '@node_modules/abp-ng2-module';
 import { AppConsts } from '@shared/AppConsts';
 
 import { HttpClient } from '@angular/common/http';
@@ -29,14 +28,12 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
     imageFileUploader: FileUploader;
     imageFileToken: string;
     imageFileName: string;
-    imageFileAcceptedTypes: string = '';
-    @ViewChild('SchoolInfo_imageLabel') schoolInfo_imageLabel: ElementRef;
+    imageFileAcceptedTypes = '';
 
     constructor(
         injector: Injector,
         private _schoolInfosServiceProxy: SchoolInfosServiceProxy,
         private _dateTimeService: DateTimeService,
-        private _tokenService: TokenService,
         private _http: HttpClient
     ) {
         super(injector);
@@ -53,9 +50,8 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
             this.modal.show();
         } else {
             this._schoolInfosServiceProxy.getSchoolInfoForEdit(schoolInfoId).subscribe((result) => {
-                this.schoolInfo = result.schoolInfo;
 
-                this.imageFileName = result.imageFileName;
+
 
                 this.active = true;
                 this.modal.show();
@@ -111,7 +107,7 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
 
         let _uploaderOptions: FileUploaderOptions = {};
         _uploaderOptions.autoUpload = false;
-        _uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
+        //_uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
         _uploaderOptions.removeAfterUpload = true;
 
         uploader.onAfterAddingFile = (file) => {
@@ -119,12 +115,12 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
         };
 
         uploader.onSuccessItem = (item, response, status) => {
-            const resp = <IAjaxResponse>JSON.parse(response);
-            if (resp.success && resp.result.fileToken) {
-                onSuccess(resp.result.fileToken);
-            } else {
-                this.message.error(resp.result.message);
-            }
+            // const resp = <IAjaxResponse>JSON.parse(response);
+            // if (resp.success && resp.result.fileToken) {
+            //     onSuccess(resp.result.fileToken);
+            // } else {
+            //     this.message.error(resp.result.message);
+            // }
         };
 
         uploader.setOptions(_uploaderOptions);
@@ -149,7 +145,7 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
                 }
 
                 let list = data.result as string[];
-                if (list.length == 0) {
+                if (list.length === 0) {
                     return;
                 }
 

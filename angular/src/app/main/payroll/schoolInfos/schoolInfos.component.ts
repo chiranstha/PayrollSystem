@@ -1,8 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SchoolInfosServiceProxy, SchoolInfoDto } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
+import { SchoolInfosServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditSchoolInfoModalComponent } from './create-or-edit-schoolInfo-modal.component';
@@ -37,7 +36,6 @@ export class SchoolInfosComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _schoolInfosServiceProxy: SchoolInfosServiceProxy,
-        private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
@@ -78,10 +76,10 @@ export class SchoolInfosComponent extends AppComponentBase {
         this.createOrEditSchoolInfoModal.show();
     }
 
-    deleteSchoolInfo(schoolInfo: SchoolInfoDto): void {
+    deleteSchoolInfo(id): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._schoolInfosServiceProxy.delete(schoolInfo.id).subscribe(() => {
+                this._schoolInfosServiceProxy.delete(id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });

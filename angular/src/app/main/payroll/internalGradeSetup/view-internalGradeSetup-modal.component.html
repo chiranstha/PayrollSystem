@@ -23,24 +23,24 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <h6>{{ l('Category') }} :</h6>
-                        {{ l(employeeCategory[item.internalGradeSetup.category]) }}
+                        {{ l(employeeCategory[item.category]) }}
                     </div>
                     <div class="col-6 mb-3">
                         <h6>{{ l('Grade') }} :</h6>
-                        {{ l(employeeGrade[item.internalGradeSetup.grade]) }}
+                        {{ l(employeeGrade[item.grade]) }}
                     </div>
                     <div class="col-6 mb-3">
                         <h6>{{ l('IsPercent') }} :</h6>
-                        <div *ngIf="item.internalGradeSetup.isPercent" class="text-left">
+                        <div *ngIf="item.isPercent" class="text-left">
                             <i class="fa fa-check-circle text-success" title="True"></i>
                         </div>
-                        <div *ngIf="!item.internalGradeSetup.isPercent" class="text-left">
+                        <div *ngIf="!item.isPercent" class="text-left">
                             <i class="fa fa-times-circle" title="False"></i>
                         </div>
                     </div>
                     <div class="col-6 mb-3">
                         <h6>{{ l('Value') }} :</h6>
-                        {{ item.internalGradeSetup.value }}
+                        {{ item.value }}
                     </div>
                 </div>
             </div>

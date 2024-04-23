@@ -38,8 +38,7 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
             this.modal.show();
         } else {
             this._employeeLevelsServiceProxy.getEmployeeLevelForEdit(employeeLevelId).subscribe((result) => {
-                this.employeeLevel = result.employeeLevel;
-
+              
                 this.active = true;
                 this.modal.show();
             });

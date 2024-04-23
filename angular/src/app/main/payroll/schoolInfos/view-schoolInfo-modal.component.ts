@@ -1,7 +1,7 @@
 ﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { GetSchoolInfoForViewDto, SchoolInfoDto } from '@shared/service-proxies/service-proxies';
+import { GetSchoolInfoForViewDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
@@ -20,7 +20,7 @@ export class ViewSchoolInfoModalComponent extends AppComponentBase {
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetSchoolInfoForViewDto();
-        this.item.schoolInfo = new SchoolInfoDto();
+
     }
 
     show(item: GetSchoolInfoForViewDto): void {

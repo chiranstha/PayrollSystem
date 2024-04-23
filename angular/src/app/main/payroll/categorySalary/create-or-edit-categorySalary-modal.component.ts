@@ -47,9 +47,6 @@ export class CreateOrEditCategorySalaryModalComponent extends AppComponentBase i
             this.modal.show();
         } else {
             this._categorySalaryServiceProxy.getCategorySalaryForEdit(categorySalaryId).subscribe((result) => {
-                this.categorySalary = result.categorySalary;
-
-                this.employeeLevelName = result.employeeLevelName;
 
                 this.active = true;
                 this.modal.show();

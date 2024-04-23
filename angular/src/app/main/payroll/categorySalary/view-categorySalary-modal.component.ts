@@ -3,7 +3,6 @@ import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/c
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
     GetCategorySalaryForViewDto,
-    CategorySalaryDto,
     EmployeeCategory,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -25,7 +24,6 @@ export class ViewCategorySalaryModalComponent extends AppComponentBase {
     constructor(injector: Injector) {
         super(injector);
         this.item = new GetCategorySalaryForViewDto();
-        this.item.categorySalary = new CategorySalaryDto();
     }
 
     show(item: GetCategorySalaryForViewDto): void {

@@ -43,8 +43,6 @@ export class CreateOrEditInternalGradeSetupModalComponent extends AppComponentBa
             this._internalGradeSetupServiceProxy
                 .getInternalGradeSetupForEdit(internalGradeSetupId)
                 .subscribe((result) => {
-                    this.internalGradeSetup = result.internalGradeSetup;
-
                     this.active = true;
                     this.modal.show();
                 });

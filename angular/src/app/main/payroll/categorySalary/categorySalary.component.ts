@@ -3,10 +3,8 @@ import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     CategorySalaryServiceProxy,
-    CategorySalaryDto,
     EmployeeCategory,
 } from '@shared/service-proxies/service-proxies';
-import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditCategorySalaryModalComponent } from './create-or-edit-categorySalary-modal.component';
@@ -37,14 +35,12 @@ export class CategorySalaryComponent extends AppComponentBase {
 
     advancedFiltersAreShown = false;
     filterText = '';
-    employeeLevelNameFilter = '';
 
     employeeCategory = EmployeeCategory;
 
     constructor(
         injector: Injector,
         private _categorySalaryServiceProxy: CategorySalaryServiceProxy,
-        private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
@@ -66,7 +62,6 @@ export class CategorySalaryComponent extends AppComponentBase {
         this._categorySalaryServiceProxy
             .getAll(
                 this.filterText,
-                this.employeeLevelNameFilter,
                 this.primengTableHelper.getSorting(this.dataTable),
                 this.primengTableHelper.getSkipCount(this.paginator, event),
                 this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -86,10 +81,10 @@ export class CategorySalaryComponent extends AppComponentBase {
         this.createOrEditCategorySalaryModal.show();
     }
 
-    deleteCategorySalary(categorySalary: CategorySalaryDto): void {
+    deleteCategorySalary(id): void {
         this.message.confirm('', this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._categorySalaryServiceProxy.delete(categorySalary.id).subscribe(() => {
+                this._categorySalaryServiceProxy.delete(id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
@@ -99,7 +94,7 @@ export class CategorySalaryComponent extends AppComponentBase {
 
     exportToExcel(): void {
         this._categorySalaryServiceProxy
-            .getCategorySalaryToExcel(this.filterText, this.employeeLevelNameFilter)
+            .getCategorySalaryToExcel(this.filterText)
             .subscribe((result) => {
                 this._fileDownloadService.downloadTempFile(result);
             });
@@ -107,8 +102,6 @@ export class CategorySalaryComponent extends AppComponentBase {
 
     resetFilters(): void {
         this.filterText = '';
-        this.employeeLevelNameFilter = '';
-
         this.getCategorySalary();
     }
 }
