@@ -33,12 +33,7 @@ export class DynamicResourcesHelper {
             '/css/style.bundle' +
             cssPostfix.replace('-', '.') +
             '.css',
-            AppConsts.appBaseUrl +
-            '/assets/metronic/themes/' +
-            theme +
-            '/plugins/global/plugins.bundle' +
-            cssPostfix.replace('-', '.') +
-            '.css',
+            
             AppConsts.appBaseUrl +
             '/assets/primeng/themes/mdc-' +
             (ThemeHelper.darkMode() ? 'dark' : 'light') +

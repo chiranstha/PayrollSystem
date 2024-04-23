@@ -114,12 +114,7 @@
         "src/assets/fonts/fonts-inter.css"
       ]
     },
-    {
-      "output": "src/assets/fonts/fonts-poppins.min.css",
-      "input": [
-        "src/assets/fonts/fonts-poppins.css"
-      ]
-    },
+    
     {
       "output": "src/assets/fonts/fonts-roboto.min.css",
       "input": [

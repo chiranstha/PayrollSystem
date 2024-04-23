@@ -49,7 +49,7 @@ export class AppNavigationService {
                     new AppMenuItem(
                         'Languages',
                         'Pages.Administration.Languages',
-                        'flaticon-tabs',
+                        'fa-sharp fa-language',
                         '/app/admin/languages',
                         ['/app/admin/languages/{name}/texts']
                     ),

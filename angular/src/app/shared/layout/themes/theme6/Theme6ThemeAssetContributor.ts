@@ -4,7 +4,8 @@ import { NameValuePair } from '@shared/utils/name-value-pair';
 
 export class Theme6ThemeAssetContributor implements IThemeAssetContributor {
     public getAssetUrls(): string[] {
-        return [AppConsts.appBaseUrl + '/assets/fonts/fonts-poppins.min.css'];
+        return [];
+        //[AppConsts.appBaseUrl + '/assets/fonts/fonts-poppins.min.css'];
     }
 
     public getMenuWrapperStyle(): string {
