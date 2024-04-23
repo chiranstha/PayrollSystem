@@ -62,21 +62,15 @@ namespace Suktas.Payroll.Payroll
             var totalCount = await filteredCategorySalary.CountAsync();
 
             var dbList = await categorySalary.ToListAsync();
-            var results = new List<GetCategorySalaryForViewDto>();
-
-            foreach (var o in dbList)
-            {
-                var res = new GetCategorySalaryForViewDto
-                { 
+            var results = dbList.Select(o => new GetCategorySalaryForViewDto
+                {
                     Salary = o.Salary,
                     Category = o.Category.ToString(),
                     TechnicalAmount = o.TechnicalAmount,
                     Id = o.Id,
                     EmployeeLevelName = o.EmployeeLevelName
-                };
-
-                results.Add(res);
-            }
+                })
+                .ToList();
 
             return new PagedResultDto<GetCategorySalaryForViewDto>(
                 totalCount,

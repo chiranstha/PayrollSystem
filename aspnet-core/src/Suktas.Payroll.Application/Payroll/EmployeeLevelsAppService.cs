@@ -18,13 +18,14 @@ using Abp.UI;
 namespace Suktas.Payroll.Payroll
 {
     [AbpAuthorize(AppPermissions.Pages_EmployeeLevels)]
-    public abstract class EmployeeLevelsAppServiceBase : PayrollAppServiceBase
+    public  class EmployeeLevelsAppService : PayrollAppServiceBase, IEmployeeLevelsAppService
     {
         private readonly IRepository<CategorySalary, Guid> _categorySalaryRepository;
         private readonly IRepository<EmployeeLevel, Guid> _employeeLevelRepository;
         private readonly IEmployeeLevelsExcelExporter _employeeLevelsExcelExporter;
 
-        public EmployeeLevelsAppServiceBase(IRepository<EmployeeLevel, Guid> employeeLevelRepository,
+        public EmployeeLevelsAppService(
+            IRepository<EmployeeLevel, Guid> employeeLevelRepository,
             IEmployeeLevelsExcelExporter employeeLevelsExcelExporter,
             IRepository<CategorySalary, Guid> categorySalaryRepository)
         {

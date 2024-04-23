@@ -66,22 +66,15 @@ namespace Suktas.Payroll.Payroll
             var totalCount = await filteredSchoolInfos.CountAsync();
 
             var dbList = await schoolInfos.ToListAsync();
-            var results = new List<GetSchoolInfoForViewDto>();
-
-            foreach (var o in dbList)
-            {
-                var res = new GetSchoolInfoForViewDto()
+            var results = dbList.Select(o => new GetSchoolInfoForViewDto()
                 {
                     Name = o.Name,
                     Address = o.Address,
                     PhoneNo = o.PhoneNo,
                     Email = o.Email,
                     Id = o.Id,
-
-                };
-
-                results.Add(res);
-            }
+                })
+                .ToList();
 
             return new PagedResultDto<GetSchoolInfoForViewDto>(
                 totalCount,
