@@ -1,0 +1,124 @@
+﻿<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #internalGradeSetupForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="internalGradeSetup.id">{{ l('EditInternalGradeSetup') }}</span>
+                        <span *ngIf="!internalGradeSetup.id">{{ l('CreateNewInternalGradeSetup') }}</span>
+                    </h4>
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="InternalGradeSetup_Category">{{ l('Category') }}</label>
+                        <select
+                            class="form-select"
+                            #InternalGradeSetup_Category="ngModel"
+                            name="Category"
+                            id="InternalGradeSetup_Category"
+                            [(ngModel)]="internalGradeSetup.category"
+                        >
+                            <option value="0">{{ l('Permanent') }}</option>
+
+                            <option value="1">{{ l('Temporary') }}</option>
+
+                            <option value="2">{{ l('ChildDevelopment') }}</option>
+
+                            <option value="3">{{ l('Donation') }}</option>
+
+                            <option value="4">{{ l('Helper') }}</option>
+
+                            <option value="5">{{ l('Contract') }}</option>
+                        </select>
+                        <validation-messages [formCtrl]="InternalGradeSetup_Category"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="InternalGradeSetup_Grade">{{ l('Grade') }}</label>
+                        <select
+                            class="form-select"
+                            #InternalGradeSetup_Grade="ngModel"
+                            name="Grade"
+                            id="InternalGradeSetup_Grade"
+                            [(ngModel)]="internalGradeSetup.grade"
+                        >
+                            <option value="1">{{ l('One') }}</option>
+
+                            <option value="2">{{ l('Two') }}</option>
+
+                            <option value="3">{{ l('Three') }}</option>
+
+                            <option value="4">{{ l('Four') }}</option>
+
+                            <option value="5">{{ l('Five') }}</option>
+
+                            <option value="6">{{ l('Six') }}</option>
+
+                            <option value="7">{{ l('Seven') }}</option>
+
+                            <option value="8">{{ l('Eight') }}</option>
+                        </select>
+                        <validation-messages [formCtrl]="InternalGradeSetup_Grade"></validation-messages>
+                    </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="InternalGradeSetup_IsPercent" class="kt-checkbox">
+                            <input
+                                id="InternalGradeSetup_IsPercent"
+                                #InternalGradeSetup_IsPercent="ngModel"
+                                type="checkbox"
+                                name="IsPercent"
+                                [(ngModel)]="internalGradeSetup.isPercent"
+                            />
+                            {{ l('IsPercent') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="InternalGradeSetup_IsPercent"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="InternalGradeSetup_Value">{{ l('Value') }}</label>
+                        <input
+                            type="number"
+                            #InternalGradeSetup_Value="ngModel"
+                            id="InternalGradeSetup_Value"
+                            class="form-control"
+                            [(ngModel)]="internalGradeSetup.value"
+                            name="Value"
+                        />
+                        <validation-messages [formCtrl]="InternalGradeSetup_Value"></validation-messages>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!internalGradeSetupForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i>
+                        <span>{{ l('Save') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

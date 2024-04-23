@@ -1,0 +1,149 @@
+﻿<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #schoolInfoForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="schoolInfo.id">{{ l('EditSchoolInfo') }}</span>
+                        <span *ngIf="!schoolInfo.id">{{ l('CreateNewSchoolInfo') }}</span>
+                    </h4>
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="SchoolInfo_Name">{{ l('Name') }} *</label>
+                        <input
+                            type="text"
+                            #SchoolInfo_Name="ngModel"
+                            id="SchoolInfo_Name"
+                            class="form-control"
+                            [(ngModel)]="schoolInfo.name"
+                            name="Name"
+                            required
+                        />
+                        <validation-messages [formCtrl]="SchoolInfo_Name"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SchoolInfo_Address">{{ l('Address') }}</label>
+                        <input
+                            type="text"
+                            #SchoolInfo_Address="ngModel"
+                            id="SchoolInfo_Address"
+                            class="form-control"
+                            [(ngModel)]="schoolInfo.address"
+                            name="Address"
+                        />
+                        <validation-messages [formCtrl]="SchoolInfo_Address"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SchoolInfo_PhoneNo">{{ l('PhoneNo') }}</label>
+                        <input
+                            type="text"
+                            #SchoolInfo_PhoneNo="ngModel"
+                            id="SchoolInfo_PhoneNo"
+                            class="form-control"
+                            [(ngModel)]="schoolInfo.phoneNo"
+                            name="PhoneNo"
+                        />
+                        <validation-messages [formCtrl]="SchoolInfo_PhoneNo"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SchoolInfo_Email">{{ l('Email') }}</label>
+                        <input
+                            type="text"
+                            #SchoolInfo_Email="ngModel"
+                            id="SchoolInfo_Email"
+                            class="form-control"
+                            [(ngModel)]="schoolInfo.email"
+                            name="Email"
+                        />
+                        <validation-messages [formCtrl]="SchoolInfo_Email"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SchoolInfo_Description">{{ l('Description') }}</label>
+                        <input
+                            type="text"
+                            #SchoolInfo_Description="ngModel"
+                            id="SchoolInfo_Description"
+                            class="form-control"
+                            [(ngModel)]="schoolInfo.description"
+                            name="Description"
+                        />
+                        <validation-messages [formCtrl]="SchoolInfo_Description"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">{{ l('Image') }}</span>
+                            </div>
+                            <div class="custom-file">
+                                <input
+                                    type="file"
+                                    class="custom-file-input"
+                                    id="SchoolInfo_Image"
+                                    name="SchoolInfo_Image"
+                                    aria-describedby="inputGroupFileAddon01"
+                                    (change)="onSelectImageFile($event)"
+                                    [accept]="imageFileAcceptedTypes"
+                                />
+                                <label class="custom-file-label" #SchoolInfo_ImageLabel for="SchoolInfo_Image">
+                                    {{ l('ChooseAFile') }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="imageFileName" style="background-color: #e5e5e5; padding: 5px">
+                            <span class="font-weight-bold">{{ 'CurrentFile' | localize }} :</span>
+                            <div class="alert alert-custom alert-white alert-bold m-1" role="alert">
+                                <div class="alert-text">
+                                    <a href="{{ getDownloadUrl(schoolInfo.image) }}" target="_blank">
+                                        {{ imageFileName }}
+                                    </a>
+                                </div>
+                                <div class="alert-close">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true" (click)="removeImageFile()">
+                                            <i class="la la-close fa-1x"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!schoolInfoForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i>
+                        <span>{{ l('Save') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

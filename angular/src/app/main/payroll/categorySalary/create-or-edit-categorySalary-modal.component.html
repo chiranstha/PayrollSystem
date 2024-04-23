@@ -1,0 +1,108 @@
+﻿<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #categorySalaryForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="categorySalary.id">{{ l('EditCategorySalary') }}</span>
+                        <span *ngIf="!categorySalary.id">{{ l('CreateNewCategorySalary') }}</span>
+                    </h4>
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group">
+                        <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
+                        <select
+                            name="categorySalary.employeeLevelId"
+                            [(ngModel)]="categorySalary.employeeLevelId"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">{{ l('SelectAEmployeeLevel') }}</option>
+                            <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CategorySalary_Salary">{{ l('Salary') }}</label>
+                        <input
+                            type="number"
+                            #CategorySalary_Salary="ngModel"
+                            id="CategorySalary_Salary"
+                            class="form-control"
+                            [(ngModel)]="categorySalary.salary"
+                            name="Salary"
+                        />
+                        <validation-messages [formCtrl]="CategorySalary_Salary"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CategorySalary_Category">{{ l('Category') }}</label>
+                        <select
+                            class="form-select"
+                            #CategorySalary_Category="ngModel"
+                            name="Category"
+                            id="CategorySalary_Category"
+                            [(ngModel)]="categorySalary.category"
+                        >
+                            <option value="0">{{ l('Permanent') }}</option>
+
+                            <option value="1">{{ l('Temporary') }}</option>
+
+                            <option value="2">{{ l('ChildDevelopment') }}</option>
+
+                            <option value="3">{{ l('Donation') }}</option>
+
+                            <option value="4">{{ l('Helper') }}</option>
+
+                            <option value="5">{{ l('Contract') }}</option>
+                        </select>
+                        <validation-messages [formCtrl]="CategorySalary_Category"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CategorySalary_TechnicalAmount">{{ l('TechnicalAmount') }}</label>
+                        <input
+                            type="number"
+                            #CategorySalary_TechnicalAmount="ngModel"
+                            id="CategorySalary_TechnicalAmount"
+                            class="form-control"
+                            [(ngModel)]="categorySalary.technicalAmount"
+                            name="TechnicalAmount"
+                        />
+                        <validation-messages [formCtrl]="CategorySalary_TechnicalAmount"></validation-messages>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!categorySalaryForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i>
+                        <span>{{ l('Save') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
