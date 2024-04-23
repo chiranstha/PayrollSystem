@@ -10,8 +10,11 @@ using Abp.Domain.Repositories;
 using Abp.EntityHistory;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
+using Abp.Runtime.Session;
+using AutoMapper.Internal.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Suktas.Payroll.Auditing.Dto;
+using Suktas.Payroll.Auditing.Exporting;
 using Suktas.Payroll.Authorization;
 using Suktas.Payroll.Authorization.Users;
 using Suktas.Payroll.Dto;
@@ -29,12 +32,14 @@ namespace Suktas.Payroll.Auditing
         private readonly IRepository<EntityChangeSet, long> _entityChangeSetRepository;
         private readonly IRepository<EntityPropertyChange, long> _entityPropertyChangeRepository;
         private readonly IRepository<User, long> _userRepository;
+        private readonly IAuditLogListExcelExporter _auditLogListExcelExporter;
         private readonly INamespaceStripper _namespaceStripper;
         private readonly IAbpStartupConfiguration _abpStartupConfiguration;
 
         public AuditLogAppService(
             IRepository<AuditLog, long> auditLogRepository,
             IRepository<User, long> userRepository,
+            IAuditLogListExcelExporter auditLogListExcelExporter,
             INamespaceStripper namespaceStripper,
             IRepository<EntityChange, long> entityChangeRepository,
             IRepository<EntityChangeSet, long> entityChangeSetRepository,
@@ -43,6 +48,7 @@ namespace Suktas.Payroll.Auditing
         {
             _auditLogRepository = auditLogRepository;
             _userRepository = userRepository;
+            _auditLogListExcelExporter = auditLogListExcelExporter;
             _namespaceStripper = namespaceStripper;
             _entityChangeRepository = entityChangeRepository;
             _entityChangeSetRepository = entityChangeSetRepository;
@@ -67,7 +73,17 @@ namespace Suktas.Payroll.Auditing
             return new PagedResultDto<AuditLogListDto>(resultCount, auditLogListDtos);
         }
 
-        
+        public async Task<FileDto> GetAuditLogsToExcel(GetAuditLogsInput input)
+        {
+            var auditLogs = await CreateAuditLogAndUsersQuery(input)
+                .AsNoTracking()
+                .OrderByDescending(al => al.AuditLog.ExecutionTime)
+                .ToListAsync();
+
+            var auditLogListDtos = ConvertToAuditLogListDtos(auditLogs);
+
+            return _auditLogListExcelExporter.ExportToFile(auditLogListDtos);
+        }
 
         private List<AuditLogListDto> ConvertToAuditLogListDtos(List<AuditLogAndUser> results)
         {
@@ -170,7 +186,18 @@ namespace Suktas.Payroll.Auditing
             return new PagedResultDto<EntityChangeListDto>(resultCount, entityChangeListDtos);
         }
 
-        
+        public async Task<FileDto> GetEntityChangesToExcel(GetEntityChangeInput input)
+        {
+            var entityChanges = await CreateEntityChangesAndUsersQuery(input)
+                .AsNoTracking()
+                .OrderByDescending(ec => ec.EntityChange.EntityChangeSetId)
+                .ThenByDescending(ec => ec.EntityChange.ChangeTime)
+                .ToListAsync();
+
+            var entityChangeListDtos = ConvertToEntityChangeListDtos(entityChanges);
+
+            return _auditLogListExcelExporter.ExportToFile(entityChangeListDtos);
+        }
 
         public async Task<List<EntityPropertyChangeDto>> GetEntityPropertyChanges(long entityChangeId)
         {

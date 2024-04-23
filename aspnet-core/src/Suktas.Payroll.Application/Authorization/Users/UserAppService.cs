@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
-using Abp.Configuration;
 using Abp.Authorization;
 using Abp.Authorization.Roles;
 using Abp.Authorization.Users;
+using Abp.Configuration;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
@@ -19,21 +18,21 @@ using Abp.Organizations;
 using Abp.Runtime.Session;
 using Abp.UI;
 using Abp.Zero.Configuration;
-using JetBrains.Annotations;
+using AutoMapper.Internal.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using MiniExcelLibs;
 using Suktas.Payroll.Authorization.Permissions;
 using Suktas.Payroll.Authorization.Permissions.Dto;
 using Suktas.Payroll.Authorization.Roles;
 using Suktas.Payroll.Authorization.Users.Dto;
+using Suktas.Payroll.Authorization.Users.Exporting;
 using Suktas.Payroll.Dto;
 using Suktas.Payroll.Net.Emailing;
 using Suktas.Payroll.Notifications;
-using Suktas.Payroll.Url;
 using Suktas.Payroll.Organizations.Dto;
+using Suktas.Payroll.Url;
 
 namespace Suktas.Payroll.Authorization.Users
 {
@@ -44,6 +43,7 @@ namespace Suktas.Payroll.Authorization.Users
 
         private readonly RoleManager _roleManager;
         private readonly IUserEmailer _userEmailer;
+        private readonly IUserListExcelExporter _userListExcelExporter;
         private readonly INotificationSubscriptionManager _notificationSubscriptionManager;
         private readonly IAppNotifier _appNotifier;
         private readonly IRepository<RolePermissionSetting, long> _rolePermissionRepository;
@@ -60,10 +60,11 @@ namespace Suktas.Payroll.Authorization.Users
         private readonly IRepository<OrganizationUnitRole, long> _organizationUnitRoleRepository;
         private readonly IOptions<UserOptions> _userOptions;
         private readonly IEmailSettingsChecker _emailSettingsChecker;
-        
+
         public UserAppService(
             RoleManager roleManager,
             IUserEmailer userEmailer,
+            IUserListExcelExporter userListExcelExporter,
             INotificationSubscriptionManager notificationSubscriptionManager,
             IAppNotifier appNotifier,
             IRepository<RolePermissionSetting, long> rolePermissionRepository,
@@ -77,11 +78,12 @@ namespace Suktas.Payroll.Authorization.Users
             IRoleManagementConfig roleManagementConfig,
             UserManager userManager,
             IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
-            IRepository<OrganizationUnitRole, long> organizationUnitRoleRepository, 
+            IRepository<OrganizationUnitRole, long> organizationUnitRoleRepository,
             IOptions<UserOptions> userOptions, IEmailSettingsChecker emailSettingsChecker)
         {
             _roleManager = roleManager;
             _userEmailer = userEmailer;
+            _userListExcelExporter = userListExcelExporter;
             _notificationSubscriptionManager = notificationSubscriptionManager;
             _appNotifier = appNotifier;
             _rolePermissionRepository = rolePermissionRepository;
@@ -123,7 +125,20 @@ namespace Suktas.Payroll.Authorization.Users
             );
         }
 
-        
+        public async Task<FileDto> GetUsersToExcel(GetUsersToExcelInput input)
+        {
+            var query = GetUsersFilteredQuery(input);
+
+            var users = await query
+                .OrderBy(input.Sorting)
+                .ToListAsync();
+
+            var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
+            await FillRoleNames(userListDtos);
+
+            return _userListExcelExporter.ExportToFile(userListDtos);
+        }
+
         [AbpAuthorize(AppPermissions.Pages_Administration_Users_Create, AppPermissions.Pages_Administration_Users_Edit)]
         public async Task<GetUserForEditOutput> GetUserForEdit(NullableIdDto<long> input)
         {
@@ -146,7 +161,7 @@ namespace Suktas.Payroll.Authorization.Users
                 AllOrganizationUnits = ObjectMapper.Map<List<OrganizationUnitDto>>(allOrganizationUnits),
                 MemberedOrganizationUnits = new List<string>(),
                 AllowedUserNameCharacters = _userOptions.Value.AllowedUserNameCharacters,
-                IsSMTPSettingsProvided = await _emailSettingsChecker.EmailSettingsValidAsync() 
+                IsSMTPSettingsProvided = await _emailSettingsChecker.EmailSettingsValidAsync()
             };
 
             if (!input.Id.HasValue)
@@ -200,11 +215,11 @@ namespace Suktas.Payroll.Authorization.Users
         private List<string> GetAllRoleNamesOfUsersOrganizationUnits(long userId)
         {
             return (from userOu in _userOrganizationUnitRepository.GetAll()
-                join roleOu in _organizationUnitRoleRepository.GetAll() on userOu.OrganizationUnitId equals roleOu
-                    .OrganizationUnitId
-                join userOuRoles in _roleRepository.GetAll() on roleOu.RoleId equals userOuRoles.Id
-                where userOu.UserId == userId
-                select userOuRoles.Name).ToList();
+                    join roleOu in _organizationUnitRoleRepository.GetAll() on userOu.OrganizationUnitId equals roleOu
+                        .OrganizationUnitId
+                    join userOuRoles in _roleRepository.GetAll() on roleOu.RoleId equals userOuRoles.Id
+                    where userOu.UserId == userId
+                    select userOuRoles.Name).ToList();
         }
 
         [AbpAuthorize(AppPermissions.Pages_Administration_Users_ChangePermissions)]
@@ -437,23 +452,23 @@ namespace Suktas.Payroll.Authorization.Users
                 input.Permissions = input.Permissions.Where(p => !string.IsNullOrEmpty(p)).ToList();
 
                 var userIds = from user in query
-                    join ur in _userRoleRepository.GetAll() on user.Id equals ur.UserId into urJoined
-                    from ur in urJoined.DefaultIfEmpty()
-                    join urr in _roleRepository.GetAll() on ur.RoleId equals urr.Id into urrJoined
-                    from urr in urrJoined.DefaultIfEmpty()
-                    join up in _userPermissionRepository.GetAll()
-                        .Where(userPermission => input.Permissions.Contains(userPermission.Name)) on user.Id equals up.UserId into upJoined
-                    from up in upJoined.DefaultIfEmpty()
-                    join rp in _rolePermissionRepository.GetAll()
-                        .Where(rolePermission => input.Permissions.Contains(rolePermission.Name)) on
-                        new { RoleId = ur == null ? 0 : ur.RoleId } equals new { rp.RoleId } into rpJoined
-                    from rp in rpJoined.DefaultIfEmpty()
-                    where (up != null && up.IsGranted) ||
-                          (up == null && rp != null && rp.IsGranted) ||
-                          (up == null && rp == null && staticRoleNames.Contains(urr.Name))
-                    group user by user.Id
+                              join ur in _userRoleRepository.GetAll() on user.Id equals ur.UserId into urJoined
+                              from ur in urJoined.DefaultIfEmpty()
+                              join urr in _roleRepository.GetAll() on ur.RoleId equals urr.Id into urrJoined
+                              from urr in urrJoined.DefaultIfEmpty()
+                              join up in _userPermissionRepository.GetAll()
+                                  .Where(userPermission => input.Permissions.Contains(userPermission.Name)) on user.Id equals up.UserId into upJoined
+                              from up in upJoined.DefaultIfEmpty()
+                              join rp in _rolePermissionRepository.GetAll()
+                                  .Where(rolePermission => input.Permissions.Contains(rolePermission.Name)) on
+                                  new { RoleId = ur == null ? 0 : ur.RoleId } equals new { rp.RoleId } into rpJoined
+                              from rp in rpJoined.DefaultIfEmpty()
+                              where (up != null && up.IsGranted) ||
+                                    (up == null && rp != null && rp.IsGranted) ||
+                                    (up == null && rp == null && staticRoleNames.Contains(urr.Name))
+                              group user by user.Id
                     into userGrouped
-                    select userGrouped.Key;
+                              select userGrouped.Key;
 
                 query = UserManager.Users.Where(e => userIds.Contains(e.Id));
             }
