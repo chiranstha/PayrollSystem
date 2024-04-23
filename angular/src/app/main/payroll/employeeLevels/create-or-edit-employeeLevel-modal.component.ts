@@ -38,7 +38,7 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
             this.modal.show();
         } else {
             this._employeeLevelsServiceProxy.getEmployeeLevelForEdit(employeeLevelId).subscribe((result) => {
-              
+
                 this.active = true;
                 this.modal.show();
             });
@@ -67,5 +67,5 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
         this.modal.hide();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 }

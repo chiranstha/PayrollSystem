@@ -158,7 +158,7 @@
                                                             class="dropdown-item"
                                                             (click)="
                                                                 createOrEditEmployeeLevelModal.show(
-                                                                    record.employeeLevel.id
+                                                                    record.id
                                                                 )
                                                             "
                                                         >
@@ -180,7 +180,7 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Name') }}</span>
-                                            {{ record.employeeLevel.name }}
+                                            {{ record.name }}
                                         </td>
                                     </tr>
                                 </ng-template>

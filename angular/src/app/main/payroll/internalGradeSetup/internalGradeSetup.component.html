@@ -198,24 +198,24 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Category') }}</span>
-                                            {{ l(employeeCategory[record.internalGradeSetup.category]) }}
+                                            {{ l(employeeCategory[record.category]) }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Grade') }}</span>
-                                            {{ l(employeeGrade[record.internalGradeSetup.grade]) }}
+                                            {{ l(employeeGrade[record.grade]) }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('IsPercent') }}</span>
-                                            <div *ngIf="record.internalGradeSetup.isPercent" class="text-center">
+                                            <div *ngIf="record.isPercent" class="text-center">
                                                 <i class="fa fa-check-circle text-success" title="True"></i>
                                             </div>
-                                            <div *ngIf="!record.internalGradeSetup.isPercent" class="text-center">
+                                            <div *ngIf="!record.isPercent" class="text-center">
                                                 <i class="fa fa-times-circle" title="False"></i>
                                             </div>
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Value') }}</span>
-                                            {{ record.internalGradeSetup.value }}
+                                            {{ record.value }}
                                         </td>
                                     </tr>
                                 </ng-template>
