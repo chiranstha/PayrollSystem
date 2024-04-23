@@ -4481,7 +4481,7 @@ textarea.form-control-lg {
   --bs-card-border-width: 1px;
   --bs-card-border-color: #eff2f5;
   --bs-card-border-radius: 0.625rem;
-  --bs-card-box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  --bs-card-box-shadow: 0rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
   --bs-card-inner-border-radius: calc(0.625rem - 1px);
   --bs-card-cap-padding-y: 0.5rem;
   --bs-card-cap-padding-x: 1rem;
@@ -26829,7 +26829,7 @@ textarea.form-control-lg {
   --kt-pagination-disabled-bg: transparent;
   --kt-card-color: ;
   --kt-card-bg: #ffffff;
-  --kt-card-box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  --kt-card-box-shadow: 0rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
   --kt-card-border-color: #eff2f5;
   --kt-card-border-dashed-color: #E4E6EF;
   --kt-card-cap-bg: transparent;
@@ -30387,7 +30387,7 @@ html:not([data-theme=dark]) .theme-light-bg-body {
   color: var(--kt-text-gray-700);
 }
 .menu-title-gray-700 .menu-item .menu-link .menu-title {
-  color: var(--kt-text-gray-700);
+  color: var(--kt-text-gray-900);
 }
 
 .menu-icon-gray-700 .menu-item .menu-link .menu-icon,

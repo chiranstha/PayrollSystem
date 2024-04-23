@@ -56,7 +56,7 @@
               "node_modules/cookieconsent/build/cookieconsent.min.css",
               "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
               "src/assets/metronic/common/fonts/fonts.scss",
-
+              "src/assets/metronic/fontawesome/fontawesome.css",
               "src/assets/primeng/file-upload/css/primeng.file-upload.css",
               "src/assets/primeng/autocomplete/css/primeng.autocomplete.less",
               "src/assets/primeng/tree/css/primeng.tree.css",
@@ -204,7 +204,7 @@
               "node_modules/sweetalert2/dist/sweetalert2.css",
               "node_modules/cookieconsent/build/cookieconsent.min.css",
               "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
-
+              "src/assets/metronic/fontawesome/fontawesome.css",
               "src/assets/primeng/file-upload/css/primeng.file-upload.css",
               "src/assets/primeng/autocomplete/css/primeng.autocomplete.less",
               "src/assets/primeng/tree/css/primeng.tree.css",

@@ -9,7 +9,7 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 })
 export class ChatToggleButtonComponent extends ThemesLayoutBaseComponent implements OnInit {
     @Input() customStyle = 'btn btn-active-color-primary btn-active-light btn-custom btn-icon btn-icon-muted h-35px h-md-40px position-relative w-35px w-md-40px';
-    @Input() iconStyle = 'flaticon-chat-2 fs-4';
+    @Input() iconStyle = 'fa-duotone fa-envelope fs-4';
 
     unreadChatMessageCount = 0;
     chatConnected = false;

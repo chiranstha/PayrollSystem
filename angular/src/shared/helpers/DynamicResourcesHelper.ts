@@ -33,7 +33,6 @@ export class DynamicResourcesHelper {
             '/css/style.bundle' +
             cssPostfix.replace('-', '.') +
             '.css',
-            
             AppConsts.appBaseUrl +
             '/assets/primeng/themes/mdc-' +
             (ThemeHelper.darkMode() ? 'dark' : 'light') +
@@ -69,9 +68,9 @@ export class DynamicResourcesHelper {
             return;
         }
 
-        var attributes = assetContributor.getBodyAttributes();
-        for (var i = 0; i < attributes.length; i++) {
-            var attr = attributes[i];
+        let attributes = assetContributor.getBodyAttributes();
+        for (let i = 0; i < attributes.length; i++) {
+            let attr = attributes[i];
             document.body.setAttribute(attr.name, attr.value);
         }
     }

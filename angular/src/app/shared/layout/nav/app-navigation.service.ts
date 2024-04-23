@@ -22,15 +22,23 @@ export class AppNavigationService {
             ),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
-           
-            new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'flaticon-more', '/app/main/payroll/employeeLevels'),
-            
-            new AppMenuItem('CategorySalary', 'Pages.CategorySalary', 'flaticon-more', '/app/main/payroll/categorySalary'),
-            
-            new AppMenuItem('InternalGradeSetup', 'Pages.InternalGradeSetup', 'flaticon-more', '/app/main/payroll/internalGradeSetup'),
-            
-            new AppMenuItem('SchoolInfos', 'Pages.SchoolInfos', 'flaticon-more', '/app/main/payroll/schoolInfos'),
-             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            new AppMenuItem(
+                'Master',
+                '',
+                'fa-regular fa-house',
+                '',
+                [],
+                [
+
+                    new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'flaticon-more', '/app/main/payroll/employeeLevels'),
+
+                    new AppMenuItem('CategorySalary', 'Pages.CategorySalary', 'flaticon-more', '/app/main/payroll/categorySalary'),
+
+                    new AppMenuItem('InternalGradeSetup', 'Pages.InternalGradeSetup', 'flaticon-more', '/app/main/payroll/internalGradeSetup'),
+
+                    new AppMenuItem('SchoolInfos', 'Pages.SchoolInfos', 'flaticon-more', '/app/main/payroll/schoolInfos'),
+                ]),
+            new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',
                 '',
@@ -104,7 +112,7 @@ export class AppNavigationService {
                     new AppMenuItem(
                         'Notifications',
                         '',
-                        'flaticon-alarm',
+                        'fa-regular fa-bell',
                         '',
                         [],
                         [
@@ -145,7 +153,7 @@ export class AppNavigationService {
                 if (!subMenuItem.hasFeatureDependency()) {
                     return true;
                 }
-                
+
                 if (subMenuItem.featureDependencySatisfied()) {
                     return true;
                 }
