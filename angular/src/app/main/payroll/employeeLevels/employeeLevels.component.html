@@ -1,7 +1,25 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'EmployeeLevels' | localize" [description]="'EmployeeLevelsHeaderInfo' | localize">
+
+           <div role="search">
+            <div class="position-relative w-md-400px me-md-2">
+                <i class="fa-duotone fa-magnifying-glass fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6"><span
+                        class="path1"></span><span class="path2"></span></i>
+                <input (keyup)="getEmployeeLevels()" (keyup.enter)="getEmployeeLevels()"
+                       [(ngModel)]="filterText" [ngModelOptions]="{ standalone: true }"
+                       class="form-control form-control-solid ps-10" name="search" placeholder="Search"
+                       type="text"
+                       value="">
+            </div>
+           
+           </div>
+            
             <div role="actions">
+
+                
+              
+                
                 <button
                     (click)="exportToExcel()"
                     class="btn btn-outline btn-outline-success btn-active-light-success me-1"
@@ -10,6 +28,8 @@
                     {{ l('ExportToExcel') }}
                 </button>
 
+                
+
                 <button
                     id="btn_create_employeeLevel"
                     *ngIf="isGranted('Pages.EmployeeLevels.Create')"
@@ -17,7 +37,7 @@
                     class="btn btn-primary blue"
                 >
                     <i class="fa fa-plus"></i>
-                    {{ l('CreateNewEmployeeLevel') }}
+                    {{ l('Create') }}
                 </button>
             </div>
         </sub-header>
@@ -30,25 +50,9 @@
                             <div class="row align-items-center">
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
-                                        <div class="input-group">
-                                            <input
-                                                [(ngModel)]="filterText"
-                                                name="filterText"
-                                                autoFocus
-                                                class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
-                                                type="text"
-                                            />
-                                            <span class="input-group-btn">
-                                                <button
-                                                    (click)="getEmployeeLevels()"
-                                                    class="btn btn-primary"
-                                                    type="submit"
-                                                >
-                                                    <i class="flaticon-search-1"></i>
-                                                </button>
-                                            </span>
-                                        </div>
+
+
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +112,7 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th
-                                            style="width: 130px"
+                                            style="width: 130px; padding-left: 25px;"
                                             [hidden]="
                                                 !isGrantedAny(
                                                     'Pages.EmployeeLevels.Edit',

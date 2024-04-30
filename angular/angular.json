@@ -36,8 +36,8 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "node_modules/primeng/resources/themes/mdc-light-indigo/",
-                "output": "assets/primeng/themes/mdc-light-indigo/"
+                "input": "node_modules/primeng/resources/themes/fluent-light/",
+                "output": "assets/primeng/themes/fluent-light/"
               },
               {
                 "glob": "**/*.*",
@@ -254,8 +254,8 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "node_modules/primeng/resources/themes/mdc-light-indigo/",
-                "output": "assets/primeng/themes/mdc-light-indigo/"
+                "input": "node_modules/primeng/resources/themes/fluent-light/",
+                "output": "assets/primeng/themes/fluent-light/"
               },
               {
                 "glob": "**/*.*",
