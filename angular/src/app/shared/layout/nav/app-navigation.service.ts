@@ -17,10 +17,10 @@ export class AppNavigationService {
             new AppMenuItem(
                 'Dashboard',
                 'Pages.Administration.Host.Dashboard',
-                'flaticon-line-graph',
+                'fa-regular fa-computer',
                 '/app/admin/hostDashboard'
             ),
-            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
+            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'fa-regular fa-computer', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem(
                 'Master',
@@ -30,7 +30,7 @@ export class AppNavigationService {
                 [],
                 [
 
-                    new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'flaticon-more', '/app/main/payroll/employeeLevels'),
+                    new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'fa-regular fa-user-tag', '/app/main/payroll/employeeLevels'),
 
                     new AppMenuItem('CategorySalary', 'Pages.CategorySalary', 'flaticon-more', '/app/main/payroll/categorySalary'),
 
