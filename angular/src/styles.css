@@ -350,6 +350,7 @@ html[data-theme=dark] {
     overflow: auto;
     border-radius: 10px;
     border: 1px solid var(--bs-gray-300);
+    min-height: 500px;
   
   }
 
