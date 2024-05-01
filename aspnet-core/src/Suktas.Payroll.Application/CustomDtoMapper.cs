@@ -1,4 +1,6 @@
-﻿using Suktas.Payroll.Payroll.Dtos;
+﻿using Suktas.Payroll.Master.Dtos;
+using Suktas.Payroll.Master;
+using Suktas.Payroll.Payroll.Dtos;
 using Suktas.Payroll.Payroll;
 using Abp.Application.Editions;
 using Abp.Application.Features;
@@ -49,6 +51,8 @@ namespace Suktas.Payroll
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditFinancialYearDto, FinancialYear>().ReverseMap();
+            configuration.CreateMap<FinancialYearDto, FinancialYear>().ReverseMap();
             configuration.CreateMap<CreateOrEditSchoolInfoDto, SchoolInfo>().ReverseMap();
             configuration.CreateMap<SchoolInfoDto, SchoolInfo>().ReverseMap();
             configuration.CreateMap<CreateOrEditInternalGradeSetupDto, InternalGradeSetup>().ReverseMap();

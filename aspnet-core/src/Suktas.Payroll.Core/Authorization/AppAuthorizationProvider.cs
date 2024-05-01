@@ -30,6 +30,11 @@ namespace Suktas.Payroll.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var financialYears = pages.CreateChildPermission(AppPermissions.Pages_FinancialYears, L("FinancialYears"), multiTenancySides: MultiTenancySides.Tenant);
+            financialYears.CreateChildPermission(AppPermissions.Pages_FinancialYears_Create, L("CreateNewFinancialYear"), multiTenancySides: MultiTenancySides.Tenant);
+            financialYears.CreateChildPermission(AppPermissions.Pages_FinancialYears_Edit, L("EditFinancialYear"), multiTenancySides: MultiTenancySides.Tenant);
+            financialYears.CreateChildPermission(AppPermissions.Pages_FinancialYears_Delete, L("DeleteFinancialYear"), multiTenancySides: MultiTenancySides.Tenant);
+
             var schoolInfos = pages.CreateChildPermission(AppPermissions.Pages_SchoolInfos, L("SchoolInfos"), multiTenancySides: MultiTenancySides.Tenant);
             schoolInfos.CreateChildPermission(AppPermissions.Pages_SchoolInfos_Create, L("CreateNewSchoolInfo"), multiTenancySides: MultiTenancySides.Tenant);
             schoolInfos.CreateChildPermission(AppPermissions.Pages_SchoolInfos_Edit, L("EditSchoolInfo"), multiTenancySides: MultiTenancySides.Tenant);

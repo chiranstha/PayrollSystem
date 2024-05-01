@@ -5847,6 +5847,305 @@ export class EmployeeLevelsExcelExporterServiceProxy {
 }
 
 @Injectable()
+export class FinancialYearsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetFinancialYearForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/FinancialYears/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfGetFinancialYearForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfGetFinancialYearForViewDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetFinancialYearForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetFinancialYearForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getFinancialYearForView(id: string | undefined): Observable<GetFinancialYearForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/FinancialYears/GetFinancialYearForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFinancialYearForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFinancialYearForView(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetFinancialYearForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetFinancialYearForViewDto>;
+        }));
+    }
+
+    protected processGetFinancialYearForView(response: HttpResponseBase): Observable<GetFinancialYearForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFinancialYearForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getFinancialYearForEdit(id: string | undefined): Observable<GetFinancialYearForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/FinancialYears/GetFinancialYearForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFinancialYearForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFinancialYearForEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetFinancialYearForEditOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetFinancialYearForEditOutput>;
+        }));
+    }
+
+    protected processGetFinancialYearForEdit(response: HttpResponseBase): Observable<GetFinancialYearForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFinancialYearForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditFinancialYearDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/FinancialYears/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/FinancialYears/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class FriendshipServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -18964,6 +19263,58 @@ export interface ICreateOrEditEmployeeLevelDto {
     id: string | undefined;
 }
 
+export class CreateOrEditFinancialYearDto implements ICreateOrEditFinancialYearDto {
+    name!: string;
+    fromMiti!: string | undefined;
+    toMiti!: string | undefined;
+    isOldYear!: boolean;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditFinancialYearDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.fromMiti = _data["fromMiti"];
+            this.toMiti = _data["toMiti"];
+            this.isOldYear = _data["isOldYear"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditFinancialYearDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditFinancialYearDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["fromMiti"] = this.fromMiti;
+        data["toMiti"] = this.toMiti;
+        data["isOldYear"] = this.isOldYear;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface ICreateOrEditFinancialYearDto {
+    name: string;
+    fromMiti: string | undefined;
+    toMiti: string | undefined;
+    isOldYear: boolean;
+    id: string | undefined;
+}
+
 export class CreateOrEditInternalGradeSetupDto implements ICreateOrEditInternalGradeSetupDto {
     category!: EmployeeCategory;
     grade!: EmployeeGrade;
@@ -21284,6 +21635,54 @@ export interface IFileDto {
     fileToken: string;
 }
 
+export class FinancialYearDto implements IFinancialYearDto {
+    name!: string | undefined;
+    fromMiti!: string | undefined;
+    toMiti!: string | undefined;
+    id!: string;
+
+    constructor(data?: IFinancialYearDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.fromMiti = _data["fromMiti"];
+            this.toMiti = _data["toMiti"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): FinancialYearDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FinancialYearDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["fromMiti"] = this.fromMiti;
+        data["toMiti"] = this.toMiti;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IFinancialYearDto {
+    name: string | undefined;
+    fromMiti: string | undefined;
+    toMiti: string | undefined;
+    id: string;
+}
+
 export class FindOrganizationUnitRolesInput implements IFindOrganizationUnitRolesInput {
     organizationUnitId!: number;
     maxResultCount!: number;
@@ -22767,6 +23166,78 @@ export interface IGetExpiringTenantsOutput {
     maxExpiringTenantsShownCount: number;
     subscriptionEndDateStart: DateTime;
     subscriptionEndDateEnd: DateTime;
+}
+
+export class GetFinancialYearForEditOutput implements IGetFinancialYearForEditOutput {
+    financialYear!: CreateOrEditFinancialYearDto;
+
+    constructor(data?: IGetFinancialYearForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.financialYear = _data["financialYear"] ? CreateOrEditFinancialYearDto.fromJS(_data["financialYear"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetFinancialYearForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetFinancialYearForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["financialYear"] = this.financialYear ? this.financialYear.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IGetFinancialYearForEditOutput {
+    financialYear: CreateOrEditFinancialYearDto;
+}
+
+export class GetFinancialYearForViewDto implements IGetFinancialYearForViewDto {
+    financialYear!: FinancialYearDto;
+
+    constructor(data?: IGetFinancialYearForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.financialYear = _data["financialYear"] ? FinancialYearDto.fromJS(_data["financialYear"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetFinancialYearForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetFinancialYearForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["financialYear"] = this.financialYear ? this.financialYear.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IGetFinancialYearForViewDto {
+    financialYear: FinancialYearDto;
 }
 
 export class GetGeneralStatsOutput implements IGetGeneralStatsOutput {
@@ -27330,6 +27801,54 @@ export class PagedResultDtoOfGetEmployeeLevelForView implements IPagedResultDtoO
 export interface IPagedResultDtoOfGetEmployeeLevelForView {
     totalCount: number;
     items: GetEmployeeLevelForView[] | undefined;
+}
+
+export class PagedResultDtoOfGetFinancialYearForViewDto implements IPagedResultDtoOfGetFinancialYearForViewDto {
+    totalCount!: number;
+    items!: GetFinancialYearForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetFinancialYearForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetFinancialYearForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetFinancialYearForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetFinancialYearForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfGetFinancialYearForViewDto {
+    totalCount: number;
+    items: GetFinancialYearForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetInternalGradeSetupForViewDto implements IPagedResultDtoOfGetInternalGradeSetupForViewDto {

@@ -38,7 +38,9 @@ export class AppNavigationService {
 
                     new AppMenuItem('SchoolInfos', 'Pages.SchoolInfos', 'flaticon-more', '/app/main/payroll/schoolInfos'),
                 ]),
-            new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+           
+            new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
+             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',
                 '',

@@ -9,6 +9,13 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'master/financialYears',
+                        loadChildren: () => import('./master/financialYears/financialYear.module').then(m => m.FinancialYearModule),
+                        data: { permission: 'Pages.FinancialYears' }
+                    },
+                
+                    
+                    {
                         path: 'payroll/schoolInfos',
                         loadChildren: () => import('./payroll/schoolInfos/schoolInfo.module').then(m => m.SchoolInfoModule),
                         data: { permission: 'Pages.SchoolInfos' }

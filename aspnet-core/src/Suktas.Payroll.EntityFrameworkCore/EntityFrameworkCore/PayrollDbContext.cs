@@ -1,4 +1,5 @@
-﻿using Suktas.Payroll.Payroll;
+﻿using Suktas.Payroll.Master;
+using Suktas.Payroll.Payroll;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Suktas.Payroll.Authorization.Delegation;
@@ -16,6 +17,8 @@ namespace Suktas.Payroll.EntityFrameworkCore
 {
     public class PayrollDbContext : AbpZeroDbContext<Tenant, Role, User, PayrollDbContext>
     {
+        public virtual DbSet<FinancialYear> FinancialYears { get; set; }
+
         public virtual DbSet<SchoolInfo> SchoolInfos { get; set; }
 
         public virtual DbSet<InternalGradeSetup> InternalGradeSetup { get; set; }
@@ -54,10 +57,14 @@ namespace Suktas.Payroll.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<SchoolInfo>(s =>
+            modelBuilder.Entity<FinancialYear>(f =>
             {
-                s.HasIndex(e => new { e.TenantId });
+                f.HasIndex(e => new { e.TenantId });
             });
+            modelBuilder.Entity<SchoolInfo>(s =>
+                       {
+                           s.HasIndex(e => new { e.TenantId });
+                       });
             modelBuilder.Entity<InternalGradeSetup>(i =>
                        {
                            i.HasIndex(e => new { e.TenantId });

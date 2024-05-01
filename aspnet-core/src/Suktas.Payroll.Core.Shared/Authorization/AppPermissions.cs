@@ -6,6 +6,11 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_FinancialYears = "Pages.FinancialYears";
+        public const string Pages_FinancialYears_Create = "Pages.FinancialYears.Create";
+        public const string Pages_FinancialYears_Edit = "Pages.FinancialYears.Edit";
+        public const string Pages_FinancialYears_Delete = "Pages.FinancialYears.Delete";
+
         public const string Pages_SchoolInfos = "Pages.SchoolInfos";
         public const string Pages_SchoolInfos_Create = "Pages.SchoolInfos.Create";
         public const string Pages_SchoolInfos_Edit = "Pages.SchoolInfos.Edit";

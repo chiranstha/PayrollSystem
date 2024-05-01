@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
+    <text name="Master">Master</text>
+    <text name="FinancialYear">Financial year</text>
+    <text name="Suktas.Payroll.Master.FinancialYear">FinancialYear</text>
+    <text name="FromMiti">From miti</text>
+    <text name="ToMiti">To miti</text>
+    <text name="IsOldYear">Is old year</text>
+    <text name="NotIsOldYear">Not is old year</text>
+    <text name="NotIsActive">Not is active</text>
+    <text name="FinancialYearsHeaderInfo">Financial years header info</text>
+    <text name="CreateNewFinancialYear">Create new financial year</text>
+    <text name="EditFinancialYear">Edit financial year</text>
+    <text name="DeleteFinancialYear">Delete financial year</text>
+    <text name="FinancialYears">Financial years</text>
     <text name="SchoolInfo">School info</text>
     <text name="Suktas.Payroll.Payroll.SchoolInfo">SchoolInfo</text>
     <text name="PhoneNo">Phone no</text>
