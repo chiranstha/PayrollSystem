@@ -49,6 +49,7 @@ namespace Suktas.Payroll.Payroll
                                  {
 
                                      o.Name,
+                                     o.Grade,
                                      o.Id
                                  };
 
@@ -62,6 +63,7 @@ namespace Suktas.Payroll.Payroll
                 var res = new GetEmployeeLevelForView
                 {
                         Name = o.Name,
+                        GradeName= o.Grade.ToString(),
                         Id = o.Id,
                 };
 
@@ -86,6 +88,7 @@ namespace Suktas.Payroll.Payroll
             var output = new GetEmployeeLevelForView
             {
                 Id = employeeLevel.Id,
+                GradeName = employeeLevel.Grade.ToString(),
                 Name = employeeLevel.Name
             };
 
@@ -104,6 +107,7 @@ namespace Suktas.Payroll.Payroll
             var output = new GetEmployeeLevelForEdit
             {
                 Id = employeeLevel.Id,
+                Grade=employeeLevel.Grade,
                 Name = employeeLevel.Name
             };
 
@@ -129,7 +133,8 @@ namespace Suktas.Payroll.Payroll
             {
                 Id = Guid.Empty,
                 TenantId = AbpSession.GetTenantId(),
-                Name = input.Name
+                Name = input.Name,
+                Grade = input.Grade,
             };
 
             await _employeeLevelRepository.InsertAsync(employeeLevel);
@@ -146,6 +151,7 @@ namespace Suktas.Payroll.Payroll
                 throw new UserFriendlyException("Data not found");
 
             employeeLevel.Name = input.Name;
+            employeeLevel.Grade = input.Grade;
             await _employeeLevelRepository.UpdateAsync(employeeLevel);
 
         }
@@ -171,7 +177,7 @@ namespace Suktas.Payroll.Payroll
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => e.Name.Contains(input.Filter));
 
             var query = (from o in filteredEmployeeLevels
-                         select new GetEmployeeLevelForView()
+                         select new GetEmployeeLevelForView
                          {
                                  Name = o.Name,
                                  Id = o.Id

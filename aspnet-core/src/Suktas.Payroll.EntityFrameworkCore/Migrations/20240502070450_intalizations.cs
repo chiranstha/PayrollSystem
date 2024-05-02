@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Suktas.Payroll.Migrations
 {
     /// <inheritdoc />
-    public partial class Intalization : Migration
+    public partial class intalizations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -578,11 +578,29 @@ namespace Suktas.Payroll.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Grade = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_EmployeeLevel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_FinancialYear",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FromMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ToMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsOldYear = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_FinancialYear", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -1031,6 +1049,43 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_Employee",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    ProvidentFund = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PanNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsuranceNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankAccountNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PansionMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfJoinMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDearnessAllowance = table.Column<bool>(type: "bit", nullable: false),
+                    IsPrincipal = table.Column<bool>(type: "bit", nullable: false),
+                    IsGovernment = table.Column<bool>(type: "bit", nullable: false),
+                    IsInternal = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_Employee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_Employee_tbl_EmployeeLevel_EmployeeLevelId",
+                        column: x => x.EmployeeLevelId,
+                        principalTable: "tbl_EmployeeLevel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tbl_Employee_tbl_SchoolInfo_SchoolInfoId",
+                        column: x => x.SchoolInfoId,
+                        principalTable: "tbl_SchoolInfo",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpDynamicEntityPropertyValues",
                 columns: table => new
                 {
@@ -1130,6 +1185,57 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpRoleClaims_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalary",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    DateMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TechnicalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalBasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InsuranceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DearnessAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PrincipalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalWithAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalMonth = table.Column<int>(type: "int", nullable: false),
+                    TotalSalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FestiableAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GovernmentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InternalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaidSalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalary", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalary_tbl_EmployeeLevel_EmployeeLevelId",
+                        column: x => x.EmployeeLevelId,
+                        principalTable: "tbl_EmployeeLevel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalary_tbl_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "tbl_Employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalary_tbl_SchoolInfo_SchoolInfoId",
+                        column: x => x.SchoolInfoId,
+                        principalTable: "tbl_SchoolInfo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1589,8 +1695,43 @@ namespace Suktas.Payroll.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_Employee_EmployeeLevelId",
+                table: "tbl_Employee",
+                column: "EmployeeLevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_Employee_SchoolInfoId",
+                table: "tbl_Employee",
+                column: "SchoolInfoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_EmployeeLevel_TenantId",
                 table: "tbl_EmployeeLevel",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalary_EmployeeId",
+                table: "tbl_EmployeeSalary",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalary_EmployeeLevelId",
+                table: "tbl_EmployeeSalary",
+                column: "EmployeeLevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalary_SchoolInfoId",
+                table: "tbl_EmployeeSalary",
+                column: "SchoolInfoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalary_TenantId",
+                table: "tbl_EmployeeSalary",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_FinancialYear_TenantId",
+                table: "tbl_FinancialYear",
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
@@ -1716,10 +1857,13 @@ namespace Suktas.Payroll.Migrations
                 name: "tbl_CategorySalary");
 
             migrationBuilder.DropTable(
-                name: "tbl_InternalGradeSetup");
+                name: "tbl_EmployeeSalary");
 
             migrationBuilder.DropTable(
-                name: "tbl_SchoolInfo");
+                name: "tbl_FinancialYear");
+
+            migrationBuilder.DropTable(
+                name: "tbl_InternalGradeSetup");
 
             migrationBuilder.DropTable(
                 name: "AbpDynamicEntityProperties");
@@ -1737,7 +1881,7 @@ namespace Suktas.Payroll.Migrations
                 name: "AbpEditions");
 
             migrationBuilder.DropTable(
-                name: "tbl_EmployeeLevel");
+                name: "tbl_Employee");
 
             migrationBuilder.DropTable(
                 name: "AbpDynamicProperties");
@@ -1747,6 +1891,12 @@ namespace Suktas.Payroll.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUsers");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmployeeLevel");
+
+            migrationBuilder.DropTable(
+                name: "tbl_SchoolInfo");
         }
     }
 }

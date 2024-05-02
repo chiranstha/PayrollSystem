@@ -30,6 +30,16 @@ namespace Suktas.Payroll.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var employeeSalary = pages.CreateChildPermission(AppPermissions.Pages_EmployeeSalary, L("EmployeeSalary"));
+            employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Create, L("CreateNewEmployeeSalary"));
+            employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Edit, L("EditEmployeeSalary"));
+            employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Delete, L("DeleteEmployeeSalary"));
+
+            var employees = pages.CreateChildPermission(AppPermissions.Pages_Employees, L("Employees"), multiTenancySides: MultiTenancySides.Tenant);
+            employees.CreateChildPermission(AppPermissions.Pages_Employees_Create, L("CreateNewEmployee"), multiTenancySides: MultiTenancySides.Tenant);
+            employees.CreateChildPermission(AppPermissions.Pages_Employees_Edit, L("EditEmployee"), multiTenancySides: MultiTenancySides.Tenant);
+            employees.CreateChildPermission(AppPermissions.Pages_Employees_Delete, L("DeleteEmployee"), multiTenancySides: MultiTenancySides.Tenant);
+
             var financialYears = pages.CreateChildPermission(AppPermissions.Pages_FinancialYears, L("FinancialYears"), multiTenancySides: MultiTenancySides.Tenant);
             financialYears.CreateChildPermission(AppPermissions.Pages_FinancialYears_Create, L("CreateNewFinancialYear"), multiTenancySides: MultiTenancySides.Tenant);
             financialYears.CreateChildPermission(AppPermissions.Pages_FinancialYears_Edit, L("EditFinancialYear"), multiTenancySides: MultiTenancySides.Tenant);

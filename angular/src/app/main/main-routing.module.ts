@@ -9,6 +9,20 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'payroll/employeeSalary',
+                        loadChildren: () => import('./payroll/employeeSalary/employeeSalary.module').then(m => m.EmployeeSalaryModule),
+                        data: { permission: 'Pages.EmployeeSalary' }
+                    },
+                
+                    
+                    {
+                        path: 'payroll/employees',
+                        loadChildren: () => import('./payroll/employees/employee.module').then(m => m.EmployeeModule),
+                        data: { permission: 'Pages.Employees' }
+                    },
+                
+                    
+                    {
                         path: 'master/financialYears',
                         loadChildren: () => import('./master/financialYears/financialYear.module').then(m => m.FinancialYearModule),
                         data: { permission: 'Pages.FinancialYears' }

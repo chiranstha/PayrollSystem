@@ -43,10 +43,10 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                         AddObjects(
                             sheet, schoolInfos,
-                        _ => _.Name,
-                        _ => _.Address,
-                        _ => _.PhoneNo,
-                        _ => _.Email
+                        d => d.Name,
+                        d => d.Address,
+                        d => d.PhoneNo,
+                        d => d.Email
                             );
 
                     });

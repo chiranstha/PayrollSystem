@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Suktas.Payroll.Payroll.Exporting;
@@ -66,7 +65,7 @@ namespace Suktas.Payroll.Payroll
             var totalCount = await filteredSchoolInfos.CountAsync();
 
             var dbList = await schoolInfos.ToListAsync();
-            var results = dbList.Select(o => new GetSchoolInfoForViewDto()
+            var results = dbList.Select(o => new GetSchoolInfoForViewDto
                 {
                     Name = o.Name,
                     Address = o.Address,

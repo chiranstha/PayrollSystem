@@ -17,6 +17,10 @@ namespace Suktas.Payroll.EntityFrameworkCore
 {
     public class PayrollDbContext : AbpZeroDbContext<Tenant, Role, User, PayrollDbContext>
     {
+        public virtual DbSet<EmployeeSalary> EmployeeSalary { get; set; }
+
+        public virtual DbSet<Employee> Employees { get; set; }
+
         public virtual DbSet<FinancialYear> FinancialYears { get; set; }
 
         public virtual DbSet<SchoolInfo> SchoolInfos { get; set; }
@@ -57,10 +61,14 @@ namespace Suktas.Payroll.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<FinancialYear>(f =>
+            modelBuilder.Entity<EmployeeSalary>(x =>
             {
-                f.HasIndex(e => new { e.TenantId });
+                x.HasIndex(e => new { e.TenantId });
             });
+            modelBuilder.Entity<FinancialYear>(f =>
+                       {
+                           f.HasIndex(e => new { e.TenantId });
+                       });
             modelBuilder.Entity<SchoolInfo>(s =>
                        {
                            s.HasIndex(e => new { e.TenantId });

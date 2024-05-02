@@ -43,10 +43,10 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                         AddObjects(
                             sheet, categorySalary,
-                        _ => _.Salary,
-                        _ => _.Category,
-                        _ => _.TechnicalAmount,
-                        _ => _.EmployeeLevelName
+                        d => d.Salary,
+                        d => d.Category,
+                        d => d.TechnicalAmount,
+                        d => d.EmployeeLevelName
                             );
 
                     });

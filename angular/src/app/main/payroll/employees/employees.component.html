@@ -1,0 +1,390 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Employees' | localize" [description]="'EmployeesHeaderInfo' | localize">
+            <div role="actions">
+                <button
+                    (click)="exportToExcel()"
+                    class="btn btn-outline btn-outline-success btn-active-light-success me-1"
+                >
+                    <i class="fa fa-file-excel"></i>
+                    {{ l('ExportToExcel') }}
+                </button>
+
+                <button
+                    id="btn_create_employee"
+                    *ngIf="isGranted('Pages.Employees.Create')"
+                    (click)="createEmployee()"
+                    class="btn btn-primary blue"
+                >
+                    <i class="fa fa-plus"></i>
+                    {{ l('CreateNewEmployee') }}
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <form class="form" autocomplete="off">
+                        <div>
+                            <div class="row align-items-center">
+                                <div class="col-xl-12">
+                                    <div class="form-group m-form__group align-items-center">
+                                        <div class="input-group">
+                                            <input
+                                                [(ngModel)]="filterText"
+                                                name="filterText"
+                                                autoFocus
+                                                class="form-control m-input"
+                                                [placeholder]="l('SearchWithThreeDot')"
+                                                type="text"
+                                            />
+                                            <span class="input-group-btn">
+                                                <button (click)="getEmployees()" class="btn btn-primary" type="submit">
+                                                    <i class="flaticon-search-1"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" [hidden]="!advancedFiltersAreShown">
+                                <div class="col-md-12">
+                                    <div class="separator separator-dashed"></div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="CategoryFilterSelect">{{ l('Category') }}</label>
+                                    <select
+                                        class="form-select"
+                                        name="CategoryFilter"
+                                        id="CategoryFilterSelect"
+                                        [(ngModel)]="categoryFilter"
+                                    >
+                                        <option value="-1">{{ l('All') }}</option>
+                                        <option value="0">{{ l('Permanent') }}</option>
+
+                                        <option value="1">{{ l('Temporary') }}</option>
+
+                                        <option value="2">{{ l('ChildDevelopment') }}</option>
+
+                                        <option value="3">{{ l('Donation') }}</option>
+
+                                        <option value="4">{{ l('Helper') }}</option>
+
+                                        <option value="5">{{ l('Contract') }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="PanNoFilter">{{ l('PanNo') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="PanNoFilter"
+                                            name="panNoFilter"
+                                            [(ngModel)]="panNoFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="InsuranceNoFilter">{{ l('InsuranceNo') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="InsuranceNoFilter"
+                                            name="insuranceNoFilter"
+                                            [(ngModel)]="insuranceNoFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="NameFilter">{{ l('Name') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="NameFilter"
+                                            name="nameFilter"
+                                            [(ngModel)]="nameFilter"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="EmployeeLevelNameFilter">
+                                            ({{ l('EmployeeLevel') }}) {{ l('Name') }}
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="EmployeeLevelNameFilter"
+                                            name="employeeLevelNameFilter"
+                                            [(ngModel)]="employeeLevelNameFilter"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="SchoolInfoNameFilter">
+                                            ({{ l('SchoolInfo') }}) {{ l('Name') }}
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="SchoolInfoNameFilter"
+                                            name="schoolInfoNameFilter"
+                                            [(ngModel)]="schoolInfoNameFilter"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mt-5">
+                                    <button
+                                        (click)="resetFilters()"
+                                        class="btn btn-secondary btn-sm"
+                                        id="btn-reset-filters"
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col-sm-12">
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="!advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-down"></i>
+                                        {{ l('ShowAdvancedFilters') }}
+                                    </span>
+                                    <span
+                                        class="clickable-item text-muted"
+                                        *ngIf="advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
+                                    >
+                                        <i class="fa fa-angle-up"></i>
+                                        {{ l('HideAdvancedFilters') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row align-items-center">
+                        <!--<Primeng-Datatable-Start>-->
+                        <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                            <p-table
+                                #dataTable
+                                (onLazyLoad)="getEmployees($event)"
+                                [value]="primengTableHelper.records"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                [paginator]="false"
+                                [lazy]="true"
+                                [scrollable]="true"
+                                ScrollWidth="100%"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                [resizableColumns]="primengTableHelper.resizableColumns"
+                            >
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th
+                                            style="width: 130px"
+                                            [hidden]="!isGrantedAny('Pages.Employees.Edit', 'Pages.Employees.Delete')"
+                                        >
+                                            {{ l('Actions') }}
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="employeeLevelFk.name">
+                                            {{ l('Name') }}
+                                            <p-sortIcon field="employeeLevelName"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="schoolInfoFk.name">
+                                            {{ l('Name') }}
+                                            <p-sortIcon field="schoolInfoName"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="category">
+                                            {{ l('Category') }}
+                                            <p-sortIcon field="employee.category"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="providentFund">
+                                            {{ l('ProvidentFund') }}
+                                            <p-sortIcon field="employee.providentFund"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="panNo">
+                                            {{ l('PanNo') }}
+                                            <p-sortIcon field="employee.panNo"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="name">
+                                            {{ l('Name') }}
+                                            <p-sortIcon field="employee.name"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="bankAccountNo">
+                                            {{ l('BankAccountNo') }}
+                                            <p-sortIcon field="employee.bankAccountNo"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="dateOfJoinMiti">
+                                            {{ l('DateOfJoinMiti') }}
+                                            <p-sortIcon field="employee.dateOfJoinMiti"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="isDearnessAllowance">
+                                            {{ l('IsDearnessAllowance') }}
+                                            <p-sortIcon field="employee.isDearnessAllowance"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="isPrincipal">
+                                            {{ l('IsPrincipal') }}
+                                            <p-sortIcon field="employee.isPrincipal"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="isGovernment">
+                                            {{ l('IsGovernment') }}
+                                            <p-sortIcon field="employee.isGovernment"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="isInternal">
+                                            {{ l('IsInternal') }}
+                                            <p-sortIcon field="employee.isInternal"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                    <tr>
+                                        <td
+                                            style="width: 130px"
+                                            [hidden]="!isGrantedAny('Pages.Employees.Edit', 'Pages.Employees.Delete')"
+                                        >
+                                            <div class="btn-group dropdown" dropdown container="body">
+                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                    <i class="fa fa-cog"></i>
+                                                    <span class="caret"></span>
+                                                    {{ l('Actions') }}
+                                                </button>
+                                                <ul class="dropdown-menu" *dropdownMenu>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Employees.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/payroll/employees/view']"
+                                                            [queryParams]="{ id: record.employee.id }"
+                                                        >
+                                                            {{ l('View') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            *ngIf="permission.isGranted('Pages.Employees.Edit')"
+                                                            class="dropdown-item"
+                                                            [routerLink]="['/app/main/payroll/employees/createOrEdit']"
+                                                            [queryParams]="{ id: record.employee.id }"
+                                                        >
+                                                            {{ l('Edit') }}
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="javascript:;"
+                                                            *ngIf="permission.isGranted('Pages.Employees.Delete')"
+                                                            (click)="deleteEmployee(record.employee)"
+                                                        >
+                                                            {{ l('Delete') }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Name') }}</span>
+                                            {{ record.employeeLevelName }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Name') }}</span>
+                                            {{ record.schoolInfoName }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Category') }}</span>
+                                            {{ l(employeeCategory[record.employee.category]) }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('ProvidentFund') }}</span>
+                                            {{ record.employee.providentFund }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('PanNo') }}</span>
+                                            {{ record.employee.panNo }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Name') }}</span>
+                                            {{ record.employee.name }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('BankAccountNo') }}</span>
+                                            {{ record.employee.bankAccountNo }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('DateOfJoinMiti') }}</span>
+                                            {{ record.employee.dateOfJoinMiti }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('IsDearnessAllowance') }}</span>
+                                            <div *ngIf="record.employee.isDearnessAllowance" class="text-center">
+                                                <i class="fa fa-check-circle text-success" title="True"></i>
+                                            </div>
+                                            <div *ngIf="!record.employee.isDearnessAllowance" class="text-center">
+                                                <i class="fa fa-times-circle" title="False"></i>
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('IsPrincipal') }}</span>
+                                            <div *ngIf="record.employee.isPrincipal" class="text-center">
+                                                <i class="fa fa-check-circle text-success" title="True"></i>
+                                            </div>
+                                            <div *ngIf="!record.employee.isPrincipal" class="text-center">
+                                                <i class="fa fa-times-circle" title="False"></i>
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('IsGovernment') }}</span>
+                                            <div *ngIf="record.employee.isGovernment" class="text-center">
+                                                <i class="fa fa-check-circle text-success" title="True"></i>
+                                            </div>
+                                            <div *ngIf="!record.employee.isGovernment" class="text-center">
+                                                <i class="fa fa-times-circle" title="False"></i>
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('IsInternal') }}</span>
+                                            <div *ngIf="record.employee.isInternal" class="text-center">
+                                                <i class="fa fa-check-circle text-success" title="True"></i>
+                                            </div>
+                                            <div *ngIf="!record.employee.isInternal" class="text-center">
+                                                <i class="fa fa-times-circle" title="False"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{ l('NoData') }}
+                            </div>
+                            <div class="primeng-paging-container">
+                                <p-paginator
+                                    [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                    #paginator
+                                    (onPageChange)="getEmployees($event)"
+                                    [totalRecords]="primengTableHelper.totalRecordsCount"
+                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                    [showCurrentPageReport]="true"
+                                    [currentPageReportTemplate]="
+                                        'TotalRecordsCount' | localize : primengTableHelper.totalRecordsCount
+                                    "
+                                ></p-paginator>
+                            </div>
+                        </div>
+                        <!--<Primeng-Datatable-End>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

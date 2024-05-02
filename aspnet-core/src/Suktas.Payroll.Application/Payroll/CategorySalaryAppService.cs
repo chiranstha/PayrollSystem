@@ -193,7 +193,7 @@ namespace Suktas.Payroll.Payroll
                          join o1 in _lookupEmployeeLevelRepository.GetAll() on o.EmployeeLevelId equals o1.Id into j1
                          from s1 in j1.DefaultIfEmpty()
 
-                         select new GetCategorySalaryForViewDto()
+                         select new GetCategorySalaryForViewDto
                          {
                              Salary = o.Salary,
                              Category = o.Category.ToString(),

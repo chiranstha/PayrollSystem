@@ -33,7 +33,7 @@
     "@azure/msal-browser": "^2.32.1",
     "@fullcalendar/core": "^5.11.3",
     "@microsoft/signalr": "^7.0.0",
-    "@ng-select/ng-select": "^9.0.0",
+    "@ng-select/ng-select": "^9.1.0",
     "@popperjs/core": "^2.11.6",
     "@swimlane/ngx-charts": "^20.1.2",
     "@typescript-eslint/eslint-plugin-tslint": "^5.46.0",

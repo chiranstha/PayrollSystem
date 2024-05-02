@@ -125,7 +125,7 @@ namespace Suktas.Payroll.Master
         [AbpAuthorize(AppPermissions.Pages_FinancialYears_Edit)]
         protected virtual async Task Update(CreateOrEditFinancialYearDto input)
         {
-            var financialYear = await _financialYearRepository.FirstOrDefaultAsync((Guid)input.Id);
+            var financialYear = await _financialYearRepository.FirstOrDefaultAsync(e=>e.Id==input.Id);
             ObjectMapper.Map(input, financialYear);
 
         }

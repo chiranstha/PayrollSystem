@@ -40,7 +40,7 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                         AddObjects(
                             sheet, employeeLevels,
-                        _ => _.Name
+                        v => v.Name
                             );
 
                     });

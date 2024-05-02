@@ -1,0 +1,339 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('EmployeeSalary' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="form-group m-form__group">
+                        <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
+                        <select
+                            name="employeeSalary.schoolInfoId"
+                            [(ngModel)]="employeeSalary.schoolInfoId"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">{{ l('SelectASchoolInfo') }}</option>
+                            <option *ngFor="let item of allSchoolInfos" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group m-form__group">
+                        <label for="EmployeeName">{{ l('Employee') }}</label>
+                        <select
+                            name="employeeSalary.employeeId"
+                            [(ngModel)]="employeeSalary.employeeId"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">{{ l('SelectAEmployee') }}</option>
+                            <option *ngFor="let item of allEmployees" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group m-form__group">
+                        <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
+                        <select
+                            name="employeeSalary.employeeLevelId"
+                            [(ngModel)]="employeeSalary.employeeLevelId"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">{{ l('SelectAEmployeeLevel') }}</option>
+                            <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_Month">{{ l('Month') }}</label>
+                        <select
+                            #EmployeeSalary_Month="ngModel"
+                            class="form-select"
+                            name="Month"
+                            id="EmployeeSalary_Month"
+                            [(ngModel)]="employeeSalary.month"
+                        >
+                            <option value="1">{{ l('Baishakh') }}</option>
+
+                            <option value="2">{{ l('Jestha') }}</option>
+
+                            <option value="3">{{ l('Asar') }}</option>
+
+                            <option value="4">{{ l('Shrawan') }}</option>
+
+                            <option value="5">{{ l('Bhadra') }}</option>
+
+                            <option value="6">{{ l('Asoj') }}</option>
+
+                            <option value="7">{{ l('Kartik') }}</option>
+
+                            <option value="8">{{ l('Mangsir') }}</option>
+
+                            <option value="9">{{ l('Poush') }}</option>
+
+                            <option value="10">{{ l('Magh') }}</option>
+
+                            <option value="11">{{ l('Falgun') }}</option>
+
+                            <option value="12">{{ l('Chaitra') }}</option>
+                        </select>
+                        <validation-messages [formCtrl]="EmployeeSalary_Month"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_DateMiti">{{ l('DateMiti') }}</label>
+                        <input
+                            type="text"
+                            #EmployeeSalary_DateMiti="ngModel"
+                            id="EmployeeSalary_DateMiti"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.dateMiti"
+                            name="DateMiti"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_DateMiti"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_BasicSalary">{{ l('BasicSalary') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_BasicSalary="ngModel"
+                            id="EmployeeSalary_BasicSalary"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.basicSalary"
+                            name="BasicSalary"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_BasicSalary"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_GradeAmount">{{ l('GradeAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_GradeAmount="ngModel"
+                            id="EmployeeSalary_GradeAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.gradeAmount"
+                            name="GradeAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_GradeAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TechnicalAmount">{{ l('TechnicalAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TechnicalAmount="ngModel"
+                            id="EmployeeSalary_TechnicalAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.technicalAmount"
+                            name="TechnicalAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TechnicalAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalGradeAmount">{{ l('TotalGradeAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalGradeAmount="ngModel"
+                            id="EmployeeSalary_TotalGradeAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalGradeAmount"
+                            name="TotalGradeAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalGradeAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalBasicSalary">{{ l('TotalBasicSalary') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalBasicSalary="ngModel"
+                            id="EmployeeSalary_TotalBasicSalary"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalBasicSalary"
+                            name="TotalBasicSalary"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalBasicSalary"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_InsuranceAmount">{{ l('InsuranceAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_InsuranceAmount="ngModel"
+                            id="EmployeeSalary_InsuranceAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.insuranceAmount"
+                            name="InsuranceAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_InsuranceAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalSalary">{{ l('TotalSalary') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalSalary="ngModel"
+                            id="EmployeeSalary_TotalSalary"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalSalary"
+                            name="TotalSalary"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalSalary"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_DearnessAllowance">{{ l('DearnessAllowance') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_DearnessAllowance="ngModel"
+                            id="EmployeeSalary_DearnessAllowance"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.dearnessAllowance"
+                            name="DearnessAllowance"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_DearnessAllowance"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_PrincipalAllowance">{{ l('PrincipalAllowance') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_PrincipalAllowance="ngModel"
+                            id="EmployeeSalary_PrincipalAllowance"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.principalAllowance"
+                            name="PrincipalAllowance"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_PrincipalAllowance"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalWithAllowance">{{ l('TotalWithAllowance') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalWithAllowance="ngModel"
+                            id="EmployeeSalary_TotalWithAllowance"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalWithAllowance"
+                            name="TotalWithAllowance"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalWithAllowance"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalMonth">{{ l('TotalMonth') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalMonth="ngModel"
+                            id="EmployeeSalary_TotalMonth"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalMonth"
+                            name="TotalMonth"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalMonth"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_TotalSalaryAmount">{{ l('TotalSalaryAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_TotalSalaryAmount="ngModel"
+                            id="EmployeeSalary_TotalSalaryAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.totalSalaryAmount"
+                            name="TotalSalaryAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_TotalSalaryAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_FestiableAllowance">{{ l('FestiableAllowance') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_FestiableAllowance="ngModel"
+                            id="EmployeeSalary_FestiableAllowance"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.festiableAllowance"
+                            name="FestiableAllowance"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_FestiableAllowance"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_GovernmentAmount">{{ l('GovernmentAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_GovernmentAmount="ngModel"
+                            id="EmployeeSalary_GovernmentAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.governmentAmount"
+                            name="GovernmentAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_GovernmentAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_InternalAmount">{{ l('InternalAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_InternalAmount="ngModel"
+                            id="EmployeeSalary_InternalAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.internalAmount"
+                            name="InternalAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_InternalAmount"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EmployeeSalary_PaidSalaryAmount">{{ l('PaidSalaryAmount') }}</label>
+                        <input
+                            type="number"
+                            #EmployeeSalary_PaidSalaryAmount="ngModel"
+                            id="EmployeeSalary_PaidSalaryAmount"
+                            class="form-control"
+                            [(ngModel)]="employeeSalary.paidSalaryAmount"
+                            name="PaidSalaryAmount"
+                        />
+                        <validation-messages [formCtrl]="EmployeeSalary_PaidSalaryAmount"></validation-messages>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-lg-12">
+                        <button
+                            (click)="save()"
+                            class="btn btn-primary blue float-right"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
+                            <i class="fa fa-save"></i>
+                            <span>{{ l('Save') }}</span>
+                        </button>
+                        <button
+                            *ngIf="!this.employeeSalary.id"
+                            (click)="saveAndNew()"
+                            class="btn btn-primary blue float-right"
+                            [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"
+                        >
+                            <i class="fa fa-save"></i>
+                            <span>{{ l('SaveAndNew') }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

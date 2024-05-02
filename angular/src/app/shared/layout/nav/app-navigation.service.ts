@@ -40,6 +40,10 @@ export class AppNavigationService {
                 ]),
            
             new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
+            
+            new AppMenuItem('Employees', 'Pages.Employees', 'flaticon-more', '/app/main/payroll/employees'),
+            
+            new AppMenuItem('EmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/employeeSalary'),
              new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',

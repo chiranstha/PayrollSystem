@@ -1,0 +1,102 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('EmployeeSalary' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Month') }} :</h6>
+                            {{ l(months[item.month]) }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('DateMiti') }} :</h6>
+                            {{ item.dateMiti }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('BasicSalary') }} :</h6>
+                            {{ item.basicSalary }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('GradeAmount') }} :</h6>
+                            {{ item.gradeAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TechnicalAmount') }} :</h6>
+                            {{ item.technicalAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalGradeAmount') }} :</h6>
+                            {{ item.totalGradeAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalBasicSalary') }} :</h6>
+                            {{ item.totalBasicSalary }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('InsuranceAmount') }} :</h6>
+                            {{ item.insuranceAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalSalary') }} :</h6>
+                            {{ item.totalSalary }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('DearnessAllowance') }} :</h6>
+                            {{ item.dearnessAllowance }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('PrincipalAllowance') }} :</h6>
+                            {{ item.principalAllowance }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalWithAllowance') }} :</h6>
+                            {{ item.totalWithAllowance }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalMonth') }} :</h6>
+                            {{ item.totalMonth }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('TotalSalaryAmount') }} :</h6>
+                            {{ item.totalSalaryAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('FestiableAllowance') }} :</h6>
+                            {{ item.festiableAllowance }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('GovernmentAmount') }} :</h6>
+                            {{ item.governmentAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('InternalAmount') }} :</h6>
+                            {{ item.internalAmount }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('PaidSalaryAmount') }} :</h6>
+                            {{ item.paidSalaryAmount }}
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('SchoolInfo') }}) {{ l('Name') }} :</h6>
+                            {{ item.schoolInfoName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('Employee') }}) {{ l('Name') }} :</h6>
+                            {{ item.employeeName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('EmployeeLevel') }}) {{ l('Name') }} :</h6>
+                            {{ item.employeeLevelName }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+﻿<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header
+            [title]="('Employees' | localize) + ' ' + ('Details' | localize)"
+            [breadcrumbs]="breadcrumbs"
+        ></sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Category') }} :</h6>
+                            {{ l(employeeCategory[item.category]) }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('ProvidentFund') }} :</h6>
+                            {{ item.providentFund }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('PanNo') }} :</h6>
+                            {{ item.panNo }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('Name') }} :</h6>
+                            {{ item.name }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('BankAccountNo') }} :</h6>
+                            {{ item.bankAccountNo }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('DateOfJoinMiti') }} :</h6>
+                            {{ item.dateOfJoinMiti }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('IsDearnessAllowance') }} :</h6>
+                            <div *ngIf="item.isDearnessAllowance" class="text-left">
+                                <i class="fa fa-check-circle text-success" title="True"></i>
+                            </div>
+                            <div *ngIf="!item.isDearnessAllowance" class="text-left">
+                                <i class="fa fa-times-circle" title="False"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('IsPrincipal') }} :</h6>
+                            <div *ngIf="item.isPrincipal" class="text-left">
+                                <i class="fa fa-check-circle text-success" title="True"></i>
+                            </div>
+                            <div *ngIf="!item.isPrincipal" class="text-left">
+                                <i class="fa fa-times-circle" title="False"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('IsGovernment') }} :</h6>
+                            <div *ngIf="item.isGovernment" class="text-left">
+                                <i class="fa fa-check-circle text-success" title="True"></i>
+                            </div>
+                            <div *ngIf="!item.isGovernment" class="text-left">
+                                <i class="fa fa-times-circle" title="False"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>{{ l('IsInternal') }} :</h6>
+                            <div *ngIf="item.isInternal" class="text-left">
+                                <i class="fa fa-check-circle text-success" title="True"></i>
+                            </div>
+                            <div *ngIf="!item.isInternal" class="text-left">
+                                <i class="fa fa-times-circle" title="False"></i>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('EmployeeLevel') }}) {{ l('Name') }} :</h6>
+                            {{ item.employeeLevelName }}
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h6>({{ l('SchoolInfo') }}) {{ l('Name') }} :</h6>
+                            {{ item.schoolInfoName }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,6 @@ using Abp.Authorization;
 using Abp.Runtime.Session;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
-using Suktas.Payroll.Municipality.Enum;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -60,7 +59,7 @@ namespace Suktas.Payroll.Payroll
 
             foreach (var o in dbList)
             {
-                var res = new GetInternalGradeSetupForViewDto()
+                var res = new GetInternalGradeSetupForViewDto
                 {
                     Category = o.Category.ToString(),
                     Grade = o.Grade.ToString(),
@@ -184,7 +183,7 @@ namespace Suktas.Payroll.Payroll
                         .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false);
 
             var query = (from o in filteredInternalGradeSetup
-                select new GetInternalGradeSetupForViewDto()
+                select new GetInternalGradeSetupForViewDto
                 {
                     Category = o.Category.ToString(),
                     Grade = o.Grade.ToString(),

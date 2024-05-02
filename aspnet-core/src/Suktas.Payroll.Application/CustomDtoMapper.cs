@@ -51,6 +51,10 @@ namespace Suktas.Payroll
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.CreateMap<CreateOrEditEmployeeSalaryDto, EmployeeSalary>().ReverseMap();
+            configuration.CreateMap<EmployeeSalaryDto, EmployeeSalary>().ReverseMap();
+            configuration.CreateMap<CreateOrEditEmployeeDto, Employee>().ReverseMap();
+            configuration.CreateMap<EmployeeDto, Employee>().ReverseMap();
             configuration.CreateMap<CreateOrEditFinancialYearDto, FinancialYear>().ReverseMap();
             configuration.CreateMap<FinancialYearDto, FinancialYear>().ReverseMap();
             configuration.CreateMap<CreateOrEditSchoolInfoDto, SchoolInfo>().ReverseMap();

@@ -12,8 +12,8 @@ using Suktas.Payroll.EntityFrameworkCore;
 namespace Suktas.Payroll.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    [Migration("20240501122434_financialYear")]
-    partial class financialYear
+    [Migration("20240502070937_intalizationsopp")]
+    partial class intalizationsopp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2078,11 +2078,77 @@ namespace Suktas.Payroll.Migrations
                     b.ToTable("tbl_CategorySalary");
                 });
 
+            modelBuilder.Entity("Suktas.Payroll.Payroll.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BankAccountNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DateOfJoinMiti")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EmployeeLevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InsuranceNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDearnessAllowance")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsGovernment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsInternal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPrincipal")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PanNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PansionMiti")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProvidentFund")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SchoolInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeLevelId");
+
+                    b.HasIndex("SchoolInfoId");
+
+                    b.ToTable("tbl_Employee");
+                });
+
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeLevel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2096,6 +2162,91 @@ namespace Suktas.Payroll.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("tbl_EmployeeLevel");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("BasicSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("DateMiti")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DearnessAllowance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeLevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("FestiableAllowance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GovernmentAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GradeAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("InsuranceAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("InternalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PaidSalaryAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PrincipalAllowance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("SchoolInfoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("TechnicalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalBasicSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalGradeAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TotalMonth")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalSalaryAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalWithAllowance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("EmployeeLevelId");
+
+                    b.HasIndex("SchoolInfoId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("tbl_EmployeeSalary");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.InternalGradeSetup", b =>
@@ -2489,6 +2640,50 @@ namespace Suktas.Payroll.Migrations
                         .IsRequired();
 
                     b.Navigation("EmployeeLevelFk");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.Employee", b =>
+                {
+                    b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
+                        .WithMany()
+                        .HasForeignKey("SchoolInfoId");
+
+                    b.Navigation("EmployeeLevelFk");
+
+                    b.Navigation("SchoolInfoFk");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalary", b =>
+                {
+                    b.HasOne("Suktas.Payroll.Payroll.Employee", "EmployeeFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
+                        .WithMany()
+                        .HasForeignKey("SchoolInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeFk");
+
+                    b.Navigation("EmployeeLevelFk");
+
+                    b.Navigation("SchoolInfoFk");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

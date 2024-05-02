@@ -43,10 +43,10 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                         AddObjects(
                             sheet, internalGradeSetup,
-                        _ => _.Category,
-                        _ => _.Grade,
-                        _ => _.IsPercent,
-                        _ => _.Value
+                        d => d.Category,
+                        d => d.Grade,
+                        d => d.IsPercent,
+                        d => d.Value
                             );
 
                     });
