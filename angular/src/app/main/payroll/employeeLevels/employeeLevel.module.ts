@@ -5,9 +5,10 @@ import { EmployeeLevelRoutingModule } from './employeeLevel-routing.module';
 import { EmployeeLevelsComponent } from './employeeLevels.component';
 import { CreateOrEditEmployeeLevelModalComponent } from './create-or-edit-employeeLevel-modal.component';
 import { ViewEmployeeLevelModalComponent } from './view-employeeLevel-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [EmployeeLevelsComponent, CreateOrEditEmployeeLevelModalComponent, ViewEmployeeLevelModalComponent],
-    imports: [AppSharedModule, EmployeeLevelRoutingModule, AdminSharedModule],
+    imports: [AppSharedModule, EmployeeLevelRoutingModule,ReactiveFormsModule, FormsModule, AdminSharedModule],
 })
 export class EmployeeLevelModule {}

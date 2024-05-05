@@ -53,7 +53,6 @@ export class EmployeeLevelsComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this.notify.info(this.l('LoadingEmployeeLevels'));
         this._employeeLevelsServiceProxy
             .getAll(
                 this.filterText,
