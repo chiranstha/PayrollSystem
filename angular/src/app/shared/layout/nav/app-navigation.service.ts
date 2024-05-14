@@ -44,6 +44,12 @@ export class AppNavigationService {
             new AppMenuItem('Employees', 'Pages.Employees', 'flaticon-more', '/app/main/payroll/employees'),
             
             new AppMenuItem('EmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/employeeSalary'),
+            
+            new AppMenuItem('Tbl_PrincipalAllowanceSettings', 'Pages.Tbl_PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/tbl_PrincipalAllowanceSettings'),
+            
+            new AppMenuItem('FestivalBonusSettings', 'Pages.FestivalBonusSettings', 'flaticon-more', '/app/main/payroll/festivalBonusSettings'),
+            
+            new AppMenuItem('GradeUpgrades', 'Pages.GradeUpgrades', 'flaticon-more', '/app/main/payroll/gradeUpgrades'),
              new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',

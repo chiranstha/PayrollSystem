@@ -30,6 +30,21 @@ namespace Suktas.Payroll.Authorization
 
             var pages = context.GetPermissionOrNull(AppPermissions.Pages) ?? context.CreatePermission(AppPermissions.Pages, L("Pages"));
 
+            var gradeUpgrades = pages.CreateChildPermission(AppPermissions.Pages_GradeUpgrades, L("GradeUpgrades"));
+            gradeUpgrades.CreateChildPermission(AppPermissions.Pages_GradeUpgrades_Create, L("CreateNewGradeUpgrade"));
+            gradeUpgrades.CreateChildPermission(AppPermissions.Pages_GradeUpgrades_Edit, L("EditGradeUpgrade"));
+            gradeUpgrades.CreateChildPermission(AppPermissions.Pages_GradeUpgrades_Delete, L("DeleteGradeUpgrade"));
+
+            var festivalBonusSettings = pages.CreateChildPermission(AppPermissions.Pages_FestivalBonusSettings, L("FestivalBonusSettings"));
+            festivalBonusSettings.CreateChildPermission(AppPermissions.Pages_FestivalBonusSettings_Create, L("CreateNewFestivalBonusSetting"));
+            festivalBonusSettings.CreateChildPermission(AppPermissions.Pages_FestivalBonusSettings_Edit, L("EditFestivalBonusSetting"));
+            festivalBonusSettings.CreateChildPermission(AppPermissions.Pages_FestivalBonusSettings_Delete, L("DeleteFestivalBonusSetting"));
+
+            var tbl_PrincipalAllowanceSettings = pages.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings, L("PrincipalAllowanceSettings"));
+            tbl_PrincipalAllowanceSettings.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings_Create, L("CreateNewPrincipalAllowanceSetting"));
+            tbl_PrincipalAllowanceSettings.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings_Edit, L("EditPrincipalAllowanceSetting"));
+            tbl_PrincipalAllowanceSettings.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings_Delete, L("DeletePrincipalAllowanceSetting"));
+
             var employeeSalary = pages.CreateChildPermission(AppPermissions.Pages_EmployeeSalary, L("EmployeeSalary"));
             employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Create, L("CreateNewEmployeeSalary"));
             employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Edit, L("EditEmployeeSalary"));

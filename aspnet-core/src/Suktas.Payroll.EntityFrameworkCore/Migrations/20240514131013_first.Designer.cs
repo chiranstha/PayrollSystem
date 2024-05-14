@@ -12,8 +12,8 @@ using Suktas.Payroll.EntityFrameworkCore;
 namespace Suktas.Payroll.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    [Migration("20240502070450_intalizations")]
-    partial class intalizations
+    [Migration("20240514131013_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2114,6 +2114,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<bool>("IsPrincipal")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsTechnical")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -2128,6 +2131,9 @@ namespace Suktas.Payroll.Migrations
 
                     b.Property<Guid?>("SchoolInfoId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -2246,6 +2252,61 @@ namespace Suktas.Payroll.Migrations
                     b.ToTable("tbl_EmployeeSalary");
                 });
 
+            modelBuilder.Entity("Suktas.Payroll.Payroll.FestivalBonusSetting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MonthId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("FestivalBonusSettings");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.GradeUpgrade", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DateMiti")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("GradeUpgrades");
+                });
+
             modelBuilder.Entity("Suktas.Payroll.Payroll.InternalGradeSetup", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2272,6 +2333,30 @@ namespace Suktas.Payroll.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("tbl_InternalGradeSetup");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.PrincipalAllowanceSetting", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("EmployeeLevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeLevelId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("tbl_PrincipalAllowanceSettings");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.SchoolInfo", b =>
@@ -2421,7 +2506,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Roles.Role", null)
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2430,7 +2515,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2439,7 +2524,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2448,7 +2533,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("OrganizationUnits")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2457,7 +2542,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2466,7 +2551,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2474,7 +2559,8 @@ namespace Suktas.Payroll.Migrations
                 {
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Settings")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityProperty", b =>
@@ -2482,7 +2568,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.DynamicEntityProperties.DynamicProperty", "DynamicProperty")
                         .WithMany()
                         .HasForeignKey("DynamicPropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DynamicProperty");
@@ -2493,7 +2579,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.DynamicEntityProperties.DynamicEntityProperty", "DynamicEntityProperty")
                         .WithMany()
                         .HasForeignKey("DynamicEntityPropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DynamicEntityProperty");
@@ -2504,7 +2590,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.DynamicEntityProperties.DynamicProperty", "DynamicProperty")
                         .WithMany("DynamicPropertyValues")
                         .HasForeignKey("DynamicPropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DynamicProperty");
@@ -2515,7 +2601,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.EntityHistory.EntityChangeSet", null)
                         .WithMany("EntityChanges")
                         .HasForeignKey("EntityChangeSetId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2524,7 +2610,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.EntityHistory.EntityChange", null)
                         .WithMany("PropertyChanges")
                         .HasForeignKey("EntityChangeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2532,7 +2618,8 @@ namespace Suktas.Payroll.Migrations
                 {
                     b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });
@@ -2542,7 +2629,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.Webhooks.WebhookEvent", "WebhookEvent")
                         .WithMany()
                         .HasForeignKey("WebhookEventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("WebhookEvent");
@@ -2552,15 +2639,18 @@ namespace Suktas.Payroll.Migrations
                 {
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "CreatorUser")
                         .WithMany()
-                        .HasForeignKey("CreatorUserId");
+                        .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "DeleterUser")
                         .WithMany()
-                        .HasForeignKey("DeleterUserId");
+                        .HasForeignKey("DeleterUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
-                        .HasForeignKey("LastModifierUserId");
+                        .HasForeignKey("LastModifierUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CreatorUser");
 
@@ -2573,15 +2663,18 @@ namespace Suktas.Payroll.Migrations
                 {
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "CreatorUser")
                         .WithMany()
-                        .HasForeignKey("CreatorUserId");
+                        .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "DeleterUser")
                         .WithMany()
-                        .HasForeignKey("DeleterUserId");
+                        .HasForeignKey("DeleterUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
-                        .HasForeignKey("LastModifierUserId");
+                        .HasForeignKey("LastModifierUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CreatorUser");
 
@@ -2595,7 +2688,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
                         .WithMany()
                         .HasForeignKey("EditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Edition");
@@ -2605,19 +2698,23 @@ namespace Suktas.Payroll.Migrations
                 {
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "CreatorUser")
                         .WithMany()
-                        .HasForeignKey("CreatorUserId");
+                        .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "DeleterUser")
                         .WithMany()
-                        .HasForeignKey("DeleterUserId");
+                        .HasForeignKey("DeleterUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
                         .WithMany()
-                        .HasForeignKey("EditionId");
+                        .HasForeignKey("EditionId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
-                        .HasForeignKey("LastModifierUserId");
+                        .HasForeignKey("LastModifierUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CreatorUser");
 
@@ -2633,7 +2730,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
                         .WithMany()
                         .HasForeignKey("EmployeeLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("EmployeeLevelFk");
@@ -2644,12 +2741,13 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
                         .WithMany()
                         .HasForeignKey("EmployeeLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
                         .WithMany()
-                        .HasForeignKey("SchoolInfoId");
+                        .HasForeignKey("SchoolInfoId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("EmployeeLevelFk");
 
@@ -2661,19 +2759,19 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Payroll.Employee", "EmployeeFk")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
                         .WithMany()
                         .HasForeignKey("EmployeeLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
                         .WithMany()
                         .HasForeignKey("SchoolInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("EmployeeFk");
@@ -2683,12 +2781,33 @@ namespace Suktas.Payroll.Migrations
                     b.Navigation("SchoolInfoFk");
                 });
 
+            modelBuilder.Entity("Suktas.Payroll.Payroll.GradeUpgrade", b =>
+                {
+                    b.HasOne("Suktas.Payroll.Payroll.Employee", "EmployeeFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("EmployeeFk");
+                });
+
+            modelBuilder.Entity("Suktas.Payroll.Payroll.PrincipalAllowanceSetting", b =>
+                {
+                    b.HasOne("Suktas.Payroll.Payroll.EmployeeLevel", "EmployeeLevelFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeLevelId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeLevelFk");
+                });
+
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
                         .WithMany()
                         .HasForeignKey("EditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Edition");
@@ -2699,7 +2818,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Roles.Role", null)
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -2708,7 +2827,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Authorization.Users.User", null)
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

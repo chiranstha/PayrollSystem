@@ -14,6 +14,7 @@ using Suktas.Payroll.Authorization;
 using Abp.Authorization;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using Castle.MicroKernel.SubSystems.Conversion;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -25,17 +26,28 @@ namespace Suktas.Payroll.Payroll
         private readonly IRepository<SchoolInfo, Guid> _lookupSchoolInfoRepository;
         private readonly IRepository<Employee, Guid> _lookupEmployeeRepository;
         private readonly IRepository<EmployeeLevel, Guid> _lookupEmployeeLevelRepository;
-
+        private readonly IRepository<CategorySalary, Guid> _categorySalaryRepository;
+        private readonly IRepository<GradeUpgrade, Guid> _gradeUpgradeRepository;
+        private readonly IRepository<FestivalBonusSetting, Guid> _festivalBonusSettingRepository;
+        private readonly IRepository<PrincipalAllowanceSetting, Guid> _principalAllowanceSettingRepository;
         public EmployeeSalaryAppService(IRepository<EmployeeSalary, Guid> employeeSalaryRepository,
             IEmployeeSalaryExcelExporter employeeSalaryExcelExporter,
+            IRepository<FestivalBonusSetting, Guid> festivalBonusSettingRepository,
+            IRepository<GradeUpgrade, Guid> gradeUpgradeRepository,
+            IRepository<PrincipalAllowanceSetting, Guid> principalAllowanceSettingRepository,
             IRepository<SchoolInfo, Guid> lookupSchoolInfoRepository,
+            IRepository<CategorySalary, Guid> categorySalaryRepository,
             IRepository<Employee, Guid> lookupEmployeeRepository,
             IRepository<EmployeeLevel, Guid> lookupEmployeeLevelRepository)
         {
             _employeeSalaryRepository = employeeSalaryRepository;
             _employeeSalaryExcelExporter = employeeSalaryExcelExporter;
+            _festivalBonusSettingRepository = festivalBonusSettingRepository;
+            _principalAllowanceSettingRepository = principalAllowanceSettingRepository;
             _lookupSchoolInfoRepository = lookupSchoolInfoRepository;
+            _categorySalaryRepository = categorySalaryRepository;
             _lookupEmployeeRepository = lookupEmployeeRepository;
+            _gradeUpgradeRepository = gradeUpgradeRepository;
             _lookupEmployeeLevelRepository = lookupEmployeeLevelRepository;
         }
 
@@ -286,6 +298,37 @@ namespace Suktas.Payroll.Payroll
 
 
             await _employeeSalaryRepository.InsertAsync(employeeSalary);
+        }
+
+
+        public async Task<List<CreateOrEditEmployeeSalaryDto>> GenerateSalary(Guid schoolId, Months month)
+        {
+            var result = new List<CreateOrEditEmployeeSalaryDto>();
+            var school = await _lookupSchoolInfoRepository.FirstOrDefaultAsync(x => x.Id == schoolId);
+            var employees = await _lookupEmployeeRepository.GetAll().Where(x => x.SchoolInfoId == schoolId).ToListAsync();
+            var categorySalaries = await _categorySalaryRepository.GetAll().ToListAsync();
+            var gradeUpgrades = await _gradeUpgradeRepository.GetAll().ToListAsync();
+            var principalAllowanceSettins = await _principalAllowanceSettingRepository.GetAll().ToListAsync();
+            var festivalAllowance = await _festivalBonusSettingRepository.GetAll().ToListAsync();
+            foreach (var employee in employees)
+            {
+                var data = new CreateOrEditEmployeeSalaryDto
+                {
+                    Month = month,
+                    DateMiti = DateTime.Today.ToString(),
+                    BasicSalary = categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).Salary,
+                    TechnicalAmount = employee.IsTechnical ? categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).TechnicalAmount : 0,
+                    TotalGradeAmount = employee.IsDearnessAllowance ? 1 : 0,
+                    PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
+                    TotalMonth = 3,
+                    TotalSalaryAmount = 45,
+                };
+                data.FestiableAllowance = festivalAllowance.FirstOrDefault(x => x.MonthId == month) != null ? data.BasicSalary : 0;
+                data.GradeAmount = (int)(gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id).Grade) / 30 * data.BasicSalary;
+                data.TotalWithAllowance = 0;
+                result.Add(data);
+            }
+            return result;
         }
 
         [AbpAuthorize(AppPermissions.Pages_EmployeeSalary_Edit)]

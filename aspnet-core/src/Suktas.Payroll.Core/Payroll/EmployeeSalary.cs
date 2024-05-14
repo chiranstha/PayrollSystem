@@ -1,12 +1,7 @@
-﻿using Suktas.Payroll.Municipality.Enum;
-using Suktas.Payroll.Payroll;
-using Suktas.Payroll.Payroll;
-using Suktas.Payroll.Payroll;
+﻿using Abp.Domain.Entities;
+using Suktas.Payroll.Municipality.Enum;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities.Auditing;
-using Abp.Domain.Entities;
 
 namespace Suktas.Payroll.Payroll
 {

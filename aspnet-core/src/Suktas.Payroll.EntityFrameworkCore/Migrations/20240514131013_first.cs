@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Suktas.Payroll.Migrations
 {
     /// <inheritdoc />
-    public partial class intalizations : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -573,6 +573,20 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FestivalBonusSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    MonthId = table.Column<int>(type: "int", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FestivalBonusSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_EmployeeLevel",
                 columns: table => new
                 {
@@ -654,8 +668,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpDynamicEntityProperties_AbpDynamicProperties_DynamicPropertyId",
                         column: x => x.DynamicPropertyId,
                         principalTable: "AbpDynamicProperties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -675,8 +688,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpDynamicPropertyValues_AbpDynamicProperties_DynamicPropertyId",
                         column: x => x.DynamicPropertyId,
                         principalTable: "AbpDynamicProperties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -700,8 +712,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpFeatures_AbpEditions_EditionId",
                         column: x => x.EditionId,
                         principalTable: "AbpEditions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -739,8 +750,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AppSubscriptionPayments_AbpEditions_EditionId",
                         column: x => x.EditionId,
                         principalTable: "AbpEditions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -763,8 +773,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpEntityChanges_AbpEntityChangeSets_EntityChangeSetId",
                         column: x => x.EntityChangeSetId,
                         principalTable: "AbpEntityChangeSets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -905,8 +914,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpUserClaims_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -927,8 +935,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpUserLogins_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -951,8 +958,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpUserOrganizationUnits_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -974,8 +980,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpUserRoles_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -998,8 +1003,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpUserTokens_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1022,8 +1026,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpWebhookSendAttempts_AbpWebhookEvents_WebhookEventId",
                         column: x => x.WebhookEventId,
                         principalTable: "AbpWebhookEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1044,8 +1047,26 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_tbl_CategorySalary_tbl_EmployeeLevel_EmployeeLevelId",
                         column: x => x.EmployeeLevelId,
                         principalTable: "tbl_EmployeeLevel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_PrincipalAllowanceSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_PrincipalAllowanceSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_PrincipalAllowanceSettings_tbl_EmployeeLevel_EmployeeLevelId",
+                        column: x => x.EmployeeLevelId,
+                        principalTable: "tbl_EmployeeLevel",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1066,8 +1087,10 @@ namespace Suktas.Payroll.Migrations
                     IsPrincipal = table.Column<bool>(type: "bit", nullable: false),
                     IsGovernment = table.Column<bool>(type: "bit", nullable: false),
                     IsInternal = table.Column<bool>(type: "bit", nullable: false),
+                    IsTechnical = table.Column<bool>(type: "bit", nullable: false),
                     EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TenantId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1076,8 +1099,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_tbl_Employee_tbl_EmployeeLevel_EmployeeLevelId",
                         column: x => x.EmployeeLevelId,
                         principalTable: "tbl_EmployeeLevel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tbl_Employee_tbl_SchoolInfo_SchoolInfoId",
                         column: x => x.SchoolInfoId,
@@ -1103,8 +1125,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpDynamicEntityPropertyValues_AbpDynamicEntityProperties_DynamicEntityPropertyId",
                         column: x => x.DynamicEntityPropertyId,
                         principalTable: "AbpDynamicEntityProperties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1129,8 +1150,7 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1155,14 +1175,12 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpPermissions_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AbpPermissions_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1185,8 +1203,29 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_AbpRoleClaims_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GradeUpgrades",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    DateMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Grade = table.Column<int>(type: "int", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GradeUpgrades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GradeUpgrades_tbl_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "tbl_Employee",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1224,20 +1263,17 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_tbl_EmployeeSalary_tbl_EmployeeLevel_EmployeeLevelId",
                         column: x => x.EmployeeLevelId,
                         principalTable: "tbl_EmployeeLevel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tbl_EmployeeSalary_tbl_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "tbl_Employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tbl_EmployeeSalary_tbl_SchoolInfo_SchoolInfoId",
                         column: x => x.SchoolInfoId,
                         principalTable: "tbl_SchoolInfo",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -1685,6 +1721,21 @@ namespace Suktas.Payroll.Migrations
                 columns: new[] { "TenantId", "TargetUserId" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_FestivalBonusSettings_TenantId",
+                table: "FestivalBonusSettings",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeUpgrades_EmployeeId",
+                table: "GradeUpgrades",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeUpgrades_TenantId",
+                table: "GradeUpgrades",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_CategorySalary_EmployeeLevelId",
                 table: "tbl_CategorySalary",
                 column: "EmployeeLevelId");
@@ -1737,6 +1788,16 @@ namespace Suktas.Payroll.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_InternalGradeSetup_TenantId",
                 table: "tbl_InternalGradeSetup",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_PrincipalAllowanceSettings_EmployeeLevelId",
+                table: "tbl_PrincipalAllowanceSettings",
+                column: "EmployeeLevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_PrincipalAllowanceSettings_TenantId",
+                table: "tbl_PrincipalAllowanceSettings",
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
@@ -1854,6 +1915,12 @@ namespace Suktas.Payroll.Migrations
                 name: "AppUserDelegations");
 
             migrationBuilder.DropTable(
+                name: "FestivalBonusSettings");
+
+            migrationBuilder.DropTable(
+                name: "GradeUpgrades");
+
+            migrationBuilder.DropTable(
                 name: "tbl_CategorySalary");
 
             migrationBuilder.DropTable(
@@ -1864,6 +1931,9 @@ namespace Suktas.Payroll.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_InternalGradeSetup");
+
+            migrationBuilder.DropTable(
+                name: "tbl_PrincipalAllowanceSettings");
 
             migrationBuilder.DropTable(
                 name: "AbpDynamicEntityProperties");

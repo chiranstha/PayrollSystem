@@ -35,6 +35,8 @@ namespace Suktas.Payroll.Payroll.Dtos
 
         public bool IsInternal { get; set; }
 
+        public EmployeeGrade Grade { get; set; }
+
         public Guid EmployeeLevelId { get; set; }
 
         public Guid? SchoolInfoId { get; set; }

@@ -7263,6 +7263,449 @@ export class EmployeesExcelExporterServiceProxy {
 }
 
 @Injectable()
+export class FestivalBonusSettingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param monthIdFilter (optional) 
+     * @param remarksFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, monthIdFilter: number | undefined, remarksFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetFestivalBonusSettingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (monthIdFilter === null)
+            throw new Error("The parameter 'monthIdFilter' cannot be null.");
+        else if (monthIdFilter !== undefined)
+            url_ += "MonthIdFilter=" + encodeURIComponent("" + monthIdFilter) + "&";
+        if (remarksFilter === null)
+            throw new Error("The parameter 'remarksFilter' cannot be null.");
+        else if (remarksFilter !== undefined)
+            url_ += "RemarksFilter=" + encodeURIComponent("" + remarksFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfGetFestivalBonusSettingForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfGetFestivalBonusSettingForViewDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetFestivalBonusSettingForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetFestivalBonusSettingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getFestivalBonusSettingForView(id: string | undefined): Observable<GetFestivalBonusSettingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/GetFestivalBonusSettingForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFestivalBonusSettingForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFestivalBonusSettingForView(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetFestivalBonusSettingForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetFestivalBonusSettingForViewDto>;
+        }));
+    }
+
+    protected processGetFestivalBonusSettingForView(response: HttpResponseBase): Observable<GetFestivalBonusSettingForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFestivalBonusSettingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getFestivalBonusSettingForEdit(id: string | undefined): Observable<GetFestivalBonusSettingForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/GetFestivalBonusSettingForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFestivalBonusSettingForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFestivalBonusSettingForEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetFestivalBonusSettingForEditOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetFestivalBonusSettingForEditOutput>;
+        }));
+    }
+
+    protected processGetFestivalBonusSettingForEdit(response: HttpResponseBase): Observable<GetFestivalBonusSettingForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetFestivalBonusSettingForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditFestivalBonusSettingDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param monthIdFilter (optional) 
+     * @param remarksFilter (optional) 
+     * @return Success
+     */
+    getFestivalBonusSettingsToExcel(filter: string | undefined, monthIdFilter: number | undefined, remarksFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettings/GetFestivalBonusSettingsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (monthIdFilter === null)
+            throw new Error("The parameter 'monthIdFilter' cannot be null.");
+        else if (monthIdFilter !== undefined)
+            url_ += "MonthIdFilter=" + encodeURIComponent("" + monthIdFilter) + "&";
+        if (remarksFilter === null)
+            throw new Error("The parameter 'remarksFilter' cannot be null.");
+        else if (remarksFilter !== undefined)
+            url_ += "RemarksFilter=" + encodeURIComponent("" + remarksFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetFestivalBonusSettingsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFestivalBonusSettingsToExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGetFestivalBonusSettingsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class FestivalBonusSettingsExcelExporterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    exportToFile(body: GetFestivalBonusSettingForViewDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/FestivalBonusSettingsExcelExporter/ExportToFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExportToFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExportToFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processExportToFile(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class FinancialYearsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -7944,6 +8387,527 @@ export class FriendshipServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class GradeUpgradesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param dateMitiFilter (optional) 
+     * @param gradeFilter (optional) 
+     * @param remarksFilter (optional) 
+     * @param employeeNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, dateMitiFilter: string | undefined, gradeFilter: number | undefined, remarksFilter: string | undefined, employeeNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetGradeUpgradeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (dateMitiFilter === null)
+            throw new Error("The parameter 'dateMitiFilter' cannot be null.");
+        else if (dateMitiFilter !== undefined)
+            url_ += "DateMitiFilter=" + encodeURIComponent("" + dateMitiFilter) + "&";
+        if (gradeFilter === null)
+            throw new Error("The parameter 'gradeFilter' cannot be null.");
+        else if (gradeFilter !== undefined)
+            url_ += "GradeFilter=" + encodeURIComponent("" + gradeFilter) + "&";
+        if (remarksFilter === null)
+            throw new Error("The parameter 'remarksFilter' cannot be null.");
+        else if (remarksFilter !== undefined)
+            url_ += "RemarksFilter=" + encodeURIComponent("" + remarksFilter) + "&";
+        if (employeeNameFilter === null)
+            throw new Error("The parameter 'employeeNameFilter' cannot be null.");
+        else if (employeeNameFilter !== undefined)
+            url_ += "EmployeeNameFilter=" + encodeURIComponent("" + employeeNameFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfGetGradeUpgradeForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfGetGradeUpgradeForViewDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetGradeUpgradeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetGradeUpgradeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getGradeUpgradeForView(id: string | undefined): Observable<GetGradeUpgradeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/GetGradeUpgradeForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGradeUpgradeForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGradeUpgradeForView(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetGradeUpgradeForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetGradeUpgradeForViewDto>;
+        }));
+    }
+
+    protected processGetGradeUpgradeForView(response: HttpResponseBase): Observable<GetGradeUpgradeForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetGradeUpgradeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getGradeUpgradeForEdit(id: string | undefined): Observable<GetGradeUpgradeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/GetGradeUpgradeForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGradeUpgradeForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGradeUpgradeForEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetGradeUpgradeForEditOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetGradeUpgradeForEditOutput>;
+        }));
+    }
+
+    protected processGetGradeUpgradeForEdit(response: HttpResponseBase): Observable<GetGradeUpgradeForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetGradeUpgradeForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditGradeUpgradeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param dateMitiFilter (optional) 
+     * @param gradeFilter (optional) 
+     * @param remarksFilter (optional) 
+     * @param employeeNameFilter (optional) 
+     * @return Success
+     */
+    getGradeUpgradesToExcel(filter: string | undefined, dateMitiFilter: string | undefined, gradeFilter: number | undefined, remarksFilter: string | undefined, employeeNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/GetGradeUpgradesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (dateMitiFilter === null)
+            throw new Error("The parameter 'dateMitiFilter' cannot be null.");
+        else if (dateMitiFilter !== undefined)
+            url_ += "DateMitiFilter=" + encodeURIComponent("" + dateMitiFilter) + "&";
+        if (gradeFilter === null)
+            throw new Error("The parameter 'gradeFilter' cannot be null.");
+        else if (gradeFilter !== undefined)
+            url_ += "GradeFilter=" + encodeURIComponent("" + gradeFilter) + "&";
+        if (remarksFilter === null)
+            throw new Error("The parameter 'remarksFilter' cannot be null.");
+        else if (remarksFilter !== undefined)
+            url_ += "RemarksFilter=" + encodeURIComponent("" + remarksFilter) + "&";
+        if (employeeNameFilter === null)
+            throw new Error("The parameter 'employeeNameFilter' cannot be null.");
+        else if (employeeNameFilter !== undefined)
+            url_ += "EmployeeNameFilter=" + encodeURIComponent("" + employeeNameFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGradeUpgradesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGradeUpgradesToExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGetGradeUpgradesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllEmployeeForTableDropdown(): Observable<GradeUpgradeEmployeeLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgrades/GetAllEmployeeForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEmployeeForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEmployeeForTableDropdown(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GradeUpgradeEmployeeLookupTableDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GradeUpgradeEmployeeLookupTableDto[]>;
+        }));
+    }
+
+    protected processGetAllEmployeeForTableDropdown(response: HttpResponseBase): Observable<GradeUpgradeEmployeeLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GradeUpgradeEmployeeLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class GradeUpgradesExcelExporterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    exportToFile(body: GetGradeUpgradeForViewDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/GradeUpgradesExcelExporter/ExportToFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExportToFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExportToFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processExportToFile(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12283,6 +13247,517 @@ export class PermissionServiceProxy {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ListResultDtoOfFlatPermissionWithLevelDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class PrincipalAllowanceSettingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param employeeLevelNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, employeeLevelNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&";
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&";
+        if (employeeLevelNameFilter === null)
+            throw new Error("The parameter 'employeeLevelNameFilter' cannot be null.");
+        else if (employeeLevelNameFilter !== undefined)
+            url_ += "EmployeeLevelNameFilter=" + encodeURIComponent("" + employeeLevelNameFilter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPrincipalAllowanceSettingForView(id: string | undefined): Observable<GetPrincipalAllowanceSettingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/GetPrincipalAllowanceSettingForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPrincipalAllowanceSettingForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPrincipalAllowanceSettingForView(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetPrincipalAllowanceSettingForViewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetPrincipalAllowanceSettingForViewDto>;
+        }));
+    }
+
+    protected processGetPrincipalAllowanceSettingForView(response: HttpResponseBase): Observable<GetPrincipalAllowanceSettingForViewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetPrincipalAllowanceSettingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPrincipalAllowanceSettingForEdit(id: string | undefined): Observable<GetPrincipalAllowanceSettingForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/GetPrincipalAllowanceSettingForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPrincipalAllowanceSettingForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPrincipalAllowanceSettingForEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetPrincipalAllowanceSettingForEditOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetPrincipalAllowanceSettingForEditOutput>;
+        }));
+    }
+
+    protected processGetPrincipalAllowanceSettingForEdit(response: HttpResponseBase): Observable<GetPrincipalAllowanceSettingForEditOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetPrincipalAllowanceSettingForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditPrincipalAllowanceSettingDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param employeeLevelNameFilter (optional) 
+     * @return Success
+     */
+    getPrincipalAllowanceSettingsToExcel(filter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, employeeLevelNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/GetPrincipalAllowanceSettingsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&";
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&";
+        if (employeeLevelNameFilter === null)
+            throw new Error("The parameter 'employeeLevelNameFilter' cannot be null.");
+        else if (employeeLevelNameFilter !== undefined)
+            url_ += "EmployeeLevelNameFilter=" + encodeURIComponent("" + employeeLevelNameFilter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPrincipalAllowanceSettingsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPrincipalAllowanceSettingsToExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGetPrincipalAllowanceSettingsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllEmployeeLevelForTableDropdown(): Observable<PrincipalAllowanceSettingEmployeeLevelLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettings/GetAllEmployeeLevelForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEmployeeLevelForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEmployeeLevelForTableDropdown(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PrincipalAllowanceSettingEmployeeLevelLookupTableDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PrincipalAllowanceSettingEmployeeLevelLookupTableDto[]>;
+        }));
+    }
+
+    protected processGetAllEmployeeLevelForTableDropdown(response: HttpResponseBase): Observable<PrincipalAllowanceSettingEmployeeLevelLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PrincipalAllowanceSettingEmployeeLevelLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class PrincipalAllowanceSettingsExcelExporterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    exportToFile(body: GetPrincipalAllowanceSettingForViewDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/PrincipalAllowanceSettingsExcelExporter/ExportToFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExportToFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExportToFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processExportToFile(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -20899,6 +22374,50 @@ export interface ICreateOrEditEmployeeSalaryDto {
     id: string | undefined;
 }
 
+export class CreateOrEditFestivalBonusSettingDto implements ICreateOrEditFestivalBonusSettingDto {
+    monthId!: Months;
+    remarks!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditFestivalBonusSettingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.monthId = _data["monthId"];
+            this.remarks = _data["remarks"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditFestivalBonusSettingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditFestivalBonusSettingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["monthId"] = this.monthId;
+        data["remarks"] = this.remarks;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface ICreateOrEditFestivalBonusSettingDto {
+    monthId: Months;
+    remarks: string | undefined;
+    id: string | undefined;
+}
+
 export class CreateOrEditFinancialYearDto implements ICreateOrEditFinancialYearDto {
     name!: string;
     fromMiti!: string | undefined;
@@ -20951,6 +22470,58 @@ export interface ICreateOrEditFinancialYearDto {
     id: string | undefined;
 }
 
+export class CreateOrEditGradeUpgradeDto implements ICreateOrEditGradeUpgradeDto {
+    dateMiti!: string | undefined;
+    grade!: EmployeeGrade;
+    remarks!: string | undefined;
+    employeeId!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditGradeUpgradeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dateMiti = _data["dateMiti"];
+            this.grade = _data["grade"];
+            this.remarks = _data["remarks"];
+            this.employeeId = _data["employeeId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditGradeUpgradeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditGradeUpgradeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateMiti"] = this.dateMiti;
+        data["grade"] = this.grade;
+        data["remarks"] = this.remarks;
+        data["employeeId"] = this.employeeId;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface ICreateOrEditGradeUpgradeDto {
+    dateMiti: string | undefined;
+    grade: EmployeeGrade;
+    remarks: string | undefined;
+    employeeId: string | undefined;
+    id: string | undefined;
+}
+
 export class CreateOrEditInternalGradeSetupDto implements ICreateOrEditInternalGradeSetupDto {
     category!: EmployeeCategory;
     grade!: EmployeeGrade;
@@ -21000,6 +22571,50 @@ export interface ICreateOrEditInternalGradeSetupDto {
     grade: EmployeeGrade;
     isPercent: boolean;
     value: number;
+    id: string | undefined;
+}
+
+export class CreateOrEditPrincipalAllowanceSettingDto implements ICreateOrEditPrincipalAllowanceSettingDto {
+    amount!: number;
+    employeeLevelId!: string;
+    id!: string | undefined;
+
+    constructor(data?: ICreateOrEditPrincipalAllowanceSettingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.amount = _data["amount"];
+            this.employeeLevelId = _data["employeeLevelId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditPrincipalAllowanceSettingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditPrincipalAllowanceSettingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["amount"] = this.amount;
+        data["employeeLevelId"] = this.employeeLevelId;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface ICreateOrEditPrincipalAllowanceSettingDto {
+    amount: number;
+    employeeLevelId: string;
     id: string | undefined;
 }
 
@@ -25216,6 +26831,94 @@ export interface IGetExpiringTenantsOutput {
     subscriptionEndDateEnd: DateTime;
 }
 
+export class GetFestivalBonusSettingForEditOutput implements IGetFestivalBonusSettingForEditOutput {
+    monthId!: Months;
+    remarks!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetFestivalBonusSettingForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.monthId = _data["monthId"];
+            this.remarks = _data["remarks"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetFestivalBonusSettingForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetFestivalBonusSettingForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["monthId"] = this.monthId;
+        data["remarks"] = this.remarks;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetFestivalBonusSettingForEditOutput {
+    monthId: Months;
+    remarks: string | undefined;
+    id: string | undefined;
+}
+
+export class GetFestivalBonusSettingForViewDto implements IGetFestivalBonusSettingForViewDto {
+    monthId!: Months;
+    remarks!: string | undefined;
+    id!: string;
+
+    constructor(data?: IGetFestivalBonusSettingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.monthId = _data["monthId"];
+            this.remarks = _data["remarks"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetFestivalBonusSettingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetFestivalBonusSettingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["monthId"] = this.monthId;
+        data["remarks"] = this.remarks;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetFestivalBonusSettingForViewDto {
+    monthId: Months;
+    remarks: string | undefined;
+    id: string;
+}
+
 export class GetFinancialYearForEditOutput implements IGetFinancialYearForEditOutput {
     financialYear!: CreateOrEditFinancialYearDto;
 
@@ -25330,6 +27033,118 @@ export interface IGetGeneralStatsOutput {
     transactionPercent: number;
     newVisitPercent: number;
     bouncePercent: number;
+}
+
+export class GetGradeUpgradeForEditOutput implements IGetGradeUpgradeForEditOutput {
+    dateMiti!: string | undefined;
+    grade!: EmployeeGrade;
+    remarks!: string | undefined;
+    employeeId!: string | undefined;
+    employeeName!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetGradeUpgradeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dateMiti = _data["dateMiti"];
+            this.grade = _data["grade"];
+            this.remarks = _data["remarks"];
+            this.employeeId = _data["employeeId"];
+            this.employeeName = _data["employeeName"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetGradeUpgradeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetGradeUpgradeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateMiti"] = this.dateMiti;
+        data["grade"] = this.grade;
+        data["remarks"] = this.remarks;
+        data["employeeId"] = this.employeeId;
+        data["employeeName"] = this.employeeName;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetGradeUpgradeForEditOutput {
+    dateMiti: string | undefined;
+    grade: EmployeeGrade;
+    remarks: string | undefined;
+    employeeId: string | undefined;
+    employeeName: string | undefined;
+    id: string | undefined;
+}
+
+export class GetGradeUpgradeForViewDto implements IGetGradeUpgradeForViewDto {
+    dateMiti!: string | undefined;
+    grade!: EmployeeGrade;
+    remarks!: string | undefined;
+    employeeId!: string | undefined;
+    employeeName!: string | undefined;
+    id!: string;
+
+    constructor(data?: IGetGradeUpgradeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dateMiti = _data["dateMiti"];
+            this.grade = _data["grade"];
+            this.remarks = _data["remarks"];
+            this.employeeId = _data["employeeId"];
+            this.employeeName = _data["employeeName"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetGradeUpgradeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetGradeUpgradeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dateMiti"] = this.dateMiti;
+        data["grade"] = this.grade;
+        data["remarks"] = this.remarks;
+        data["employeeId"] = this.employeeId;
+        data["employeeName"] = this.employeeName;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetGradeUpgradeForViewDto {
+    dateMiti: string | undefined;
+    grade: EmployeeGrade;
+    remarks: string | undefined;
+    employeeId: string | undefined;
+    employeeName: string | undefined;
+    id: string;
 }
 
 export class GetIncomeStatisticsDataOutput implements IGetIncomeStatisticsDataOutput {
@@ -25866,6 +27681,102 @@ export class GetPasswordComplexitySettingOutput implements IGetPasswordComplexit
 
 export interface IGetPasswordComplexitySettingOutput {
     setting: PasswordComplexitySetting;
+}
+
+export class GetPrincipalAllowanceSettingForEditOutput implements IGetPrincipalAllowanceSettingForEditOutput {
+    amount!: number;
+    employeeLevelId!: string;
+    employeeLevelName!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetPrincipalAllowanceSettingForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.amount = _data["amount"];
+            this.employeeLevelId = _data["employeeLevelId"];
+            this.employeeLevelName = _data["employeeLevelName"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetPrincipalAllowanceSettingForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPrincipalAllowanceSettingForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["amount"] = this.amount;
+        data["employeeLevelId"] = this.employeeLevelId;
+        data["employeeLevelName"] = this.employeeLevelName;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetPrincipalAllowanceSettingForEditOutput {
+    amount: number;
+    employeeLevelId: string;
+    employeeLevelName: string | undefined;
+    id: string | undefined;
+}
+
+export class GetPrincipalAllowanceSettingForViewDto implements IGetPrincipalAllowanceSettingForViewDto {
+    amount!: number;
+    employeeLevelId!: string;
+    employeeLevelName!: string | undefined;
+    id!: string;
+
+    constructor(data?: IGetPrincipalAllowanceSettingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.amount = _data["amount"];
+            this.employeeLevelId = _data["employeeLevelId"];
+            this.employeeLevelName = _data["employeeLevelName"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetPrincipalAllowanceSettingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetPrincipalAllowanceSettingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["amount"] = this.amount;
+        data["employeeLevelId"] = this.employeeLevelId;
+        data["employeeLevelName"] = this.employeeLevelName;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetPrincipalAllowanceSettingForViewDto {
+    amount: number;
+    employeeLevelId: string;
+    employeeLevelName: string | undefined;
+    id: string;
 }
 
 export class GetProfilePictureOutput implements IGetProfilePictureOutput {
@@ -26782,6 +28693,46 @@ export interface IGoogleExternalLoginProviderSettings {
     clientId: string | undefined;
     clientSecret: string | undefined;
     userInfoEndpoint: string | undefined;
+}
+
+export class GradeUpgradeEmployeeLookupTableDto implements IGradeUpgradeEmployeeLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IGradeUpgradeEmployeeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): GradeUpgradeEmployeeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GradeUpgradeEmployeeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data;
+    }
+}
+
+export interface IGradeUpgradeEmployeeLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
 }
 
 export class HostBillingSettingsEditDto implements IHostBillingSettingsEditDto {
@@ -29962,6 +31913,54 @@ export interface IPagedResultDtoOfGetEmployeeSalaryForViewDto {
     items: GetEmployeeSalaryForViewDto[] | undefined;
 }
 
+export class PagedResultDtoOfGetFestivalBonusSettingForViewDto implements IPagedResultDtoOfGetFestivalBonusSettingForViewDto {
+    totalCount!: number;
+    items!: GetFestivalBonusSettingForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetFestivalBonusSettingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetFestivalBonusSettingForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetFestivalBonusSettingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetFestivalBonusSettingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfGetFestivalBonusSettingForViewDto {
+    totalCount: number;
+    items: GetFestivalBonusSettingForViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfGetFinancialYearForViewDto implements IPagedResultDtoOfGetFinancialYearForViewDto {
     totalCount!: number;
     items!: GetFinancialYearForViewDto[] | undefined;
@@ -30010,6 +32009,54 @@ export interface IPagedResultDtoOfGetFinancialYearForViewDto {
     items: GetFinancialYearForViewDto[] | undefined;
 }
 
+export class PagedResultDtoOfGetGradeUpgradeForViewDto implements IPagedResultDtoOfGetGradeUpgradeForViewDto {
+    totalCount!: number;
+    items!: GetGradeUpgradeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetGradeUpgradeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetGradeUpgradeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetGradeUpgradeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetGradeUpgradeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfGetGradeUpgradeForViewDto {
+    totalCount: number;
+    items: GetGradeUpgradeForViewDto[] | undefined;
+}
+
 export class PagedResultDtoOfGetInternalGradeSetupForViewDto implements IPagedResultDtoOfGetInternalGradeSetupForViewDto {
     totalCount!: number;
     items!: GetInternalGradeSetupForViewDto[] | undefined;
@@ -30056,6 +32103,54 @@ export class PagedResultDtoOfGetInternalGradeSetupForViewDto implements IPagedRe
 export interface IPagedResultDtoOfGetInternalGradeSetupForViewDto {
     totalCount: number;
     items: GetInternalGradeSetupForViewDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto implements IPagedResultDtoOfGetPrincipalAllowanceSettingForViewDto {
+    totalCount!: number;
+    items!: GetPrincipalAllowanceSettingForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetPrincipalAllowanceSettingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(GetPrincipalAllowanceSettingForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetPrincipalAllowanceSettingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfGetPrincipalAllowanceSettingForViewDto {
+    totalCount: number;
+    items: GetPrincipalAllowanceSettingForViewDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetSchoolInfoForViewDto implements IPagedResultDtoOfGetSchoolInfoForViewDto {
@@ -30879,6 +32974,46 @@ export enum PaymentPeriodType {
     Weekly = 7,
     Monthly = 30,
     Annual = 365,
+}
+
+export class PrincipalAllowanceSettingEmployeeLevelLookupTableDto implements IPrincipalAllowanceSettingEmployeeLevelLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IPrincipalAllowanceSettingEmployeeLevelLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): PrincipalAllowanceSettingEmployeeLevelLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PrincipalAllowanceSettingEmployeeLevelLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data;
+    }
+}
+
+export interface IPrincipalAllowanceSettingEmployeeLevelLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
 }
 
 export class RecentTenant implements IRecentTenant {

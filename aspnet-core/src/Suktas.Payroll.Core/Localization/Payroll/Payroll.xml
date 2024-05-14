@@ -1,6 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
-  <texts>
+  <texts>    <text name="GradeUpgrade">Grade upgrade</text>
+    <text name="Suktas.Payroll.Payroll.GradeUpgrade">GradeUpgrade</text>
+    <text name="GradeUpgradesHeaderInfo">Grade upgrades header info</text>
+    <text name="CreateNewGradeUpgrade">Create new grade upgrade</text>
+    <text name="EditGradeUpgrade">Edit grade upgrade</text>
+    <text name="DeleteGradeUpgrade">Delete grade upgrade</text>
+    <text name="GradeUpgrades">Grade upgrades</text>
+    <text name="FestivalBonusSetting">Festival bonus setting</text>
+    <text name="Suktas.Payroll.Payroll.FestivalBonusSetting">FestivalBonusSetting</text>
+    <text name="MonthId">Month id</text>
+    <text name="Remarks">Remarks</text>
+    <text name="FestivalBonusSettingsHeaderInfo">Festival bonus settings header info</text>
+    <text name="CreateNewFestivalBonusSetting">Create new festival bonus setting</text>
+    <text name="EditFestivalBonusSetting">Edit festival bonus setting</text>
+    <text name="DeleteFestivalBonusSetting">Delete festival bonus setting</text>
+    <text name="FestivalBonusSettings">Festival bonus settings</text>
+    <text name="Tbl_PrincipalAllowanceSetting">Tbl _ principal allowance setting</text>
+    <text name="Suktas.Payroll.Payroll.Tbl_PrincipalAllowanceSetting">Tbl_PrincipalAllowanceSetting</text>
+    <text name="Tbl_PrincipalAllowanceSettingsHeaderInfo">Tbl _ principal allowance settings header info</text>
+    <text name="CreateNewTbl_PrincipalAllowanceSetting">Create new tbl _ principal allowance setting</text>
+    <text name="EditTbl_PrincipalAllowanceSetting">Edit tbl _ principal allowance setting</text>
+    <text name="DeleteTbl_PrincipalAllowanceSetting">Delete tbl _ principal allowance setting</text>
+    <text name="Tbl_PrincipalAllowanceSettings">Tbl _ principal allowance settings</text>
+
     <text name="EmployeeSalary">Employee salary</text>
     <text name="Suktas.Payroll.Payroll.EmployeeSalary">EmployeeSalary</text>
     <text name="Month">Month</text>

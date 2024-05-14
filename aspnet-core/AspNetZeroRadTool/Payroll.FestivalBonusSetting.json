@@ -1,0 +1,128 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": "main",
+  "RelativeNamespace": "Payroll",
+  "EntityName": "FestivalBonusSetting",
+  "EntityNamePlural": "FestivalBonusSettings",
+  "TableName": "FestivalBonusSettings",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "Entity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": true,
+  "CreateViewOnly": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
+  "IsMasterDetailPage": false,
+  "GenerateOverridableEntity": false,
+  "GenerateUnitTest": false,
+  "GenerateUiTest": false,
+  "PagePermission": {
+    "Host": true,
+    "Tenant": true
+  },
+  "Properties": [
+    {
+      "Name": "MonthId",
+      "Type": "Months",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    },
+    {
+      "Name": "Remarks",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    }
+  ],
+  "NavigationProperties": [],
+  "NavigationPropertyOneToManyTables": [],
+  "EnumDefinitions": [
+    {
+      "Name": "Months",
+      "Namespace": "Suktas.Payroll.Municipality.Enum",
+      "EnumProperties": [
+        {
+          "Name": "Baishakh",
+          "Value": 1
+        },
+        {
+          "Name": "Jestha",
+          "Value": 2
+        },
+        {
+          "Name": "Asar",
+          "Value": 3
+        },
+        {
+          "Name": "Shrawan",
+          "Value": 4
+        },
+        {
+          "Name": "Bhadra",
+          "Value": 5
+        },
+        {
+          "Name": "Asoj",
+          "Value": 6
+        },
+        {
+          "Name": "Kartik",
+          "Value": 7
+        },
+        {
+          "Name": "Mangsir",
+          "Value": 8
+        },
+        {
+          "Name": "Poush",
+          "Value": 9
+        },
+        {
+          "Name": "Magh",
+          "Value": 10
+        },
+        {
+          "Name": "Falgun",
+          "Value": 11
+        },
+        {
+          "Name": "Chaitra",
+          "Value": 12
+        }
+      ]
+    }
+  ],
+  "DbContext": null
+}

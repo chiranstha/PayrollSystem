@@ -9,6 +9,27 @@ import { RouterModule } from '@angular/router';
                 children: [
                     
                     {
+                        path: 'payroll/gradeUpgrades',
+                        loadChildren: () => import('./payroll/gradeUpgrades/gradeUpgrade.module').then(m => m.GradeUpgradeModule),
+                        data: { permission: 'Pages.GradeUpgrades' }
+                    },
+                
+                    
+                    {
+                        path: 'payroll/festivalBonusSettings',
+                        loadChildren: () => import('./payroll/festivalBonusSettings/festivalBonusSetting.module').then(m => m.FestivalBonusSettingModule),
+                        data: { permission: 'Pages.FestivalBonusSettings' }
+                    },
+                
+                    
+                    {
+                        path: 'payroll/tbl_PrincipalAllowanceSettings',
+                        loadChildren: () => import('./payroll/PrincipalAllowanceSettings/principalAllowanceSetting.module').then(m => m.PrincipalAllowanceSettingModule),
+                        data: { permission: 'Pages.PrincipalAllowanceSettings' }
+                    },
+                
+                    
+                    {
                         path: 'payroll/employeeSalary',
                         loadChildren: () => import('./payroll/employeeSalary/employeeSalary.module').then(m => m.EmployeeSalaryModule),
                         data: { permission: 'Pages.EmployeeSalary' }

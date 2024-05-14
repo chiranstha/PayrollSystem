@@ -12,11 +12,18 @@ using Suktas.Payroll.MultiTenancy;
 using Suktas.Payroll.MultiTenancy.Accounting;
 using Suktas.Payroll.MultiTenancy.Payments;
 using Suktas.Payroll.Storage;
+using System.Linq;
 
 namespace Suktas.Payroll.EntityFrameworkCore
 {
     public class PayrollDbContext : AbpZeroDbContext<Tenant, Role, User, PayrollDbContext>
     {
+        public virtual DbSet<GradeUpgrade> GradeUpgrades { get; set; }
+
+        public virtual DbSet<FestivalBonusSetting> FestivalBonusSettings { get; set; }
+
+        public virtual DbSet<PrincipalAllowanceSetting> Tbl_PrincipalAllowanceSettings { get; set; }
+
         public virtual DbSet<EmployeeSalary> EmployeeSalary { get; set; }
 
         public virtual DbSet<Employee> Employees { get; set; }
@@ -60,11 +67,25 @@ namespace Suktas.Payroll.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
 
-            modelBuilder.Entity<EmployeeSalary>(x =>
+            modelBuilder.Entity<GradeUpgrade>(g =>
             {
-                x.HasIndex(e => new { e.TenantId });
+                g.HasIndex(e => new { e.TenantId });
             });
+            modelBuilder.Entity<FestivalBonusSetting>(f =>
+                       {
+                           f.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<PrincipalAllowanceSetting>(t =>
+                       {
+                           t.HasIndex(e => new { e.TenantId });
+                       });
+            modelBuilder.Entity<EmployeeSalary>(x =>
+                       {
+                           x.HasIndex(e => new { e.TenantId });
+                       });
             modelBuilder.Entity<FinancialYear>(f =>
                        {
                            f.HasIndex(e => new { e.TenantId });

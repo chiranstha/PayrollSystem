@@ -1,0 +1,146 @@
+{
+  "IsRegenerate": false,
+  "MenuPosition": "main",
+  "RelativeNamespace": "Payroll",
+  "EntityName": "GradeUpgrade",
+  "EntityNamePlural": "GradeUpgrades",
+  "TableName": "GradeUpgrades",
+  "PrimaryKeyType": "Guid",
+  "BaseClass": "Entity",
+  "EntityHistory": false,
+  "AutoMigration": true,
+  "UpdateDatabase": true,
+  "CreateUserInterface": true,
+  "CreateViewOnly": true,
+  "CreateExcelExport": true,
+  "IsNonModalCRUDPage": false,
+  "IsMasterDetailPage": false,
+  "GenerateOverridableEntity": false,
+  "GenerateUnitTest": false,
+  "GenerateUiTest": false,
+  "PagePermission": {
+    "Host": true,
+    "Tenant": true
+  },
+  "Properties": [
+    {
+      "Name": "DateMiti",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    },
+    {
+      "Name": "Grade",
+      "Type": "EmployeeGrade",
+      "MaxLength": 0,
+      "MinLength": 0,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    },
+    {
+      "Name": "Remarks",
+      "Type": "string",
+      "MaxLength": -1,
+      "MinLength": -1,
+      "Range": {
+        "IsRangeSet": false,
+        "MinimumValue": 0.0,
+        "MaximumValue": 0.0
+      },
+      "Required": false,
+      "Nullable": false,
+      "Regex": "",
+      "UserInterface": {
+        "AdvancedFilter": true,
+        "List": true,
+        "CreateOrUpdate": true
+      },
+      "ViewType": null,
+      "AdditionalData": {}
+    }
+  ],
+  "NavigationProperties": [
+    {
+      "Namespace": "Suktas.Payroll.Payroll",
+      "ForeignEntityName": "Employee",
+      "ForeignEntityNamePlural": "Employees",
+      "IdType": "Guid",
+      "IsNullable": true,
+      "PropertyName": "EmployeeId",
+      "DisplayPropertyName": "Name",
+      "DuplicationNumber": 0,
+      "RelationType": "single",
+      "ViewType": "Dropdown"
+    }
+  ],
+  "NavigationPropertyOneToManyTables": [],
+  "EnumDefinitions": [
+    {
+      "Name": "EmployeeGrade",
+      "Namespace": "Suktas.Payroll.Municipality.Enum",
+      "EnumProperties": [
+        {
+          "Name": "One",
+          "Value": 1
+        },
+        {
+          "Name": "Two",
+          "Value": 2
+        },
+        {
+          "Name": "Three",
+          "Value": 3
+        },
+        {
+          "Name": "Four",
+          "Value": 4
+        },
+        {
+          "Name": "Five",
+          "Value": 5
+        },
+        {
+          "Name": "Six",
+          "Value": 6
+        },
+        {
+          "Name": "Seven",
+          "Value": 7
+        },
+        {
+          "Name": "Eight",
+          "Value": 8
+        }
+      ]
+    }
+  ],
+  "DbContext": null
+}

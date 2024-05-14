@@ -1,20 +1,20 @@
-﻿using Suktas.Payroll.Municipality.Enum;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Abp.Runtime.Session;
+using Abp.UI;
+using Microsoft.EntityFrameworkCore;
+using Suktas.Payroll.Authorization;
+using Suktas.Payroll.Dto;
+using Suktas.Payroll.Municipality.Enum;
+using Suktas.Payroll.Payroll.Dtos;
+using Suktas.Payroll.Payroll.Exporting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using Suktas.Payroll.Payroll.Exporting;
-using Suktas.Payroll.Payroll.Dtos;
-using Suktas.Payroll.Dto;
-using Abp.Application.Services.Dto;
-using Suktas.Payroll.Authorization;
-using Abp.Authorization;
-using Abp.Runtime.Session;
-using Microsoft.EntityFrameworkCore;
-using Abp.UI;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -25,14 +25,15 @@ namespace Suktas.Payroll.Payroll
         private readonly IEmployeesExcelExporter _employeesExcelExporter;
         private readonly IRepository<EmployeeLevel, Guid> _lookupEmployeeLevelRepository;
         private readonly IRepository<SchoolInfo, Guid> _lookupSchoolInfoRepository;
-
-        public EmployeesAppService(IRepository<Employee, Guid> employeeRepository, IEmployeesExcelExporter employeesExcelExporter, IRepository<EmployeeLevel, Guid> lookupEmployeeLevelRepository, IRepository<SchoolInfo, Guid> lookupSchoolInfoRepository)
+        private readonly IRepository<GradeUpgrade, Guid> _gradeUpgradeRepository;
+        public EmployeesAppService(IRepository<Employee, Guid> employeeRepository,
+            IRepository<GradeUpgrade, Guid> gradeUpgradeRepository, IEmployeesExcelExporter employeesExcelExporter, IRepository<EmployeeLevel, Guid> lookupEmployeeLevelRepository, IRepository<SchoolInfo, Guid> lookupSchoolInfoRepository)
         {
             _employeeRepository = employeeRepository;
             _employeesExcelExporter = employeesExcelExporter;
             _lookupEmployeeLevelRepository = lookupEmployeeLevelRepository;
             _lookupSchoolInfoRepository = lookupSchoolInfoRepository;
-
+            _gradeUpgradeRepository = gradeUpgradeRepository;
         }
 
         public virtual async Task<PagedResultDto<GetEmployeeForViewDto>> GetAll(GetAllEmployeesInput input)
@@ -85,22 +86,22 @@ namespace Suktas.Payroll.Payroll
 
             var dbList = await employees.ToListAsync();
             var results = dbList.Select(o => new GetEmployeeForViewDto
-                {
-                        Category = o.Category.ToString(),
-                        ProvidentFund = o.ProvidentFund,
-                        PanNo = o.PanNo,
-                        Name = o.Name,
-                        BankAccountNo = o.BankAccountNo,
-                        DateOfJoinMiti = o.DateOfJoinMiti,
-                        IsDearnessAllowance = o.IsDearnessAllowance,
-                        IsPrincipal = o.IsPrincipal,
-                        IsGovernment = o.IsGovernment,
-                        IsInternal = o.IsInternal,
-                        Id = o.Id,
-                    
-                    EmployeeLevelName = o.EmployeeLevelName,
-                    SchoolInfoName = o.SchoolInfoName
-                })
+            {
+                Category = o.Category.ToString(),
+                ProvidentFund = o.ProvidentFund,
+                PanNo = o.PanNo,
+                Name = o.Name,
+                BankAccountNo = o.BankAccountNo,
+                DateOfJoinMiti = o.DateOfJoinMiti,
+                IsDearnessAllowance = o.IsDearnessAllowance,
+                IsPrincipal = o.IsPrincipal,
+                IsGovernment = o.IsGovernment,
+                IsInternal = o.IsInternal,
+                Id = o.Id,
+
+                EmployeeLevelName = o.EmployeeLevelName,
+                SchoolInfoName = o.SchoolInfoName
+            })
                 .ToList();
 
             return new PagedResultDto<GetEmployeeForViewDto>(
@@ -112,8 +113,8 @@ namespace Suktas.Payroll.Payroll
 
         public virtual async Task<GetEmployeeForViewDto> GetEmployeeForView(Guid id)
         {
-            var o = await _employeeRepository.GetAll().Include(e=>e.EmployeeLevelFk)
-                .Include(e=>e.SchoolInfoFk).FirstOrDefaultAsync(e=>e.Id==id);
+            var o = await _employeeRepository.GetAll().Include(e => e.EmployeeLevelFk)
+                .Include(e => e.SchoolInfoFk).FirstOrDefaultAsync(e => e.Id == id);
 
 
             var output = new GetEmployeeForViewDto
@@ -134,7 +135,7 @@ namespace Suktas.Payroll.Payroll
                 SchoolInfoName = o.SchoolInfoFk.Name
             };
 
-            
+
 
             return output;
         }
@@ -162,17 +163,13 @@ namespace Suktas.Payroll.Payroll
                 IsInternal = employee.IsInternal,
                 EmployeeLevelId = employee.EmployeeLevelId,
                 SchoolInfoId = employee.SchoolInfoId
-
             };
-
-           
-
             return output;
         }
 
         public virtual async Task CreateOrEdit(CreateOrEditEmployeeDto input)
         {
-            if (input.Id == null|| input.Id==Guid.Empty)
+            if (input.Id == null || input.Id == Guid.Empty)
             {
                 await Create(input);
             }
@@ -205,15 +202,24 @@ namespace Suktas.Payroll.Payroll
                 SchoolInfoId = input.SchoolInfoId,
                 TenantId = AbpSession.GetTenantId()
             };
+            var empId = await _employeeRepository.InsertAndGetIdAsync(employee);
 
-            await _employeeRepository.InsertAsync(employee);
-
+            var empGrade = new GradeUpgrade
+            {
+                DateMiti = DateTime.Today.ToString(),
+                Grade = input.Grade,
+                Remarks = "",
+                IsActive = true,
+                EmployeeId = empId,
+                TenantId = AbpSession.GetTenantId()
+            };
+            await _gradeUpgradeRepository.InsertAsync(empGrade);
         }
 
         [AbpAuthorize(AppPermissions.Pages_Employees_Edit)]
         protected virtual async Task Update(CreateOrEditEmployeeDto input)
         {
-            var employee = await _employeeRepository.FirstOrDefaultAsync(e=>e.Id==input.Id) ?? throw new UserFriendlyException("Data not found");
+            var employee = await _employeeRepository.FirstOrDefaultAsync(e => e.Id == input.Id) ?? throw new UserFriendlyException("Data not found");
             employee.Category = input.Category;
             employee.ProvidentFund = input.ProvidentFund;
             employee.PanNo = input.PanNo;
@@ -230,10 +236,6 @@ namespace Suktas.Payroll.Payroll
             employee.EmployeeLevelId = input.EmployeeLevelId;
             employee.SchoolInfoId = input.SchoolInfoId;
             await _employeeRepository.UpdateAsync(employee);
-
-
-
-
         }
 
         [AbpAuthorize(AppPermissions.Pages_Employees_Delete)]
@@ -269,19 +271,19 @@ namespace Suktas.Payroll.Payroll
 
                          select new GetEmployeeForViewDto
                          {
-                             
-                                 Category = o.Category.ToString(),
-                                 ProvidentFund = o.ProvidentFund,
-                                 PanNo = o.PanNo,
-                                 Name = o.Name,
-                                 BankAccountNo = o.BankAccountNo,
-                                 DateOfJoinMiti = o.DateOfJoinMiti,
-                                 IsDearnessAllowance = o.IsDearnessAllowance,
-                                 IsPrincipal = o.IsPrincipal,
-                                 IsGovernment = o.IsGovernment,
-                                 IsInternal = o.IsInternal,
-                                 Id = o.Id,
-                             
+
+                             Category = o.Category.ToString(),
+                             ProvidentFund = o.ProvidentFund,
+                             PanNo = o.PanNo,
+                             Name = o.Name,
+                             BankAccountNo = o.BankAccountNo,
+                             DateOfJoinMiti = o.DateOfJoinMiti,
+                             IsDearnessAllowance = o.IsDearnessAllowance,
+                             IsPrincipal = o.IsPrincipal,
+                             IsGovernment = o.IsGovernment,
+                             IsInternal = o.IsInternal,
+                             Id = o.Id,
+
                              EmployeeLevelName = s1 == null || s1.Name == null ? "" : s1.Name,
                              SchoolInfoName = s2 == null || s2.Name == null ? "" : s2.Name
                          });

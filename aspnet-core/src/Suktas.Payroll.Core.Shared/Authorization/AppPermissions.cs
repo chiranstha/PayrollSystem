@@ -6,6 +6,21 @@
     /// </summary>
     public static class AppPermissions
     {
+        public const string Pages_GradeUpgrades = "Pages.GradeUpgrades";
+        public const string Pages_GradeUpgrades_Create = "Pages.GradeUpgrades.Create";
+        public const string Pages_GradeUpgrades_Edit = "Pages.GradeUpgrades.Edit";
+        public const string Pages_GradeUpgrades_Delete = "Pages.GradeUpgrades.Delete";
+
+        public const string Pages_FestivalBonusSettings = "Pages.FestivalBonusSettings";
+        public const string Pages_FestivalBonusSettings_Create = "Pages.FestivalBonusSettings.Create";
+        public const string Pages_FestivalBonusSettings_Edit = "Pages.FestivalBonusSettings.Edit";
+        public const string Pages_FestivalBonusSettings_Delete = "Pages.FestivalBonusSettings.Delete";
+
+        public const string Pages_PrincipalAllowanceSettings = "Pages.PrincipalAllowanceSettings";
+        public const string Pages_PrincipalAllowanceSettings_Create = "Pages.PrincipalAllowanceSettings.Create";
+        public const string Pages_PrincipalAllowanceSettings_Edit = "Pages.PrincipalAllowanceSettings.Edit";
+        public const string Pages_PrincipalAllowanceSettings_Delete = "Pages.PrincipalAllowanceSettings.Delete";
+
         public const string Pages_EmployeeSalary = "Pages.EmployeeSalary";
         public const string Pages_EmployeeSalary_Create = "Pages.EmployeeSalary.Create";
         public const string Pages_EmployeeSalary_Edit = "Pages.EmployeeSalary.Edit";

@@ -1,0 +1,77 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #gradeUpgradeForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="gradeUpgrade.id">{{l("EditGradeUpgrade")}}</span>
+                        <span *ngIf="!gradeUpgrade.id">{{l("CreateNewGradeUpgrade")}}</span>
+                    </h4>                    
+                    
+                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                     <span aria-hidden="true">&times;</span>
+                </button>
+             
+                    
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+						<label for="EmployeeName">{{l("Employee")}}</label>
+						<select name="gradeUpgrade.employeeId" [(ngModel)]="gradeUpgrade.employeeId" class="form-select" >
+							<option value="">{{l("SelectAEmployee")}}</option>
+							<option *ngFor="let item of allEmployees" value="{{item.id}}">{{item.displayName}}</option>
+						</select>
+					</div>
+					 
+
+
+								<div class="form-group">
+									<label for="GradeUpgrade_DateMiti">{{l("DateMiti")}}</label>
+									<input type="text" #GradeUpgrade_DateMiti="ngModel" id="GradeUpgrade_DateMiti" class="form-control" [(ngModel)]="gradeUpgrade.dateMiti" name="DateMiti"    />
+								    <validation-messages [formCtrl]="GradeUpgrade_DateMiti"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="GradeUpgrade_Grade">{{l("Grade")}}</label>
+									<select class="form-select" #GradeUpgrade_Grade="ngModel" name="Grade" id="GradeUpgrade_Grade" [(ngModel)]="gradeUpgrade.grade" >
+									<option value="1">{{l('One')}}</option>
+
+									<option value="2">{{l('Two')}}</option>
+
+									<option value="3">{{l('Three')}}</option>
+
+									<option value="4">{{l('Four')}}</option>
+
+									<option value="5">{{l('Five')}}</option>
+
+									<option value="6">{{l('Six')}}</option>
+
+									<option value="7">{{l('Seven')}}</option>
+
+									<option value="8">{{l('Eight')}}</option>
+
+
+									</select>
+									<validation-messages [formCtrl]="GradeUpgrade_Grade"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="GradeUpgrade_Remarks">{{l("Remarks")}}</label>
+									<input type="text" #GradeUpgrade_Remarks="ngModel" id="GradeUpgrade_Remarks" class="form-control" [(ngModel)]="gradeUpgrade.remarks" name="Remarks"    />
+								    <validation-messages [formCtrl]="GradeUpgrade_Remarks"></validation-messages>
+								</div>
+					
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!gradeUpgradeForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
