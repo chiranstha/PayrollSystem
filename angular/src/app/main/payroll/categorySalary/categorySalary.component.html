@@ -171,7 +171,7 @@
                                                             class="dropdown-item"
                                                             (click)="
                                                                 createOrEditCategorySalaryModal.show(
-                                                                    record.categorySalary.id
+                                                                    record.id
                                                                 )
                                                             "
                                                         >
@@ -201,7 +201,7 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Category') }}</span>
-                                            {{ l(employeeCategory[record.category]) }}
+                                            {{ record.category }}
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('TechnicalAmount') }}</span>

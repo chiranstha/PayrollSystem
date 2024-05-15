@@ -6734,6 +6734,74 @@ export class EmployeeSalaryServiceProxy {
     }
 
     /**
+     * @param schoolId (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    generateSalary(schoolId: string | undefined, body: Months | undefined): Observable<CreateOrEditEmployeeSalaryDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalary?";
+        if (schoolId === null)
+            throw new Error("The parameter 'schoolId' cannot be null.");
+        else if (schoolId !== undefined)
+            url_ += "schoolId=" + encodeURIComponent("" + schoolId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateSalary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateSalary(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CreateOrEditEmployeeSalaryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CreateOrEditEmployeeSalaryDto[]>;
+        }));
+    }
+
+    protected processGenerateSalary(response: HttpResponseBase): Observable<CreateOrEditEmployeeSalaryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateOrEditEmployeeSalaryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -22128,6 +22196,8 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
     isPrincipal!: boolean;
     isGovernment!: boolean;
     isInternal!: boolean;
+    isTechnical!: boolean;
+    grade!: EmployeeGrade;
     employeeLevelId!: string;
     schoolInfoId!: string | undefined;
     id!: string | undefined;
@@ -22156,6 +22226,8 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
             this.isPrincipal = _data["isPrincipal"];
             this.isGovernment = _data["isGovernment"];
             this.isInternal = _data["isInternal"];
+            this.isTechnical = _data["isTechnical"];
+            this.grade = _data["grade"];
             this.employeeLevelId = _data["employeeLevelId"];
             this.schoolInfoId = _data["schoolInfoId"];
             this.id = _data["id"];
@@ -22184,6 +22256,8 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
         data["isPrincipal"] = this.isPrincipal;
         data["isGovernment"] = this.isGovernment;
         data["isInternal"] = this.isInternal;
+        data["isTechnical"] = this.isTechnical;
+        data["grade"] = this.grade;
         data["employeeLevelId"] = this.employeeLevelId;
         data["schoolInfoId"] = this.schoolInfoId;
         data["id"] = this.id;
@@ -22205,6 +22279,8 @@ export interface ICreateOrEditEmployeeDto {
     isPrincipal: boolean;
     isGovernment: boolean;
     isInternal: boolean;
+    isTechnical: boolean;
+    grade: EmployeeGrade;
     employeeLevelId: string;
     schoolInfoId: string | undefined;
     id: string | undefined;

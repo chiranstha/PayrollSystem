@@ -200,6 +200,7 @@ namespace Suktas.Payroll.Payroll
                 IsInternal = input.IsInternal,
                 EmployeeLevelId = input.EmployeeLevelId,
                 SchoolInfoId = input.SchoolInfoId,
+                IsTechnical = input.IsTechnical,
                 TenantId = AbpSession.GetTenantId()
             };
             var empId = await _employeeRepository.InsertAndGetIdAsync(employee);
@@ -235,6 +236,7 @@ namespace Suktas.Payroll.Payroll
             employee.IsInternal = input.IsInternal;
             employee.EmployeeLevelId = input.EmployeeLevelId;
             employee.SchoolInfoId = input.SchoolInfoId;
+            employee.IsTechnical = input.IsTechnical;
             await _employeeRepository.UpdateAsync(employee);
         }
 

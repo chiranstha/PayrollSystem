@@ -8,7 +8,6 @@ namespace Suktas.Payroll.Payroll.Dtos
 {
     public class CreateOrEditEmployeeSalaryDto : EntityDto<Guid?>
     {
-
         public Months Month { get; set; }
 
         public string DateMiti { get; set; }

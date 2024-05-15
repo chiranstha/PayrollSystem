@@ -38,11 +38,6 @@ export class FestivalBonusSettingsComponent extends AppComponentBase {
     remarksFilter = '';
 
     months = Months;
-
-
-
-
-
     constructor(
         injector: Injector,
         private _festivalBonusSettingsServiceProxy: FestivalBonusSettingsServiceProxy,

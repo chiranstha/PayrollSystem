@@ -1,20 +1,19 @@
-﻿using Suktas.Payroll.Municipality.Enum;
-using System;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using Suktas.Payroll.Payroll.Exporting;
-using Suktas.Payroll.Payroll.Dtos;
-using Suktas.Payroll.Dto;
-using Abp.Application.Services.Dto;
-using Suktas.Payroll.Authorization;
+﻿using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
-using Castle.MicroKernel.SubSystems.Conversion;
+using Suktas.Payroll.Authorization;
+using Suktas.Payroll.Dto;
+using Suktas.Payroll.Municipality.Enum;
+using Suktas.Payroll.Payroll.Dtos;
+using Suktas.Payroll.Payroll.Exporting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -107,37 +106,37 @@ namespace Suktas.Payroll.Payroll
                 .PageBy(input);
 
             var employeeSalary = from o in pagedAndFilteredEmployeeSalary
-                join o1 in _lookupSchoolInfoRepository.GetAll() on o.SchoolInfoId equals o1.Id into j1
-                from s1 in j1.DefaultIfEmpty()
-                join o2 in _lookupEmployeeRepository.GetAll() on o.EmployeeId equals o2.Id into j2
-                from s2 in j2.DefaultIfEmpty()
-                join o3 in _lookupEmployeeLevelRepository.GetAll() on o.EmployeeLevelId equals o3.Id into j3
-                from s3 in j3.DefaultIfEmpty()
-                select new
-                {
-                    o.Month,
-                    o.DateMiti,
-                    o.BasicSalary,
-                    o.GradeAmount,
-                    o.TechnicalAmount,
-                    o.TotalGradeAmount,
-                    o.TotalBasicSalary,
-                    o.InsuranceAmount,
-                    o.TotalSalary,
-                    o.DearnessAllowance,
-                    o.PrincipalAllowance,
-                    o.TotalWithAllowance,
-                    o.TotalMonth,
-                    o.TotalSalaryAmount,
-                    o.FestiableAllowance,
-                    o.GovernmentAmount,
-                    o.InternalAmount,
-                    o.PaidSalaryAmount,
-                    o.Id,
-                    SchoolInfoName = s1 == null || s1.Name == null ? "" : s1.Name,
-                    EmployeeName = s2 == null || s2.Name == null ? "" : s2.Name,
-                    EmployeeLevelName = s3 == null || s3.Name == null ? "" : s3.Name
-                };
+                                 join o1 in _lookupSchoolInfoRepository.GetAll() on o.SchoolInfoId equals o1.Id into j1
+                                 from s1 in j1.DefaultIfEmpty()
+                                 join o2 in _lookupEmployeeRepository.GetAll() on o.EmployeeId equals o2.Id into j2
+                                 from s2 in j2.DefaultIfEmpty()
+                                 join o3 in _lookupEmployeeLevelRepository.GetAll() on o.EmployeeLevelId equals o3.Id into j3
+                                 from s3 in j3.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     o.Month,
+                                     o.DateMiti,
+                                     o.BasicSalary,
+                                     o.GradeAmount,
+                                     o.TechnicalAmount,
+                                     o.TotalGradeAmount,
+                                     o.TotalBasicSalary,
+                                     o.InsuranceAmount,
+                                     o.TotalSalary,
+                                     o.DearnessAllowance,
+                                     o.PrincipalAllowance,
+                                     o.TotalWithAllowance,
+                                     o.TotalMonth,
+                                     o.TotalSalaryAmount,
+                                     o.FestiableAllowance,
+                                     o.GovernmentAmount,
+                                     o.InternalAmount,
+                                     o.PaidSalaryAmount,
+                                     o.Id,
+                                     SchoolInfoName = s1 == null || s1.Name == null ? "" : s1.Name,
+                                     EmployeeName = s2 == null || s2.Name == null ? "" : s2.Name,
+                                     EmployeeLevelName = s3 == null || s3.Name == null ? "" : s3.Name
+                                 };
 
             var totalCount = await filteredEmployeeSalary.CountAsync();
 
@@ -318,14 +317,25 @@ namespace Suktas.Payroll.Payroll
                     DateMiti = DateTime.Today.ToString(),
                     BasicSalary = categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).Salary,
                     TechnicalAmount = employee.IsTechnical ? categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).TechnicalAmount : 0,
-                    TotalGradeAmount = employee.IsDearnessAllowance ? 1 : 0,
+                    TotalGradeAmount = 0,
+                    TotalBasicSalary = 0,
+                    InsuranceAmount = 0,
+                    TotalSalary = 0,
+                    DearnessAllowance = 0,
                     PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
+                    TotalWithAllowance = 0,
                     TotalMonth = 3,
                     TotalSalaryAmount = 45,
+                    GovernmentAmount = 0,
+                    InternalAmount = 0,
+                    PaidSalaryAmount = 0,
+                    SchoolInfoId = schoolId,
+                    EmployeeId = employee.Id,
+                    EmployeeLevelId = employee.EmployeeLevelId
                 };
                 data.FestiableAllowance = festivalAllowance.FirstOrDefault(x => x.MonthId == month) != null ? data.BasicSalary : 0;
-                data.GradeAmount = (int)(gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id).Grade) / 30 * data.BasicSalary;
-                data.TotalWithAllowance = 0;
+                data.GradeAmount = (int)(gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id).Grade) * data.BasicSalary / 30;
+
                 result.Add(data);
             }
             return result;
@@ -421,38 +431,38 @@ namespace Suktas.Payroll.Payroll
                     e => e.EmployeeLevelFk != null && e.EmployeeLevelFk.Name == input.EmployeeLevelNameFilter);
 
             var query = (from o in filteredEmployeeSalary
-                join o1 in _lookupSchoolInfoRepository.GetAll() on o.SchoolInfoId equals o1.Id into j1
-                from s1 in j1.DefaultIfEmpty()
-                join o2 in _lookupEmployeeRepository.GetAll() on o.EmployeeId equals o2.Id into j2
-                from s2 in j2.DefaultIfEmpty()
-                join o3 in _lookupEmployeeLevelRepository.GetAll() on o.EmployeeLevelId equals o3.Id into j3
-                from s3 in j3.DefaultIfEmpty()
-                select new GetEmployeeSalaryForViewDto
-                {
-                    Month = o.Month.ToString(),
-                    DateMiti = o.DateMiti,
-                    BasicSalary = o.BasicSalary,
-                    GradeAmount = o.GradeAmount,
-                    TechnicalAmount = o.TechnicalAmount,
-                    TotalGradeAmount = o.TotalGradeAmount,
-                    TotalBasicSalary = o.TotalBasicSalary,
-                    InsuranceAmount = o.InsuranceAmount,
-                    TotalSalary = o.TotalSalary,
-                    DearnessAllowance = o.DearnessAllowance,
-                    PrincipalAllowance = o.PrincipalAllowance,
-                    TotalWithAllowance = o.TotalWithAllowance,
-                    TotalMonth = o.TotalMonth,
-                    TotalSalaryAmount = o.TotalSalaryAmount,
-                    FestiableAllowance = o.FestiableAllowance,
-                    GovernmentAmount = o.GovernmentAmount,
-                    InternalAmount = o.InternalAmount,
-                    PaidSalaryAmount = o.PaidSalaryAmount,
-                    Id = o.Id,
+                         join o1 in _lookupSchoolInfoRepository.GetAll() on o.SchoolInfoId equals o1.Id into j1
+                         from s1 in j1.DefaultIfEmpty()
+                         join o2 in _lookupEmployeeRepository.GetAll() on o.EmployeeId equals o2.Id into j2
+                         from s2 in j2.DefaultIfEmpty()
+                         join o3 in _lookupEmployeeLevelRepository.GetAll() on o.EmployeeLevelId equals o3.Id into j3
+                         from s3 in j3.DefaultIfEmpty()
+                         select new GetEmployeeSalaryForViewDto
+                         {
+                             Month = o.Month.ToString(),
+                             DateMiti = o.DateMiti,
+                             BasicSalary = o.BasicSalary,
+                             GradeAmount = o.GradeAmount,
+                             TechnicalAmount = o.TechnicalAmount,
+                             TotalGradeAmount = o.TotalGradeAmount,
+                             TotalBasicSalary = o.TotalBasicSalary,
+                             InsuranceAmount = o.InsuranceAmount,
+                             TotalSalary = o.TotalSalary,
+                             DearnessAllowance = o.DearnessAllowance,
+                             PrincipalAllowance = o.PrincipalAllowance,
+                             TotalWithAllowance = o.TotalWithAllowance,
+                             TotalMonth = o.TotalMonth,
+                             TotalSalaryAmount = o.TotalSalaryAmount,
+                             FestiableAllowance = o.FestiableAllowance,
+                             GovernmentAmount = o.GovernmentAmount,
+                             InternalAmount = o.InternalAmount,
+                             PaidSalaryAmount = o.PaidSalaryAmount,
+                             Id = o.Id,
 
-                    SchoolInfoName = s1 == null || s1.Name == null ? "" : s1.Name,
-                    EmployeeName = s2 == null || s2.Name == null ? "" : s2.Name,
-                    EmployeeLevelName = s3 == null || s3.Name == null ? "" : s3.Name
-                });
+                             SchoolInfoName = s1 == null || s1.Name == null ? "" : s1.Name,
+                             EmployeeName = s2 == null || s2.Name == null ? "" : s2.Name,
+                             EmployeeLevelName = s3 == null || s3.Name == null ? "" : s3.Name
+                         });
 
             var employeeSalaryListDtos = await query.ToListAsync();
 

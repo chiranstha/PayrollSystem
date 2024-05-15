@@ -58,6 +58,31 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="Employee_Grade">{{ l('Grade') }}</label>
+                        <select
+                            #Employee_Category="ngModel"
+                            class="form-select"
+                            name="Grade"
+                            id="Employee_Grade"
+                            [(ngModel)]="employee.grade"
+                        >
+                            <option value="2">{{ l('Two') }}</option>
+
+                            <option value="3">{{ l('Three') }}</option>
+
+                            <option value="4">{{ l('Four') }}</option>
+
+                            <option value="5">{{ l('Five') }}</option>
+
+                            <option value="6">{{ l('Six') }}</option>
+
+                            <option value="7">{{ l('Seven') }}</option>
+                            <option value="7">{{ l('Eight') }}</option>
+                        </select>
+                        <validation-messages [formCtrl]="Employee_Category"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
                         <label for="Employee_ProvidentFund">{{ l('ProvidentFund') }}</label>
                         <input
                             type="text"
@@ -223,6 +248,21 @@
                             <span></span>
                         </label>
                         <validation-messages [formCtrl]="Employee_IsInternal"></validation-messages>
+                    </div>
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="Employee_IsTechnical" class="kt-checkbox">
+                            <input
+                                #Employee_IsTechnical="ngModel"
+                                id="Employee_IsTechnical"
+                                type="checkbox"
+                                name="IsTechnical"
+                                [(ngModel)]="employee.isTechnical"
+                            />
+                            {{ l('IsTechnical') }}
+                            <span></span>
+                        </label>
+                        <validation-messages [formCtrl]="Employee_IsTechnical"></validation-messages>
                     </div>
                 </div>
                 <div class="card-footer">
