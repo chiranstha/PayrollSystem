@@ -1,47 +1,46 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #tbl_PrincipalAllowanceSettingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" #tbl_PrincipalAllowanceSettingForm="ngForm" novalidate (ngSubmit)="save()"
+                autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="PrincipalAllowanceSetting.id">{{l("EditPrincipalAllowanceSetting")}}</span>
                         <span *ngIf="!PrincipalAllowanceSetting.id">{{l("CreateNewPrincipalAllowanceSetting")}}</span>
-                    </h4>                    
-                    
-                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
-                     <span aria-hidden="true">&times;</span>
-                </button>
-             
-                    
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                 
+                    <div class="form-group m-form__group">
+                        <label for="EmployeeLevelName">{{l("EmployeeLevel")}}</label>
+                        <select name="principalAllowanceSetting.employeeLevelId"
+                            [(ngModel)]="PrincipalAllowanceSetting.employeeLevelId" class="form-select" required>
+                            <option value="">{{l("SelectAEmployeeLevel")}}</option>
+                            <option *ngFor="let item of allEmployeeLevels" value="{{item.id}}">{{item.displayName}}
+                            </option>
+                        </select>
+                    </div>
 
-					<div class="form-group m-form__group">
-						<label for="EmployeeLevelName">{{l("EmployeeLevel")}}</label>
-						<select name="principalAllowanceSetting.employeeLevelId" [(ngModel)]="PrincipalAllowanceSetting.employeeLevelId" class="form-select" required>
-							<option value="">{{l("SelectAEmployeeLevel")}}</option>
-							<option *ngFor="let item of allEmployeeLevels" value="{{item.id}}">{{item.displayName}}</option>
-						</select>
-					</div>
-					 
-
-
-								<div class="form-group">
-									<label for="PrincipalAllowanceSetting_Amount">{{l("Amount")}}</label>
-									<input type="number" #PrincipalAllowanceSetting_Amount="ngModel" id="PrincipalAllowanceSetting_Amount" class="form-control" [(ngModel)]="PrincipalAllowanceSetting.amount" name="Amount"    />
-									<validation-messages [formCtrl]="PrincipalAllowanceSetting_Amount"></validation-messages>
-								</div>
-					
-
-
+                    <div class="form-group">
+                        <label for="PrincipalAllowanceSetting_Amount">{{l("Amount")}}</label>
+                        <input type="number" #PrincipalAllowanceSetting_Amount="ngModel"
+                            id="PrincipalAllowanceSetting_Amount" class="form-control"
+                            [(ngModel)]="PrincipalAllowanceSetting.amount" name="Amount" />
+                        <validation-messages [formCtrl]="PrincipalAllowanceSetting_Amount"></validation-messages>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!tbl_PrincipalAllowanceSettingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue"
+                        [disabled]="!tbl_PrincipalAllowanceSettingForm.form.valid" [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
                 </div>
             </form>
         </div>
     </div>
-
 </div>

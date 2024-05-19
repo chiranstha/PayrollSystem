@@ -1,6 +1,6 @@
-﻿import {AppConsts} from '@shared/AppConsts';
+﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { PrincipalAllowanceSettingsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -15,7 +15,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './principalAllowanceSettings.component.html',
@@ -23,21 +23,21 @@ import { DateTime } from 'luxon';
     animations: [appModuleAnimation()]
 })
 export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
-    
-    
+
+
     @ViewChild('createOrEditPrincipalAllowanceSettingModal', { static: true }) createOrEditPrincipalAllowanceSettingModal: CreateOrEditPrincipalAllowanceSettingModalComponent;
-    @ViewChild('viewPrincipalAllowanceSettingModal', { static: true }) viewPrincipalAllowanceSettingModal: ViewPrincipalAllowanceSettingModalComponent;   
-    
+    @ViewChild('viewPrincipalAllowanceSettingModal', { static: true }) viewPrincipalAllowanceSettingModal: ViewPrincipalAllowanceSettingModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     advancedFiltersAreShown = false;
     filterText = '';
-    maxAmountFilter : number;
-		maxAmountFilterEmpty : number;
-		minAmountFilter : number;
-		minAmountFilterEmpty : number;
-        employeeLevelNameFilter = '';
+    maxAmountFilter: number;
+    maxAmountFilterEmpty: number;
+    minAmountFilter: number;
+    minAmountFilterEmpty: number;
+    employeeLevelNameFilter = '';
 
 
 
@@ -51,7 +51,7 @@ export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
@@ -69,8 +69,8 @@ export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
 
         this._tbl_PrincipalAllowanceSettingsServiceProxy.getAll(
             this.filterText,
-            this.maxAmountFilter == null ? this.maxAmountFilterEmpty: this.maxAmountFilter,
-            this.minAmountFilter == null ? this.minAmountFilterEmpty: this.minAmountFilter,
+            this.maxAmountFilter == null ? this.maxAmountFilterEmpty : this.maxAmountFilter,
+            this.minAmountFilter == null ? this.minAmountFilterEmpty : this.minAmountFilter,
             this.employeeLevelNameFilter,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
@@ -87,7 +87,7 @@ export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
     }
 
     createTbl_PrincipalAllowanceSetting(): void {
-        this.createOrEditPrincipalAllowanceSettingModal.show();        
+        this.createOrEditPrincipalAllowanceSettingModal.show();
     }
 
 
@@ -109,27 +109,27 @@ export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
 
     exportToExcel(): void {
         this._tbl_PrincipalAllowanceSettingsServiceProxy.getPrincipalAllowanceSettingsToExcel(
-        this.filterText,
-            this.maxAmountFilter == null ? this.maxAmountFilterEmpty: this.maxAmountFilter,
-            this.minAmountFilter == null ? this.minAmountFilterEmpty: this.minAmountFilter,
+            this.filterText,
+            this.maxAmountFilter == null ? this.maxAmountFilterEmpty : this.maxAmountFilter,
+            this.minAmountFilter == null ? this.minAmountFilterEmpty : this.minAmountFilter,
             this.employeeLevelNameFilter,
         )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 
     resetFilters(): void {
         this.filterText = '';
-            this.maxAmountFilter = this.maxAmountFilterEmpty;
-		this.minAmountFilter = this.maxAmountFilterEmpty;
-		this.employeeLevelNameFilter = '';
-					
+        this.maxAmountFilter = this.maxAmountFilterEmpty;
+        this.minAmountFilter = this.maxAmountFilterEmpty;
+        this.employeeLevelNameFilter = '';
+
         this.getTbl_PrincipalAllowanceSettings();
     }
 }

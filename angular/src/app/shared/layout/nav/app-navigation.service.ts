@@ -1,6 +1,5 @@
 ﻿import { PermissionCheckerService } from 'abp-ng2-module';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-
 import { Injectable } from '@angular/core';
 import { AppMenu } from './app-menu';
 import { AppMenuItem } from './app-menu-item';
@@ -22,35 +21,20 @@ export class AppNavigationService {
             ),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'fa-regular fa-computer', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
-            new AppMenuItem(
-                'Master',
-                '',
-                'fa-regular fa-house',
-                '',
-                [],
+            new AppMenuItem('Master', '', 'fa-regular fa-house', '', [],
                 [
-
                     new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'fa-regular fa-user-tag', '/app/main/payroll/employeeLevels'),
-
                     new AppMenuItem('CategorySalary', 'Pages.CategorySalary', 'flaticon-more', '/app/main/payroll/categorySalary'),
-
                     new AppMenuItem('InternalGradeSetup', 'Pages.InternalGradeSetup', 'flaticon-more', '/app/main/payroll/internalGradeSetup'),
-
                     new AppMenuItem('SchoolInfos', 'Pages.SchoolInfos', 'flaticon-more', '/app/main/payroll/schoolInfos'),
+                    new AppMenuItem('Principal Allowance', 'Pages.PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/tbl_PrincipalAllowanceSettings'),
                 ]),
-           
             new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
-            
             new AppMenuItem('Employees', 'Pages.Employees', 'flaticon-more', '/app/main/payroll/employees'),
-            
             new AppMenuItem('EmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/employeeSalary'),
-            
-            new AppMenuItem('Tbl_PrincipalAllowanceSettings', 'Pages.Tbl_PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/tbl_PrincipalAllowanceSettings'),
-            
             new AppMenuItem('FestivalBonusSettings', 'Pages.FestivalBonusSettings', 'flaticon-more', '/app/main/payroll/festivalBonusSettings'),
-            
             new AppMenuItem('GradeUpgrades', 'Pages.GradeUpgrades', 'flaticon-more', '/app/main/payroll/gradeUpgrades'),
-             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',
                 '',
