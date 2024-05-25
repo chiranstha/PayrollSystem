@@ -27,7 +27,10 @@ namespace Suktas.Payroll.Payroll.Dtos
 
         public string DateOfJoinMiti { get; set; }
 
+        public decimal InsuranceAmount { get; set; }
+
         public bool IsDearnessAllowance { get; set; }
+        public bool AddEPF { get; set; }
 
         public bool IsPrincipal { get; set; }
 
@@ -40,7 +43,7 @@ namespace Suktas.Payroll.Payroll.Dtos
 
         public Guid EmployeeLevelId { get; set; }
 
-        public Guid? SchoolInfoId { get; set; }
+        public Guid SchoolInfoId { get; set; }
 
     }
 }

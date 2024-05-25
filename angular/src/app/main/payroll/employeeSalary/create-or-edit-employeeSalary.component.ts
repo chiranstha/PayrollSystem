@@ -1,5 +1,4 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import {
     EmployeeSalaryServiceProxy,
@@ -9,10 +8,8 @@ import {
     EmployeeSalaryEmployeeLevelLookupTableDto,
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { Observable } from '@node_modules/rxjs';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';

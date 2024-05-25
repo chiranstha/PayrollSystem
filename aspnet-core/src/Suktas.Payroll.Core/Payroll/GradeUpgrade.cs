@@ -8,7 +8,7 @@ using Abp.Domain.Entities;
 
 namespace Suktas.Payroll.Payroll
 {
-    [Table("GradeUpgrades")]
+    [Table("tbl_GradeUpgrades")]
     public class GradeUpgrade : Entity<Guid>, IMayHaveTenant
     {
         public int? TenantId { get; set; }

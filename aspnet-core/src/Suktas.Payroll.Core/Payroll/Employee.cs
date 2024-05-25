@@ -26,8 +26,10 @@ namespace Suktas.Payroll.Payroll
         public virtual string PansionMiti { get; set; }
 
         public virtual string DateOfJoinMiti { get; set; }
+        public virtual decimal InsuranceAmount { get; set; }
 
         public virtual bool IsDearnessAllowance { get; set; }
+        public virtual bool AddEPF { get; set; }
 
         public virtual bool IsPrincipal { get; set; }
 
@@ -41,7 +43,7 @@ namespace Suktas.Payroll.Payroll
         [ForeignKey("EmployeeLevelId")]
         public EmployeeLevel EmployeeLevelFk { get; set; }
 
-        public virtual Guid? SchoolInfoId { get; set; }
+        public virtual Guid SchoolInfoId { get; set; }
 
         [ForeignKey("SchoolInfoId")]
         public SchoolInfo SchoolInfoFk { get; set; }

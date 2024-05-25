@@ -9,7 +9,8 @@ namespace Suktas.Payroll.Payroll.Dtos
     {
 
         public Months MonthId { get; set; }
-
+        public PercentOrAmount PercentOrAmount { get; set; }
+        public decimal Value { get; set; }
         public string Remarks { get; set; }
 
     }

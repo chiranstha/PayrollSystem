@@ -6802,6 +6802,141 @@ export class EmployeeSalaryServiceProxy {
     }
 
     /**
+     * @param schoolIds (optional) 
+     * @param months (optional) 
+     * @return Success
+     */
+    generateSalaryNew(schoolIds: string[] | undefined, months: Months[] | undefined): Observable<CreateEmployeeSalaryNewDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalaryNew";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (schoolIds === null || schoolIds === undefined)
+            throw new Error("The parameter 'schoolIds' cannot be null.");
+        else
+            schoolIds.forEach(item_ => content_.append("schoolIds", item_.toString()));
+        if (months === null || months === undefined)
+            throw new Error("The parameter 'months' cannot be null.");
+        else
+            months.forEach(item_ => content_.append("months", item_.toString()));
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateSalaryNew(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateSalaryNew(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CreateEmployeeSalaryNewDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CreateEmployeeSalaryNewDto[]>;
+        }));
+    }
+
+    protected processGenerateSalaryNew(response: HttpResponseBase): Observable<CreateEmployeeSalaryNewDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CreateEmployeeSalaryNewDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param schoolIds (optional) 
+     * @param months (optional) 
+     * @return Success
+     */
+    generateSalaryNewExcel(schoolIds: string[] | undefined, months: Months[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalaryNewExcel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (schoolIds === null || schoolIds === undefined)
+            throw new Error("The parameter 'schoolIds' cannot be null.");
+        else
+            schoolIds.forEach(item_ => content_.append("schoolIds", item_.toString()));
+        if (months === null || months === undefined)
+            throw new Error("The parameter 'months' cannot be null.");
+        else
+            months.forEach(item_ => content_.append("months", item_.toString()));
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateSalaryNewExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateSalaryNewExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGenerateSalaryNewExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -7240,6 +7375,62 @@ export class EmployeeSalaryExcelExporterServiceProxy {
     }
 
     protected processExportToFile(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    exportToFileSalary(body: CreateEmployeeSalaryNewDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalaryExcelExporter/ExportToFileSalary";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExportToFileSalary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExportToFileSalary(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processExportToFileSalary(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -21902,6 +22093,150 @@ export interface ICreateEditionDto {
     featureValues: NameValueDto[];
 }
 
+export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
+    wardNo!: number;
+    schoolLevel!: string | undefined;
+    schoolName!: string | undefined;
+    employeeType!: string | undefined;
+    employeeLevel!: string | undefined;
+    employeeName!: string | undefined;
+    basicSalary!: number;
+    grade!: number;
+    gradeRate!: number;
+    gradeAmount!: number;
+    technicalGradeAmount!: number;
+    totalGradeAmount!: number;
+    total!: number;
+    epfAmount!: number;
+    insuranceAmount!: number;
+    totalSalary!: number;
+    inflationAllowance!: number;
+    principalAllowance!: number;
+    totalSalaryAmount!: number;
+    month!: number;
+    monthNames!: string | undefined;
+    totalForAllMonths!: number;
+    festivalAllowance!: number;
+    totalWithAllowanceForAllMonths!: number;
+    internalAmount!: number;
+    totalPaidAmount!: number;
+    remarks!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: ICreateEmployeeSalaryNewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.wardNo = _data["wardNo"];
+            this.schoolLevel = _data["schoolLevel"];
+            this.schoolName = _data["schoolName"];
+            this.employeeType = _data["employeeType"];
+            this.employeeLevel = _data["employeeLevel"];
+            this.employeeName = _data["employeeName"];
+            this.basicSalary = _data["basicSalary"];
+            this.grade = _data["grade"];
+            this.gradeRate = _data["gradeRate"];
+            this.gradeAmount = _data["gradeAmount"];
+            this.technicalGradeAmount = _data["technicalGradeAmount"];
+            this.totalGradeAmount = _data["totalGradeAmount"];
+            this.total = _data["total"];
+            this.epfAmount = _data["epfAmount"];
+            this.insuranceAmount = _data["insuranceAmount"];
+            this.totalSalary = _data["totalSalary"];
+            this.inflationAllowance = _data["inflationAllowance"];
+            this.principalAllowance = _data["principalAllowance"];
+            this.totalSalaryAmount = _data["totalSalaryAmount"];
+            this.month = _data["month"];
+            this.monthNames = _data["monthNames"];
+            this.totalForAllMonths = _data["totalForAllMonths"];
+            this.festivalAllowance = _data["festivalAllowance"];
+            this.totalWithAllowanceForAllMonths = _data["totalWithAllowanceForAllMonths"];
+            this.internalAmount = _data["internalAmount"];
+            this.totalPaidAmount = _data["totalPaidAmount"];
+            this.remarks = _data["remarks"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateEmployeeSalaryNewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEmployeeSalaryNewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["wardNo"] = this.wardNo;
+        data["schoolLevel"] = this.schoolLevel;
+        data["schoolName"] = this.schoolName;
+        data["employeeType"] = this.employeeType;
+        data["employeeLevel"] = this.employeeLevel;
+        data["employeeName"] = this.employeeName;
+        data["basicSalary"] = this.basicSalary;
+        data["grade"] = this.grade;
+        data["gradeRate"] = this.gradeRate;
+        data["gradeAmount"] = this.gradeAmount;
+        data["technicalGradeAmount"] = this.technicalGradeAmount;
+        data["totalGradeAmount"] = this.totalGradeAmount;
+        data["total"] = this.total;
+        data["epfAmount"] = this.epfAmount;
+        data["insuranceAmount"] = this.insuranceAmount;
+        data["totalSalary"] = this.totalSalary;
+        data["inflationAllowance"] = this.inflationAllowance;
+        data["principalAllowance"] = this.principalAllowance;
+        data["totalSalaryAmount"] = this.totalSalaryAmount;
+        data["month"] = this.month;
+        data["monthNames"] = this.monthNames;
+        data["totalForAllMonths"] = this.totalForAllMonths;
+        data["festivalAllowance"] = this.festivalAllowance;
+        data["totalWithAllowanceForAllMonths"] = this.totalWithAllowanceForAllMonths;
+        data["internalAmount"] = this.internalAmount;
+        data["totalPaidAmount"] = this.totalPaidAmount;
+        data["remarks"] = this.remarks;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface ICreateEmployeeSalaryNewDto {
+    wardNo: number;
+    schoolLevel: string | undefined;
+    schoolName: string | undefined;
+    employeeType: string | undefined;
+    employeeLevel: string | undefined;
+    employeeName: string | undefined;
+    basicSalary: number;
+    grade: number;
+    gradeRate: number;
+    gradeAmount: number;
+    technicalGradeAmount: number;
+    totalGradeAmount: number;
+    total: number;
+    epfAmount: number;
+    insuranceAmount: number;
+    totalSalary: number;
+    inflationAllowance: number;
+    principalAllowance: number;
+    totalSalaryAmount: number;
+    month: number;
+    monthNames: string | undefined;
+    totalForAllMonths: number;
+    festivalAllowance: number;
+    totalWithAllowanceForAllMonths: number;
+    internalAmount: number;
+    totalPaidAmount: number;
+    remarks: string | undefined;
+    id: string | undefined;
+}
+
 export class CreateFriendshipForCurrentTenantInput implements ICreateFriendshipForCurrentTenantInput {
     userName!: string | undefined;
 
@@ -22192,14 +22527,16 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
     bankAccountNo!: string | undefined;
     pansionMiti!: string | undefined;
     dateOfJoinMiti!: string | undefined;
+    insuranceAmount!: number;
     isDearnessAllowance!: boolean;
+    addEPF!: boolean;
     isPrincipal!: boolean;
     isGovernment!: boolean;
     isInternal!: boolean;
     isTechnical!: boolean;
     grade!: EmployeeGrade;
     employeeLevelId!: string;
-    schoolInfoId!: string | undefined;
+    schoolInfoId!: string;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditEmployeeDto) {
@@ -22222,7 +22559,9 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
             this.bankAccountNo = _data["bankAccountNo"];
             this.pansionMiti = _data["pansionMiti"];
             this.dateOfJoinMiti = _data["dateOfJoinMiti"];
+            this.insuranceAmount = _data["insuranceAmount"];
             this.isDearnessAllowance = _data["isDearnessAllowance"];
+            this.addEPF = _data["addEPF"];
             this.isPrincipal = _data["isPrincipal"];
             this.isGovernment = _data["isGovernment"];
             this.isInternal = _data["isInternal"];
@@ -22252,7 +22591,9 @@ export class CreateOrEditEmployeeDto implements ICreateOrEditEmployeeDto {
         data["bankAccountNo"] = this.bankAccountNo;
         data["pansionMiti"] = this.pansionMiti;
         data["dateOfJoinMiti"] = this.dateOfJoinMiti;
+        data["insuranceAmount"] = this.insuranceAmount;
         data["isDearnessAllowance"] = this.isDearnessAllowance;
+        data["addEPF"] = this.addEPF;
         data["isPrincipal"] = this.isPrincipal;
         data["isGovernment"] = this.isGovernment;
         data["isInternal"] = this.isInternal;
@@ -22275,20 +22616,21 @@ export interface ICreateOrEditEmployeeDto {
     bankAccountNo: string | undefined;
     pansionMiti: string | undefined;
     dateOfJoinMiti: string | undefined;
+    insuranceAmount: number;
     isDearnessAllowance: boolean;
+    addEPF: boolean;
     isPrincipal: boolean;
     isGovernment: boolean;
     isInternal: boolean;
     isTechnical: boolean;
     grade: EmployeeGrade;
     employeeLevelId: string;
-    schoolInfoId: string | undefined;
+    schoolInfoId: string;
     id: string | undefined;
 }
 
 export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelDto {
     name!: string;
-    grade!: EmployeeGrade;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditEmployeeLevelDto) {
@@ -22303,7 +22645,6 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            this.grade = _data["grade"];
             this.id = _data["id"];
         }
     }
@@ -22318,7 +22659,6 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["grade"] = this.grade;
         data["id"] = this.id;
         return data;
     }
@@ -22326,7 +22666,6 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
 
 export interface ICreateOrEditEmployeeLevelDto {
     name: string;
-    grade: EmployeeGrade;
     id: string | undefined;
 }
 
@@ -22452,6 +22791,8 @@ export interface ICreateOrEditEmployeeSalaryDto {
 
 export class CreateOrEditFestivalBonusSettingDto implements ICreateOrEditFestivalBonusSettingDto {
     monthId!: Months;
+    percentOrAmount!: PercentOrAmount;
+    value!: number;
     remarks!: string | undefined;
     id!: string | undefined;
 
@@ -22467,6 +22808,8 @@ export class CreateOrEditFestivalBonusSettingDto implements ICreateOrEditFestiva
     init(_data?: any) {
         if (_data) {
             this.monthId = _data["monthId"];
+            this.percentOrAmount = _data["percentOrAmount"];
+            this.value = _data["value"];
             this.remarks = _data["remarks"];
             this.id = _data["id"];
         }
@@ -22482,6 +22825,8 @@ export class CreateOrEditFestivalBonusSettingDto implements ICreateOrEditFestiva
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["monthId"] = this.monthId;
+        data["percentOrAmount"] = this.percentOrAmount;
+        data["value"] = this.value;
         data["remarks"] = this.remarks;
         data["id"] = this.id;
         return data;
@@ -22490,6 +22835,8 @@ export class CreateOrEditFestivalBonusSettingDto implements ICreateOrEditFestiva
 
 export interface ICreateOrEditFestivalBonusSettingDto {
     monthId: Months;
+    percentOrAmount: PercentOrAmount;
+    value: number;
     remarks: string | undefined;
     id: string | undefined;
 }
@@ -22700,6 +23047,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
     phoneNo!: string | undefined;
     email!: string | undefined;
     description!: string | undefined;
+    level!: string | undefined;
     image!: string | undefined;
     imageToken!: string | undefined;
     id!: string | undefined;
@@ -22720,6 +23068,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
             this.phoneNo = _data["phoneNo"];
             this.email = _data["email"];
             this.description = _data["description"];
+            this.level = _data["level"];
             this.image = _data["image"];
             this.imageToken = _data["imageToken"];
             this.id = _data["id"];
@@ -22740,6 +23089,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
         data["phoneNo"] = this.phoneNo;
         data["email"] = this.email;
         data["description"] = this.description;
+        data["level"] = this.level;
         data["image"] = this.image;
         data["imageToken"] = this.imageToken;
         data["id"] = this.id;
@@ -22753,6 +23103,7 @@ export interface ICreateOrEditSchoolInfoDto {
     phoneNo: string | undefined;
     email: string | undefined;
     description: string | undefined;
+    level: string | undefined;
     image: string | undefined;
     imageToken: string | undefined;
     id: string | undefined;
@@ -24309,7 +24660,7 @@ export interface IEmployeeSalaryEmployeeLookupTableDto {
 }
 
 export class EmployeeSalarySchoolInfoLookupTableDto implements IEmployeeSalarySchoolInfoLookupTableDto {
-    id!: string | undefined;
+    id!: string;
     displayName!: string | undefined;
 
     constructor(data?: IEmployeeSalarySchoolInfoLookupTableDto) {
@@ -24344,7 +24695,7 @@ export class EmployeeSalarySchoolInfoLookupTableDto implements IEmployeeSalarySc
 }
 
 export interface IEmployeeSalarySchoolInfoLookupTableDto {
-    id: string | undefined;
+    id: string;
     displayName: string | undefined;
 }
 
@@ -26641,7 +26992,6 @@ export interface IGetEmployeeForViewDto {
 
 export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
     name!: string | undefined;
-    grade!: EmployeeGrade;
     id!: string;
 
     constructor(data?: IGetEmployeeLevelForEdit) {
@@ -26656,7 +27006,6 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            this.grade = _data["grade"];
             this.id = _data["id"];
         }
     }
@@ -26671,7 +27020,6 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["grade"] = this.grade;
         data["id"] = this.id;
         return data;
     }
@@ -26679,13 +27027,11 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
 
 export interface IGetEmployeeLevelForEdit {
     name: string | undefined;
-    grade: EmployeeGrade;
     id: string;
 }
 
 export class GetEmployeeLevelForView implements IGetEmployeeLevelForView {
     name!: string | undefined;
-    gradeName!: string | undefined;
     id!: string;
 
     constructor(data?: IGetEmployeeLevelForView) {
@@ -26700,7 +27046,6 @@ export class GetEmployeeLevelForView implements IGetEmployeeLevelForView {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            this.gradeName = _data["gradeName"];
             this.id = _data["id"];
         }
     }
@@ -26715,7 +27060,6 @@ export class GetEmployeeLevelForView implements IGetEmployeeLevelForView {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["gradeName"] = this.gradeName;
         data["id"] = this.id;
         return data;
     }
@@ -26723,7 +27067,6 @@ export class GetEmployeeLevelForView implements IGetEmployeeLevelForView {
 
 export interface IGetEmployeeLevelForView {
     name: string | undefined;
-    gradeName: string | undefined;
     id: string;
 }
 
@@ -26909,6 +27252,8 @@ export interface IGetExpiringTenantsOutput {
 
 export class GetFestivalBonusSettingForEditOutput implements IGetFestivalBonusSettingForEditOutput {
     monthId!: Months;
+    percentOrAmount!: PercentOrAmount;
+    value!: number;
     remarks!: string | undefined;
     id!: string | undefined;
 
@@ -26924,6 +27269,8 @@ export class GetFestivalBonusSettingForEditOutput implements IGetFestivalBonusSe
     init(_data?: any) {
         if (_data) {
             this.monthId = _data["monthId"];
+            this.percentOrAmount = _data["percentOrAmount"];
+            this.value = _data["value"];
             this.remarks = _data["remarks"];
             this.id = _data["id"];
         }
@@ -26939,6 +27286,8 @@ export class GetFestivalBonusSettingForEditOutput implements IGetFestivalBonusSe
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["monthId"] = this.monthId;
+        data["percentOrAmount"] = this.percentOrAmount;
+        data["value"] = this.value;
         data["remarks"] = this.remarks;
         data["id"] = this.id;
         return data;
@@ -26947,12 +27296,16 @@ export class GetFestivalBonusSettingForEditOutput implements IGetFestivalBonusSe
 
 export interface IGetFestivalBonusSettingForEditOutput {
     monthId: Months;
+    percentOrAmount: PercentOrAmount;
+    value: number;
     remarks: string | undefined;
     id: string | undefined;
 }
 
 export class GetFestivalBonusSettingForViewDto implements IGetFestivalBonusSettingForViewDto {
     monthId!: Months;
+    percentOrAmount!: PercentOrAmount;
+    value!: number;
     remarks!: string | undefined;
     id!: string;
 
@@ -26968,6 +27321,8 @@ export class GetFestivalBonusSettingForViewDto implements IGetFestivalBonusSetti
     init(_data?: any) {
         if (_data) {
             this.monthId = _data["monthId"];
+            this.percentOrAmount = _data["percentOrAmount"];
+            this.value = _data["value"];
             this.remarks = _data["remarks"];
             this.id = _data["id"];
         }
@@ -26983,6 +27338,8 @@ export class GetFestivalBonusSettingForViewDto implements IGetFestivalBonusSetti
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["monthId"] = this.monthId;
+        data["percentOrAmount"] = this.percentOrAmount;
+        data["value"] = this.value;
         data["remarks"] = this.remarks;
         data["id"] = this.id;
         return data;
@@ -26991,6 +27348,8 @@ export class GetFestivalBonusSettingForViewDto implements IGetFestivalBonusSetti
 
 export interface IGetFestivalBonusSettingForViewDto {
     monthId: Months;
+    percentOrAmount: PercentOrAmount;
+    value: number;
     remarks: string | undefined;
     id: string;
 }
@@ -28252,6 +28611,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
     address!: string | undefined;
     phoneNo!: string | undefined;
     email!: string | undefined;
+    level!: string | undefined;
     description!: string | undefined;
     imageBytes!: string | undefined;
     imageFileName!: string | undefined;
@@ -28273,6 +28633,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
             this.address = _data["address"];
             this.phoneNo = _data["phoneNo"];
             this.email = _data["email"];
+            this.level = _data["level"];
             this.description = _data["description"];
             this.imageBytes = _data["imageBytes"];
             this.imageFileName = _data["imageFileName"];
@@ -28294,6 +28655,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
         data["address"] = this.address;
         data["phoneNo"] = this.phoneNo;
         data["email"] = this.email;
+        data["level"] = this.level;
         data["description"] = this.description;
         data["imageBytes"] = this.imageBytes;
         data["imageFileName"] = this.imageFileName;
@@ -28308,6 +28670,7 @@ export interface IGetSchoolInfoForEditOutput {
     address: string | undefined;
     phoneNo: string | undefined;
     email: string | undefined;
+    level: string | undefined;
     description: string | undefined;
     imageBytes: string | undefined;
     imageFileName: string | undefined;
@@ -33050,6 +33413,11 @@ export enum PaymentPeriodType {
     Weekly = 7,
     Monthly = 30,
     Annual = 365,
+}
+
+export enum PercentOrAmount {
+    Percent = 0,
+    Amount = 1,
 }
 
 export class PrincipalAllowanceSettingEmployeeLevelLookupTableDto implements IPrincipalAllowanceSettingEmployeeLevelLookupTableDto {

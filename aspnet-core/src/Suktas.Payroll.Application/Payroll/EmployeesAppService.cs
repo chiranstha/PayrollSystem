@@ -130,7 +130,6 @@ namespace Suktas.Payroll.Payroll
                 IsGovernment = o.IsGovernment,
                 IsInternal = o.IsInternal,
                 Id = o.Id,
-
                 EmployeeLevelName = o.EmployeeLevelFk.Name,
                 SchoolInfoName = o.SchoolInfoFk.Name
             };
@@ -157,6 +156,8 @@ namespace Suktas.Payroll.Payroll
                 BankAccountNo = employee.BankAccountNo,
                 PansionMiti = employee.PansionMiti,
                 DateOfJoinMiti = employee.DateOfJoinMiti,
+                AddEPF = employee.AddEPF,
+                InsuranceAmount = employee.InsuranceAmount,
                 IsDearnessAllowance = employee.IsDearnessAllowance,
                 IsPrincipal = employee.IsPrincipal,
                 IsGovernment = employee.IsGovernment,
@@ -194,6 +195,8 @@ namespace Suktas.Payroll.Payroll
                 BankAccountNo = input.BankAccountNo,
                 PansionMiti = input.PansionMiti,
                 DateOfJoinMiti = input.DateOfJoinMiti,
+                InsuranceAmount = input.InsuranceAmount,
+                AddEPF = input.AddEPF,
                 IsDearnessAllowance = input.IsDearnessAllowance,
                 IsPrincipal = input.IsPrincipal,
                 IsGovernment = input.IsGovernment,
@@ -229,6 +232,8 @@ namespace Suktas.Payroll.Payroll
             employee.BankName = input.BankName;
             employee.BankAccountNo = input.BankAccountNo;
             employee.PansionMiti = input.PansionMiti;
+            employee.InsuranceAmount = input.InsuranceAmount;
+            employee.AddEPF = input.AddEPF;
             employee.DateOfJoinMiti = input.DateOfJoinMiti;
             employee.IsDearnessAllowance = input.IsDearnessAllowance;
             employee.IsPrincipal = input.IsPrincipal;

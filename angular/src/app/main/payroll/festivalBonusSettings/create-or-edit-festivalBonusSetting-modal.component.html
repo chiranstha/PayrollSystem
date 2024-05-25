@@ -1,71 +1,87 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form *ngIf="active" #festivalBonusSettingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        <span *ngIf="festivalBonusSetting.id">{{l("EditFestivalBonusSetting")}}</span>
-                        <span *ngIf="!festivalBonusSetting.id">{{l("CreateNewFestivalBonusSetting")}}</span>
-                    </h4>                    
-                    
-                <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
-                     <span aria-hidden="true">&times;</span>
-                </button>
-             
-                    
-                </div>
-                <div class="modal-body">
-                 
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form *ngIf="active" #festivalBonusSettingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span *ngIf="festivalBonusSetting.id">{{l("EditFestivalBonusSetting")}}</span>
+						<span *ngIf="!festivalBonusSetting.id">{{l("CreateNewFestivalBonusSetting")}}</span>
+					</h4>
+
+					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="FestivalBonusSetting_MonthId">{{l("MonthId")}}</label>
+						<select class="form-select" #FestivalBonusSetting_MonthId="ngModel" name="MonthId"
+							id="FestivalBonusSetting_MonthId" [(ngModel)]="festivalBonusSetting.monthId">
+							<option value="1">{{l('Baishakh')}}</option>
+
+							<option value="2">{{l('Jestha')}}</option>
+
+							<option value="3">{{l('Asar')}}</option>
+
+							<option value="4">{{l('Shrawan')}}</option>
+
+							<option value="5">{{l('Bhadra')}}</option>
+
+							<option value="6">{{l('Asoj')}}</option>
+
+							<option value="7">{{l('Kartik')}}</option>
+
+							<option value="8">{{l('Mangsir')}}</option>
+
+							<option value="9">{{l('Poush')}}</option>
+
+							<option value="10">{{l('Magh')}}</option>
+
+							<option value="11">{{l('Falgun')}}</option>
+
+							<option value="12">{{l('Chaitra')}}</option>
+						</select>
+						<validation-messages [formCtrl]="FestivalBonusSetting_MonthId"></validation-messages>
+					</div>
+
+					<div class="form-group">
+						<label for="FestivalBonusSetting_PercentOrAmount">{{l("PercentOrAmount")}}</label>
+						<select class="form-select" #FestivalBonusSetting_PercentOrAmount="ngModel"
+							name="PercentOrAmount" id="FestivalBonusSetting_PercentOrAmount"
+							[(ngModel)]="festivalBonusSetting.percentOrAmount">
+							<option value="0">{{l('Percent')}}</option>
+							<option value="1">{{l('Amount')}}</option>
+						</select>
+						<validation-messages [formCtrl]="FestivalBonusSetting_PercentOrAmount"></validation-messages>
+					</div>
+
+					<div class="form-group">
+						<label for="FestivalBonusSetting_Value">{{ l('Value') }}</label>
+						<input type="number" #FestivalBonusSetting_Value="ngModel" id="FestivalBonusSetting_value"
+							class="form-control" [(ngModel)]="festivalBonusSetting.value" name="Value" />
+						<validation-messages [formCtrl]="FestivalBonusSetting_Value"></validation-messages>
+					</div>
+
+					<div class="form-group">
+						<label for="FestivalBonusSetting_Remarks">{{l("Remarks")}}</label>
+						<input type="text" #FestivalBonusSetting_Remarks="ngModel" id="FestivalBonusSetting_Remarks"
+							class="form-control" [(ngModel)]="festivalBonusSetting.remarks" name="Remarks" />
+						<validation-messages [formCtrl]="FestivalBonusSetting_Remarks"></validation-messages>
+					</div>
 
 
 
-								<div class="form-group">
-									<label for="FestivalBonusSetting_MonthId">{{l("MonthId")}}</label>
-									<select class="form-select" #FestivalBonusSetting_MonthId="ngModel" name="MonthId" id="FestivalBonusSetting_MonthId" [(ngModel)]="festivalBonusSetting.monthId" >
-									<option value="1">{{l('Baishakh')}}</option>
-
-									<option value="2">{{l('Jestha')}}</option>
-
-									<option value="3">{{l('Asar')}}</option>
-
-									<option value="4">{{l('Shrawan')}}</option>
-
-									<option value="5">{{l('Bhadra')}}</option>
-
-									<option value="6">{{l('Asoj')}}</option>
-
-									<option value="7">{{l('Kartik')}}</option>
-
-									<option value="8">{{l('Mangsir')}}</option>
-
-									<option value="9">{{l('Poush')}}</option>
-
-									<option value="10">{{l('Magh')}}</option>
-
-									<option value="11">{{l('Falgun')}}</option>
-
-									<option value="12">{{l('Chaitra')}}</option>
-
-
-									</select>
-									<validation-messages [formCtrl]="FestivalBonusSetting_MonthId"></validation-messages>
-								</div>
-					
-								<div class="form-group">
-									<label for="FestivalBonusSetting_Remarks">{{l("Remarks")}}</label>
-									<input type="text" #FestivalBonusSetting_Remarks="ngModel" id="FestivalBonusSetting_Remarks" class="form-control" [(ngModel)]="festivalBonusSetting.remarks" name="Remarks"    />
-								    <validation-messages [formCtrl]="FestivalBonusSetting_Remarks"></validation-messages>
-								</div>
-					
-
-
-                </div>
-                <div class="modal-footer">
-                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!festivalBonusSettingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
-                </div>
-            </form>
-        </div>
-    </div>
+				</div>
+				<div class="modal-footer">
+					<button [disabled]="saving" type="button" class="btn btn-default"
+						(click)="close()">{{l("Cancel")}}</button>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!festivalBonusSettingForm.form.valid"
+						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+						<span>{{l("Save")}}</span></button>
+				</div>
+			</form>
+		</div>
+	</div>
 
 </div>

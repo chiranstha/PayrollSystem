@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Abp.Runtime.Session;
+﻿using Abp.Runtime.Session;
 using Abp.Timing.Timezone;
 using Suktas.Payroll.DataExporting.Excel.NPOI;
-using Suktas.Payroll.Payroll.Dtos;
 using Suktas.Payroll.Dto;
+using Suktas.Payroll.Payroll.Dtos;
 using Suktas.Payroll.Storage;
+using System.Collections.Generic;
 
 namespace Suktas.Payroll.Payroll.Exporting
 {
@@ -59,7 +59,7 @@ namespace Suktas.Payroll.Payroll.Exporting
                             );
 
                         AddObjects(
-                            sheet,  employeeSalary,
+                            sheet, employeeSalary,
                         d => d.Month,
                         d => d.DateMiti,
                         d => d.BasicSalary,
@@ -85,6 +85,80 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                     });
 
+        }
+
+        public FileDto ExportToFileSalary(List<CreateEmployeeSalaryNewDto> data)
+        {
+            return CreateExcelPackage(
+                    "EmployeeSalary.xlsx",
+                    excelPackage =>
+                    {
+
+                        var sheet = excelPackage.CreateSheet("EmployeeSalary");
+
+                        AddHeader(
+                            sheet,
+                        "S.N.",
+                        "Ward No",
+                        "School Level",
+                        "School Name",
+                        "Employee Type",
+                        "Employee Level",
+                        "Employee Name",
+                        "Basic Salary",
+                        "Grade",
+                        "Grade Rate",
+                        "Grade Amount",
+                        "Technical Grade Amount",
+                        "Total Grade Amount",
+                        "Total",
+                        "EPF Amount",
+                        "Insurance Amount",
+                        "TotalSalary",
+                        "InflationAllowance",
+                        "PrincipalAllowance",
+                        "TotalSalaryAmount",
+                        "Month",
+                        "MonthNames",
+                        "TotalForAllMonths",
+                        "FestivalAllowance",
+                        "TotalWithAllowanceForAllMonths",
+                        "InternalAmount",
+                        "TotalPaidAmount",
+                        "Remarks");
+
+                        AddObjects(
+                            sheet, data, d => d.WardNo,
+                        d => d.WardNo,
+                        d => d.SchoolLevel,
+                        d => d.SchoolName,
+                        d => d.EmployeeType,
+                        d => d.EmployeeLevel,
+                        d => d.EmployeeName,
+                        d => d.BasicSalary,
+                        d => d.Grade,
+                        d => d.GradeRate,
+                        d => d.GradeAmount,
+                        d => d.TechnicalGradeAmount,
+                        d => d.TotalGradeAmount,
+                        d => d.Total,
+                        d => d.EPFAmount,
+                        d => d.InsuranceAmount,
+                        d => d.TotalSalary,
+                        d => d.InflationAllowance,
+                        d => d.PrincipalAllowance,
+                        d => d.TotalSalaryAmount,
+                        d => d.Month,
+                        d => d.MonthNames,
+                        d => d.TotalForAllMonths,
+                        d => d.FestivalAllowance,
+                        d => d.TotalWithAllowanceForAllMonths,
+                        d => d.InternalAmount,
+                        d => d.TotalPaidAmount,
+                        d => d.Remarks
+                            );
+
+                    });
         }
     }
 }

@@ -48,7 +48,8 @@ namespace Suktas.Payroll.Payroll
             var festivalBonusSettings = from o in pagedAndFilteredFestivalBonusSettings
                                         select new
                                         {
-
+                                            o.PercentOrAmount,
+                                            o.Value,
                                             o.MonthId,
                                             o.Remarks,
                                             Id = o.Id
@@ -64,6 +65,8 @@ namespace Suktas.Payroll.Payroll
                 var res = new GetFestivalBonusSettingForViewDto()
                 {
                     MonthId = o.MonthId,
+                    PercentOrAmount = o.PercentOrAmount,
+                    Value = o.Value,
                     Remarks = o.Remarks,
                     Id = o.Id,
 
@@ -101,6 +104,8 @@ namespace Suktas.Payroll.Payroll
             {
                 Id = festivalBonusSetting.Id,
                 MonthId = festivalBonusSetting.MonthId,
+                PercentOrAmount = festivalBonusSetting.PercentOrAmount,
+                Value = festivalBonusSetting.Value,
                 Remarks = festivalBonusSetting.Remarks
             };
 
@@ -125,6 +130,8 @@ namespace Suktas.Payroll.Payroll
             var festivalBonusSetting = new FestivalBonusSetting
             {
                 MonthId = input.MonthId,
+                PercentOrAmount = input.PercentOrAmount,
+                Value = input.Value,
                 Remarks = input.Remarks
             };
 
@@ -146,6 +153,8 @@ namespace Suktas.Payroll.Payroll
             else
             {
                 festivalBonusSetting.Remarks = input.Remarks;
+                festivalBonusSetting.PercentOrAmount = input.PercentOrAmount;
+                festivalBonusSetting.Value = input.Value;
                 festivalBonusSetting.MonthId = input.MonthId;
                 await _festivalBonusSettingRepository.UpdateAsync(festivalBonusSetting);
             }

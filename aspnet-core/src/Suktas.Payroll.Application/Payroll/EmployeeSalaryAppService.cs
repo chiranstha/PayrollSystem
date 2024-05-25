@@ -3,6 +3,7 @@ using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Suktas.Payroll.Authorization;
 using Suktas.Payroll.Dto;
@@ -341,6 +342,61 @@ namespace Suktas.Payroll.Payroll
             return result;
         }
 
+        public async Task<List<CreateEmployeeSalaryNewDto>> GenerateSalaryNew([FromForm] List<Guid> schoolIds, [FromForm] List<Months> months)
+        {
+            var result = new List<CreateEmployeeSalaryNewDto>();
+            var schools = await _lookupSchoolInfoRepository.GetAll().Where(x => schoolIds.Contains(x.Id)).ToListAsync();
+            var employees = await _lookupEmployeeRepository.GetAll().Where(x => schoolIds.Contains(x.SchoolInfoId))
+                .Include(x => x.SchoolInfoFk).Include(x => x.EmployeeLevelFk).ToListAsync();
+            var categorySalaries = await _categorySalaryRepository.GetAll().ToListAsync();
+            var gradeUpgrades = await _gradeUpgradeRepository.GetAll().ToListAsync();
+            var principalAllowanceSettins = await _principalAllowanceSettingRepository.GetAll().ToListAsync();
+            var festivalAllowance = await _festivalBonusSettingRepository.GetAll().Where(x => months.Contains(x.MonthId)).ToListAsync();
+            foreach (var employee in employees)
+            {
+                var data = new CreateEmployeeSalaryNewDto
+                {
+                    WardNo = 7,
+                    SchoolLevel = employee.SchoolInfoFk.Level,
+                    SchoolName = employee.SchoolInfoFk.Name,
+                    EmployeeType = employee.Category.ToString(),
+                    EmployeeLevel = employee.EmployeeLevelFk.Name,
+                    EmployeeName = employee.Name,
+                    BasicSalary = categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).Salary,
+                    Grade = (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).Grade,
+                    TechnicalGradeAmount = 0,
+                    InsuranceAmount = employee.InsuranceAmount,
+                    InflationAllowance = 2000,
+                    PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
+                    Month = months.Count,
+                    MonthNames = string.Join(',', months.Select(x => x.ToString())),
+              //      FestivalAllowance = (decimal)(festivalAllowance.Where(x => x.PercentOrAmount == PercentOrAmount.Amount)?.Sum(x => x.Value)),
+                    InternalAmount = 0,
+                };
+                data.GradeRate = Math.Round(data.BasicSalary / 30,0);
+                data.GradeAmount = data.Grade * data.GradeRate;
+                data.TotalGradeAmount = data.GradeAmount + data.TechnicalGradeAmount;
+                data.Total = data.BasicSalary + data.TotalGradeAmount;
+                data.FestivalAllowance = (decimal)(festivalAllowance.Where(x => x.PercentOrAmount == PercentOrAmount.Amount)?.Sum(x => x.Value));
+                data.FestivalAllowance += (decimal)(festivalAllowance.Where(x => x.PercentOrAmount == PercentOrAmount.Percent)?.Sum(x => data.Total * x.Value / 100)); 
+                data.EPFAmount = employee.AddEPF ? (data.Total / 10) : 0;
+                data.TotalSalary = data.Total + data.EPFAmount + data.InsuranceAmount;
+                data.TotalSalaryAmount = data.TotalSalary + data.InflationAllowance + data.PrincipalAllowance;
+                data.TotalForAllMonths = data.TotalSalaryAmount * data.Month;
+                data.TotalWithAllowanceForAllMonths = data.TotalForAllMonths + data.FestivalAllowance;
+                data.TotalPaidAmount = data.TotalWithAllowanceForAllMonths + data.InternalAmount;
+                result.Add(data);
+            }
+            return result;
+        }
+
+        public async Task<FileDto> GenerateSalaryNewExcel([FromForm] List<Guid> schoolIds, [FromForm] List<Months> months)
+        {
+            var data = await GenerateSalaryNew(schoolIds, months);
+            return _employeeSalaryExcelExporter.ExportToFileSalary(data);
+        }
+
+
         [AbpAuthorize(AppPermissions.Pages_EmployeeSalary_Edit)]
         protected virtual async Task Update(CreateOrEditEmployeeSalaryDto input)
         {
@@ -475,7 +531,7 @@ namespace Suktas.Payroll.Payroll
             return await _lookupSchoolInfoRepository.GetAll()
                 .Select(schoolInfo => new EmployeeSalarySchoolInfoLookupTableDto
                 {
-                    Id = schoolInfo.Id.ToString(),
+                    Id = schoolInfo.Id,
                     DisplayName = schoolInfo == null || schoolInfo.Name == null ? "" : schoolInfo.Name.ToString()
                 }).ToListAsync();
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Suktas.Payroll.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class frist : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -573,31 +573,32 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FestivalBonusSettings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<int>(type: "int", nullable: true),
-                    MonthId = table.Column<int>(type: "int", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FestivalBonusSettings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_EmployeeLevel",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_EmployeeLevel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_FestivalBonusSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    MonthId = table.Column<int>(type: "int", nullable: false),
+                    PercentOrAmount = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_FestivalBonusSettings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -644,6 +645,7 @@ namespace Suktas.Payroll.Migrations
                     PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -1038,6 +1040,7 @@ namespace Suktas.Payroll.Migrations
                     Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
                     TechnicalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Grade = table.Column<int>(type: "int", nullable: false),
                     EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -1083,13 +1086,15 @@ namespace Suktas.Payroll.Migrations
                     BankAccountNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PansionMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfJoinMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsuranceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsDearnessAllowance = table.Column<bool>(type: "bit", nullable: false),
+                    AddEPF = table.Column<bool>(type: "bit", nullable: false),
                     IsPrincipal = table.Column<bool>(type: "bit", nullable: false),
                     IsGovernment = table.Column<bool>(type: "bit", nullable: false),
                     IsInternal = table.Column<bool>(type: "bit", nullable: false),
                     IsTechnical = table.Column<bool>(type: "bit", nullable: false),
                     EmployeeLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -1207,28 +1212,6 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GradeUpgrades",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<int>(type: "int", nullable: true),
-                    DateMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Grade = table.Column<int>(type: "int", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GradeUpgrades", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GradeUpgrades_tbl_Employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "tbl_Employee",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_EmployeeSalary",
                 columns: table => new
                 {
@@ -1273,6 +1256,28 @@ namespace Suktas.Payroll.Migrations
                         name: "FK_tbl_EmployeeSalary_tbl_SchoolInfo_SchoolInfoId",
                         column: x => x.SchoolInfoId,
                         principalTable: "tbl_SchoolInfo",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_GradeUpgrades",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    DateMiti = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Grade = table.Column<int>(type: "int", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_GradeUpgrades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_GradeUpgrades_tbl_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "tbl_Employee",
                         principalColumn: "Id");
                 });
 
@@ -1721,21 +1726,6 @@ namespace Suktas.Payroll.Migrations
                 columns: new[] { "TenantId", "TargetUserId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FestivalBonusSettings_TenantId",
-                table: "FestivalBonusSettings",
-                column: "TenantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GradeUpgrades_EmployeeId",
-                table: "GradeUpgrades",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GradeUpgrades_TenantId",
-                table: "GradeUpgrades",
-                column: "TenantId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tbl_CategorySalary_EmployeeLevelId",
                 table: "tbl_CategorySalary",
                 column: "EmployeeLevelId");
@@ -1781,8 +1771,23 @@ namespace Suktas.Payroll.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_FestivalBonusSettings_TenantId",
+                table: "tbl_FestivalBonusSettings",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_FinancialYear_TenantId",
                 table: "tbl_FinancialYear",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_GradeUpgrades_EmployeeId",
+                table: "tbl_GradeUpgrades",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_GradeUpgrades_TenantId",
+                table: "tbl_GradeUpgrades",
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
@@ -1915,19 +1920,19 @@ namespace Suktas.Payroll.Migrations
                 name: "AppUserDelegations");
 
             migrationBuilder.DropTable(
-                name: "FestivalBonusSettings");
-
-            migrationBuilder.DropTable(
-                name: "GradeUpgrades");
-
-            migrationBuilder.DropTable(
                 name: "tbl_CategorySalary");
 
             migrationBuilder.DropTable(
                 name: "tbl_EmployeeSalary");
 
             migrationBuilder.DropTable(
+                name: "tbl_FestivalBonusSettings");
+
+            migrationBuilder.DropTable(
                 name: "tbl_FinancialYear");
+
+            migrationBuilder.DropTable(
+                name: "tbl_GradeUpgrades");
 
             migrationBuilder.DropTable(
                 name: "tbl_InternalGradeSetup");

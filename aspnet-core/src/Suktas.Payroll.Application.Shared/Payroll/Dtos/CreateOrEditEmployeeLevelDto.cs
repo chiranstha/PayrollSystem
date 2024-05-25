@@ -10,7 +10,5 @@ namespace Suktas.Payroll.Payroll.Dtos
 
         [Required]
         public string Name { get; set; }
-
-        public EmployeeGrade Grade { get; set; }
     }
 }

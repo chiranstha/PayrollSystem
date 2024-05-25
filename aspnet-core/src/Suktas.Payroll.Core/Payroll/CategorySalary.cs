@@ -19,6 +19,8 @@ namespace Suktas.Payroll.Payroll
 
         public virtual decimal TechnicalAmount { get; set; }
 
+        [Required]
+        public virtual EmployeeGrade Grade { get; set; }
         public virtual Guid EmployeeLevelId { get; set; }
 
         [ForeignKey("EmployeeLevelId")]

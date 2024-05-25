@@ -1,7 +1,7 @@
 ﻿import {AppConsts} from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
-import { FestivalBonusSettingsServiceProxy,  Months } from '@shared/service-proxies/service-proxies';
+import { FestivalBonusSettingsServiceProxy,  Months, PercentOrAmount } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -38,6 +38,7 @@ export class FestivalBonusSettingsComponent extends AppComponentBase {
     remarksFilter = '';
 
     months = Months;
+    percentOrAmount = PercentOrAmount;
     constructor(
         injector: Injector,
         private _festivalBonusSettingsServiceProxy: FestivalBonusSettingsServiceProxy,

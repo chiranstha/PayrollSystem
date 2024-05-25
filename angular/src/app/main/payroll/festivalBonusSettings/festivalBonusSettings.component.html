@@ -44,7 +44,7 @@
 
 
                                 <div class="col-md-3">
-                                    <label for="MonthIdFilterSelect">{{l("MonthId")}}</label>
+                                    <label for="MonthIdFilterSelect">{{l("Month")}}</label>
                                     <select class="form-select" name="MonthIdFilter" id="MonthIdFilterSelect"
                                         [(ngModel)]="monthIdFilter">
                                         <option value="-1">{{l("All")}}</option>
@@ -118,8 +118,14 @@
                                             [hidden]="!isGrantedAny('Pages.FestivalBonusSettings.Edit', 'Pages.FestivalBonusSettings.Delete')">
                                             {{l('Actions')}}</th>
                                         <th style="width: 150px" pSortableColumn="monthId">
-                                            {{l('MonthId')}}
+                                            {{l('Month')}}
                                             <p-sortIcon field="festivalBonusSetting.monthId"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px">
+                                            {{l('PercentOrAmount')}}
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="monthId">
+                                            {{l('Value')}}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="remarks">
                                             {{l('Remarks')}}
@@ -157,14 +163,21 @@
                                             </div>
                                         </td>
                                         <td style="width:150px">
-                                            <span class="p-column-title"> {{l('MonthId')}}</span>
+                                            <span class="p-column-title"> {{l('Month')}}</span>
                                             {{l( months[record.monthId])}}
+                                        </td>
+                                        <td style="width:150px">
+                                            <span class="p-column-title"> {{l('PercentOrAmount')}}</span>
+                                            {{l( percentOrAmount[record.percentOrAmount])}}
+                                        </td>
+                                        <td style="width:150px">
+                                            <span class="p-column-title"> {{l('Value')}}</span>
+                                            {{record.value}}
                                         </td>
                                         <td style="width:150px">
                                             <span class="p-column-title"> {{l('Remarks')}}</span>
                                             {{record.remarks}}
                                         </td>
-
                                     </tr>
 
                                 </ng-template>

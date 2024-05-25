@@ -14,9 +14,5 @@ namespace Suktas.Payroll.Payroll
         [Required]
         public virtual string Name { get; set; }
 
-
-        [Required]
-        public virtual EmployeeGrade Grade { get; set; }
-
     }
 }

@@ -12,8 +12,8 @@ using Suktas.Payroll.EntityFrameworkCore;
 namespace Suktas.Payroll.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    [Migration("20240514131013_first")]
-    partial class first
+    [Migration("20240524075937_frist")]
+    partial class frist
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2060,6 +2060,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<Guid>("EmployeeLevelId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
@@ -2084,6 +2087,9 @@ namespace Suktas.Payroll.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("AddEPF")
+                        .HasColumnType("bit");
+
                     b.Property<string>("BankAccountNo")
                         .HasColumnType("nvarchar(max)");
 
@@ -2098,6 +2104,9 @@ namespace Suktas.Payroll.Migrations
 
                     b.Property<Guid>("EmployeeLevelId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("InsuranceAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("InsuranceNo")
                         .HasColumnType("nvarchar(max)");
@@ -2129,7 +2138,7 @@ namespace Suktas.Payroll.Migrations
                     b.Property<string>("ProvidentFund")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SchoolInfoId")
+                    b.Property<Guid>("SchoolInfoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("TenantId")
@@ -2149,9 +2158,6 @@ namespace Suktas.Payroll.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2261,17 +2267,23 @@ namespace Suktas.Payroll.Migrations
                     b.Property<int>("MonthId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PercentOrAmount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("FestivalBonusSettings");
+                    b.ToTable("tbl_FestivalBonusSettings");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.GradeUpgrade", b =>
@@ -2304,7 +2316,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("GradeUpgrades");
+                    b.ToTable("tbl_GradeUpgrades");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.InternalGradeSetup", b =>
@@ -2376,6 +2388,9 @@ namespace Suktas.Payroll.Migrations
 
                     b.Property<Guid?>("Image")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2747,7 +2762,8 @@ namespace Suktas.Payroll.Migrations
                     b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
                         .WithMany()
                         .HasForeignKey("SchoolInfoId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("EmployeeLevelFk");
 

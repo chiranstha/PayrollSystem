@@ -118,6 +118,7 @@ namespace Suktas.Payroll.Payroll
                 Address = schoolInfo.Address,
                 PhoneNo = schoolInfo.PhoneNo,
                 Email = schoolInfo.Email,
+                Level = schoolInfo.Level,
                 Description = schoolInfo.Description,
                 Image = schoolInfo.Image
             };
@@ -154,6 +155,7 @@ namespace Suktas.Payroll.Payroll
                 Address = input.Address,
                 PhoneNo = input.PhoneNo,
                 Email = input.Email,
+                Level = input.Level,
                 Description = input.Description
             };
 
@@ -176,6 +178,7 @@ namespace Suktas.Payroll.Payroll
             schoolInfo.Address = input.Address;
             schoolInfo.PhoneNo = input.PhoneNo;
             schoolInfo.Email = input.Email;
+            schoolInfo.Level = input.Level;
             schoolInfo.Description = input.Description;
 
             if (!string.IsNullOrWhiteSpace(input.ImageToken))

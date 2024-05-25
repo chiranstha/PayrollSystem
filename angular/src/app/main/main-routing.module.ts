@@ -28,6 +28,11 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.EmployeeSalary' }
                     },
                     {
+                        path: 'payroll/generateEmployeeSalary',
+                        loadChildren: () => import('./payroll/generateEmployeeSalary/generateEmployeeSalary.module').then(m => m.GenerateEmployeeSalaryModule),
+                        data: { permission: 'Pages.EmployeeSalary' }
+                    },
+                    {
                         path: 'payroll/employees',
                         loadChildren: () => import('./payroll/employees/employee.module').then(m => m.EmployeeModule),
                         data: { permission: 'Pages.Employees' }

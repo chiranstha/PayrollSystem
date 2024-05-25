@@ -8,6 +8,5 @@ namespace Suktas.Payroll.Payroll.Dtos
     public class GetEmployeeLevelForEdit: EntityDto<Guid>
     {
         public string Name { get; set; }
-        public EmployeeGrade Grade { get; set; }
     }
 }

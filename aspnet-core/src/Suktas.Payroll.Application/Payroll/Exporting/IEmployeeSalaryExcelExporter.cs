@@ -7,5 +7,8 @@ namespace Suktas.Payroll.Payroll.Exporting
     public interface IEmployeeSalaryExcelExporter
     {
         FileDto ExportToFile(List<GetEmployeeSalaryForViewDto> employeeSalary);
+        FileDto ExportToFileSalary(List<CreateEmployeeSalaryNewDto> data);
+
+
     }
 }

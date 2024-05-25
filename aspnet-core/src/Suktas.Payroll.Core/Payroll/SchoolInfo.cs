@@ -21,6 +21,8 @@ namespace Suktas.Payroll.Payroll
         public virtual string Email { get; set; }
 
         public virtual string Description { get; set; }
+
+        public virtual string Level { get; set; }
         //File
 
         public virtual Guid? Image { get; set; } //File, (BinaryObjectId)
