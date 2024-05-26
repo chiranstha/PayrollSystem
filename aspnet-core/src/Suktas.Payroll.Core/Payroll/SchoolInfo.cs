@@ -23,6 +23,7 @@ namespace Suktas.Payroll.Payroll
         public virtual string Description { get; set; }
 
         public virtual string Level { get; set; }
+        public virtual int WardNo { get; set; }
         //File
 
         public virtual Guid? Image { get; set; } //File, (BinaryObjectId)

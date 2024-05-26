@@ -104,6 +104,7 @@ namespace Suktas.Payroll.Payroll
             var output = new GetEmployeeLevelForEdit
             {
                 Id = employeeLevel.Id,
+                AliasName = employeeLevel.AliasName,
                 Name = employeeLevel.Name
             };
 
@@ -128,6 +129,7 @@ namespace Suktas.Payroll.Payroll
             var employeeLevel = new EmployeeLevel
             {
                 Id = Guid.Empty,
+                AliasName = input.AliasName,
                 TenantId = AbpSession.GetTenantId(),
                 Name = input.Name,
             };
@@ -146,6 +148,7 @@ namespace Suktas.Payroll.Payroll
                 throw new UserFriendlyException("Data not found");
 
             employeeLevel.Name = input.Name;
+            employeeLevel.AliasName = input.AliasName;
             await _employeeLevelRepository.UpdateAsync(employeeLevel);
 
         }

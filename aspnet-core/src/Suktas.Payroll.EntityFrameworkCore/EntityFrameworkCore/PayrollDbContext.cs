@@ -57,6 +57,10 @@ namespace Suktas.Payroll.EntityFrameworkCore
         public virtual DbSet<UserDelegation> UserDelegations { get; set; }
 
         public virtual DbSet<RecentPassword> RecentPasswords { get; set; }
+        public virtual DbSet<EmployeeSalaryDetailNew> EmployeeSalaryDetailNews { get; set; }
+        public virtual DbSet<EmployeeSalaryMasterMonthNew> EmployeeSalaryMasterMonthNew { get; set; }
+        public virtual DbSet<EmployeeSalaryMasterNew> EmployeeSalaryMasterNews { get; set; }
+        public virtual DbSet<EmployeeSalaryMasterSchoolNew> EmployeeSalaryMasterSchoolNews { get; set; }
 
         public PayrollDbContext(DbContextOptions<PayrollDbContext> options)
             : base(options)

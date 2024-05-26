@@ -8,6 +8,7 @@ namespace Suktas.Payroll.Payroll.Dtos
     public class CreateOrEditEmployeeLevelDto : EntityDto<Guid?>
     {
 
+        public string AliasName { get; set; }
         [Required]
         public string Name { get; set; }
     }

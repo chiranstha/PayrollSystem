@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Suktas.Payroll.Migrations
 {
     /// <inheritdoc />
-    public partial class frist : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -578,11 +578,25 @@ namespace Suktas.Payroll.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantId = table.Column<int>(type: "int", nullable: false),
+                    AliasName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_EmployeeLevel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalaryMasterNew",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalaryMasterNew", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -646,6 +660,7 @@ namespace Suktas.Payroll.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WardNo = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -1073,6 +1088,72 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalaryDetailNew",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SN = table.Column<int>(type: "int", nullable: false),
+                    WardNo = table.Column<int>(type: "int", nullable: false),
+                    SchoolLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SchoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Grade = table.Column<int>(type: "int", nullable: false),
+                    GradeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TechnicalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EPFAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InsuranceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InflationAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PrincipalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    MonthNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FestivalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalWithAllowanceForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InternalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalPaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeSalaryMasterNewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalaryDetailNew", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryDetailNew_tbl_EmployeeSalaryMasterNew_EmployeeSalaryMasterNewId",
+                        column: x => x.EmployeeSalaryMasterNewId,
+                        principalTable: "tbl_EmployeeSalaryMasterNew",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalaryMasterMonthNew",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    EmployeeSalaryMasterNewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalaryMasterMonthNew", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryMasterMonthNew_tbl_EmployeeSalaryMasterNew_EmployeeSalaryMasterNewId",
+                        column: x => x.EmployeeSalaryMasterNewId,
+                        principalTable: "tbl_EmployeeSalaryMasterNew",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_Employee",
                 columns: table => new
                 {
@@ -1107,6 +1188,30 @@ namespace Suktas.Payroll.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tbl_Employee_tbl_SchoolInfo_SchoolInfoId",
+                        column: x => x.SchoolInfoId,
+                        principalTable: "tbl_SchoolInfo",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalaryMasterSchoolNew",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeSalaryMasterNewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalaryMasterSchoolNew", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryMasterSchoolNew_tbl_EmployeeSalaryMasterNew_EmployeeSalaryMasterNewId",
+                        column: x => x.EmployeeSalaryMasterNewId,
+                        principalTable: "tbl_EmployeeSalaryMasterNew",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryMasterSchoolNew_tbl_SchoolInfo_SchoolInfoId",
                         column: x => x.SchoolInfoId,
                         principalTable: "tbl_SchoolInfo",
                         principalColumn: "Id");
@@ -1771,6 +1876,26 @@ namespace Suktas.Payroll.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryDetailNew_EmployeeSalaryMasterNewId",
+                table: "tbl_EmployeeSalaryDetailNew",
+                column: "EmployeeSalaryMasterNewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryMasterMonthNew_EmployeeSalaryMasterNewId",
+                table: "tbl_EmployeeSalaryMasterMonthNew",
+                column: "EmployeeSalaryMasterNewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryMasterSchoolNew_EmployeeSalaryMasterNewId",
+                table: "tbl_EmployeeSalaryMasterSchoolNew",
+                column: "EmployeeSalaryMasterNewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryMasterSchoolNew_SchoolInfoId",
+                table: "tbl_EmployeeSalaryMasterSchoolNew",
+                column: "SchoolInfoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_FestivalBonusSettings_TenantId",
                 table: "tbl_FestivalBonusSettings",
                 column: "TenantId");
@@ -1926,6 +2051,15 @@ namespace Suktas.Payroll.Migrations
                 name: "tbl_EmployeeSalary");
 
             migrationBuilder.DropTable(
+                name: "tbl_EmployeeSalaryDetailNew");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmployeeSalaryMasterMonthNew");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmployeeSalaryMasterSchoolNew");
+
+            migrationBuilder.DropTable(
                 name: "tbl_FestivalBonusSettings");
 
             migrationBuilder.DropTable(
@@ -1954,6 +2088,9 @@ namespace Suktas.Payroll.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpEditions");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmployeeSalaryMasterNew");
 
             migrationBuilder.DropTable(
                 name: "tbl_Employee");

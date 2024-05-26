@@ -1,13 +1,17 @@
-﻿using Abp.Application.Services.Dto;
+﻿using Abp.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Suktas.Payroll.Payroll.Dtos
+namespace Suktas.Payroll.Payroll
 {
-    public class CreateEmployeeSalaryNewDto : EntityDto<Guid?>
+    [Table("tbl_EmployeeSalaryDetailNew")]
+    public class EmployeeSalaryDetailNew : Entity<Guid>, IMayHaveTenant
     {
-        public int SN {  get; set; }
+        public int SN { get; set; }
         public int WardNo { get; set; }
         public string SchoolLevel { get; set; }
         public string SchoolName { get; set; }
@@ -35,5 +39,12 @@ namespace Suktas.Payroll.Payroll.Dtos
         public decimal InternalAmount { get; set; }
         public decimal TotalPaidAmount { get; set; }
         public string Remarks { get; set; }
+        public bool IsPaid { get; set; }
+        public int? TenantId { get ; set; }
+
+        public virtual Guid EmployeeSalaryMasterNewId { get; set; }
+
+        [ForeignKey("EmployeeSalaryMasterNewId")]
+        public EmployeeSalaryMasterNew EmployeeSalaryMasterNewFk { get; set; }
     }
 }

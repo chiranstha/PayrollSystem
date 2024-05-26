@@ -5,12 +5,12 @@
             <form [formGroup]="form">
                 <div>
                     <div class="row">
-                        <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
                             <label class="form-label" for="schoolIds">Schools</label>
                             <ng-select [items]="schools" bindLabel="displayName" bindValue="id" [multiple]="true"
                                 formControlName="schoolIds" id="schoolIds"></ng-select>
                         </div>
-                        <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
                             <label class="form-label" for="Months">Months</label>
                             <ng-select [items]="allMonths" bindLabel="displayName" bindValue="id" [multiple]="true"
                                 [closeOnSelect]="false" formControlName="months" id="months"></ng-select>
@@ -20,9 +20,14 @@
                                 <span>{{ l('Get') }}</span>
                             </button>
                         </div>
-                        <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 mt-8">
+                        <div *ngIf="data.length >= 1" class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 mt-8">
                             <button (click)="GetExcel()" class="btn btn-primary blue">                                
                                 <span>{{ l('Excel') }}</span>
+                            </button>
+                        </div>
+                        <div *ngIf="data.length >= 1" class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-8">
+                            <button (click)="Create()" class="btn btn-primary blue">                                
+                                <span>{{ l('Payment') }}</span>
                             </button>
                         </div>
                     </div>
@@ -36,6 +41,7 @@
                     <thead>
                         <tr class=" bg-tableHead text-center">
                             <th><b>SN.</b></th>
+                            <th><b>Ward No</b></th>
                             <th><b>School Level</b></th>
                             <th><b>School Name</b></th>
                             <th><b>Employee Type</b></th>
@@ -62,11 +68,15 @@
                             <th><b>Internal Amount</b></th>
                             <th><b>TotalPaidAmount</b></th>
                             <th><b>Remarks</b></th>
+                            <th><b>Remove</b></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of data; let i = index" class="text-center">                            
                             <td><p>{{i+1}}</p></td>
+                            <td>
+                                <p>{{ row.wardNo }}</p>
+                            </td>
                             <td>
                                 <p>{{ row.schoolLevel }}</p>
                             </td>
@@ -145,19 +155,18 @@
                             <td>
                                 {{ row.remarks }}
                             </td>
+                            <td>
+                                <button (click)="Remove(i)" class="btn btn-danger red">                                
+                                    <span>{{ l('Remove') }}</span>
+                                </button>
+                            </td>
                         </tr>
-
                         <tr *ngIf="!data || !data.length">
                             <td>No Results Found!</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
         </div>
     </div>
 </div>

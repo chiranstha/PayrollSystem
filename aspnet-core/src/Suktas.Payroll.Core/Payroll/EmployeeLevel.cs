@@ -10,6 +10,7 @@ namespace Suktas.Payroll.Payroll
     public class EmployeeLevel : Entity<Guid>, IMustHaveTenant
     {
         public int TenantId { get; set; }
+        public virtual string AliasName { get; set; }
 
         [Required]
         public virtual string Name { get; set; }

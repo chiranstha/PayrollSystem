@@ -115,20 +115,20 @@ namespace Suktas.Payroll.Payroll.Exporting
                         "EPF Amount",
                         "Insurance Amount",
                         "TotalSalary",
-                        "InflationAllowance",
-                        "PrincipalAllowance",
-                        "TotalSalaryAmount",
+                        "Inflation Allowance",
+                        "Principal Allowance",
+                        "Total Salary Amount",
                         "Month",
-                        "MonthNames",
-                        "TotalForAllMonths",
-                        "FestivalAllowance",
-                        "TotalWithAllowanceForAllMonths",
-                        "InternalAmount",
-                        "TotalPaidAmount",
+                        "Month Names",
+                        "Total For All Months",
+                        "Festival Allowance",
+                        "Total With Allowance For All Months",
+                        "Internal Amount",
+                        "Total Paid Amount",
                         "Remarks");
 
                         AddObjects(
-                            sheet, data, d => d.WardNo,
+                            sheet, data, d => d.SN,
                         d => d.WardNo,
                         d => d.SchoolLevel,
                         d => d.SchoolName,
@@ -157,6 +157,7 @@ namespace Suktas.Payroll.Payroll.Exporting
                         d => d.TotalPaidAmount,
                         d => d.Remarks
                             );
+                        ColumnResize(sheet, 28);
 
                     });
         }

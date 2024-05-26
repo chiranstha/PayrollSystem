@@ -6873,6 +6873,58 @@ export class EmployeeSalaryServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createSalaryNew(body: CreateSalaryNewDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/CreateSalaryNew";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateSalaryNew(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateSalaryNew(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateSalaryNew(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param schoolIds (optional) 
      * @param months (optional) 
      * @return Success
@@ -22094,6 +22146,7 @@ export interface ICreateEditionDto {
 }
 
 export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
+    sn!: number;
     wardNo!: number;
     schoolLevel!: string | undefined;
     schoolName!: string | undefined;
@@ -22134,6 +22187,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
 
     init(_data?: any) {
         if (_data) {
+            this.sn = _data["sn"];
             this.wardNo = _data["wardNo"];
             this.schoolLevel = _data["schoolLevel"];
             this.schoolName = _data["schoolName"];
@@ -22174,6 +22228,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["sn"] = this.sn;
         data["wardNo"] = this.wardNo;
         data["schoolLevel"] = this.schoolLevel;
         data["schoolName"] = this.schoolName;
@@ -22207,6 +22262,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
 }
 
 export interface ICreateEmployeeSalaryNewDto {
+    sn: number;
     wardNo: number;
     schoolLevel: string | undefined;
     schoolName: string | undefined;
@@ -22630,6 +22686,7 @@ export interface ICreateOrEditEmployeeDto {
 }
 
 export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelDto {
+    aliasName!: string | undefined;
     name!: string;
     id!: string | undefined;
 
@@ -22644,6 +22701,7 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
 
     init(_data?: any) {
         if (_data) {
+            this.aliasName = _data["aliasName"];
             this.name = _data["name"];
             this.id = _data["id"];
         }
@@ -22658,6 +22716,7 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["aliasName"] = this.aliasName;
         data["name"] = this.name;
         data["id"] = this.id;
         return data;
@@ -22665,6 +22724,7 @@ export class CreateOrEditEmployeeLevelDto implements ICreateOrEditEmployeeLevelD
 }
 
 export interface ICreateOrEditEmployeeLevelDto {
+    aliasName: string | undefined;
     name: string;
     id: string | undefined;
 }
@@ -23046,6 +23106,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
     address!: string | undefined;
     phoneNo!: string | undefined;
     email!: string | undefined;
+    wardNo!: number;
     description!: string | undefined;
     level!: string | undefined;
     image!: string | undefined;
@@ -23067,6 +23128,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
             this.address = _data["address"];
             this.phoneNo = _data["phoneNo"];
             this.email = _data["email"];
+            this.wardNo = _data["wardNo"];
             this.description = _data["description"];
             this.level = _data["level"];
             this.image = _data["image"];
@@ -23088,6 +23150,7 @@ export class CreateOrEditSchoolInfoDto implements ICreateOrEditSchoolInfoDto {
         data["address"] = this.address;
         data["phoneNo"] = this.phoneNo;
         data["email"] = this.email;
+        data["wardNo"] = this.wardNo;
         data["description"] = this.description;
         data["level"] = this.level;
         data["image"] = this.image;
@@ -23102,6 +23165,7 @@ export interface ICreateOrEditSchoolInfoDto {
     address: string | undefined;
     phoneNo: string | undefined;
     email: string | undefined;
+    wardNo: number;
     description: string | undefined;
     level: string | undefined;
     image: string | undefined;
@@ -23370,6 +23434,78 @@ export interface ICreatePaymentDto {
     recurringPaymentEnabled: boolean;
     successUrl: string | undefined;
     errorUrl: string | undefined;
+}
+
+export class CreateSalaryNewDto implements ICreateSalaryNewDto {
+    schoolIds!: string[] | undefined;
+    months!: Months[] | undefined;
+    data!: CreateEmployeeSalaryNewDto[] | undefined;
+    year!: number;
+
+    constructor(data?: ICreateSalaryNewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["schoolIds"])) {
+                this.schoolIds = [] as any;
+                for (let item of _data["schoolIds"])
+                    this.schoolIds!.push(item);
+            }
+            if (Array.isArray(_data["months"])) {
+                this.months = [] as any;
+                for (let item of _data["months"])
+                    this.months!.push(item);
+            }
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(CreateEmployeeSalaryNewDto.fromJS(item));
+            }
+            this.year = _data["year"];
+        }
+    }
+
+    static fromJS(data: any): CreateSalaryNewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateSalaryNewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.schoolIds)) {
+            data["schoolIds"] = [];
+            for (let item of this.schoolIds)
+                data["schoolIds"].push(item);
+        }
+        if (Array.isArray(this.months)) {
+            data["months"] = [];
+            for (let item of this.months)
+                data["months"].push(item);
+        }
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        data["year"] = this.year;
+        return data;
+    }
+}
+
+export interface ICreateSalaryNewDto {
+    schoolIds: string[] | undefined;
+    months: Months[] | undefined;
+    data: CreateEmployeeSalaryNewDto[] | undefined;
+    year: number;
 }
 
 export class CreateTenantInput implements ICreateTenantInput {
@@ -26991,6 +27127,7 @@ export interface IGetEmployeeForViewDto {
 }
 
 export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
+    aliasName!: string | undefined;
     name!: string | undefined;
     id!: string;
 
@@ -27005,6 +27142,7 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
 
     init(_data?: any) {
         if (_data) {
+            this.aliasName = _data["aliasName"];
             this.name = _data["name"];
             this.id = _data["id"];
         }
@@ -27019,6 +27157,7 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["aliasName"] = this.aliasName;
         data["name"] = this.name;
         data["id"] = this.id;
         return data;
@@ -27026,6 +27165,7 @@ export class GetEmployeeLevelForEdit implements IGetEmployeeLevelForEdit {
 }
 
 export interface IGetEmployeeLevelForEdit {
+    aliasName: string | undefined;
     name: string | undefined;
     id: string;
 }
@@ -28613,6 +28753,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
     email!: string | undefined;
     level!: string | undefined;
     description!: string | undefined;
+    wardNo!: number;
     imageBytes!: string | undefined;
     imageFileName!: string | undefined;
     image!: string | undefined;
@@ -28635,6 +28776,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
             this.email = _data["email"];
             this.level = _data["level"];
             this.description = _data["description"];
+            this.wardNo = _data["wardNo"];
             this.imageBytes = _data["imageBytes"];
             this.imageFileName = _data["imageFileName"];
             this.image = _data["image"];
@@ -28657,6 +28799,7 @@ export class GetSchoolInfoForEditOutput implements IGetSchoolInfoForEditOutput {
         data["email"] = this.email;
         data["level"] = this.level;
         data["description"] = this.description;
+        data["wardNo"] = this.wardNo;
         data["imageBytes"] = this.imageBytes;
         data["imageFileName"] = this.imageFileName;
         data["image"] = this.image;
@@ -28672,6 +28815,7 @@ export interface IGetSchoolInfoForEditOutput {
     email: string | undefined;
     level: string | undefined;
     description: string | undefined;
+    wardNo: number;
     imageBytes: string | undefined;
     imageFileName: string | undefined;
     image: string | undefined;

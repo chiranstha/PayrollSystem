@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { CreateEmployeeSalaryNewDto, EmployeeSalarySchoolInfoLookupTableDto, EmployeeSalaryServiceProxy } from "@shared/service-proxies/service-proxies";
+import { CreateEmployeeSalaryNewDto, CreateSalaryNewDto, EmployeeSalarySchoolInfoLookupTableDto, EmployeeSalaryServiceProxy, Months } from "@shared/service-proxies/service-proxies";
 import { FileDownloadService } from "@shared/utils/file-download.service";
 
 @Component({
@@ -12,7 +12,8 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
 
     form: FormGroup;
     schools: EmployeeSalarySchoolInfoLookupTableDto[];
-    data: CreateEmployeeSalaryNewDto[];
+    data: CreateEmployeeSalaryNewDto[] = [];
+    createData: CreateSalaryNewDto;
 
     allMonths = [
         { id: 1, displayName: 'Baisakh' },
@@ -54,20 +55,39 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
         })
     }
 
-    GetData(){
+    GetData() {
         var schoolIds = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
-        this.employeeSalaryServiceProxy.generateSalaryNew(schoolIds,month).subscribe((res)=> {
+        this.employeeSalaryServiceProxy.generateSalaryNew(schoolIds, month).subscribe((res) => {
             this.data = res;
         })
     }
 
-    GetExcel(){
+    GetExcel() {
         var schoolIds = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
-       this.employeeSalaryServiceProxy.generateSalaryNewExcel(schoolIds,month)
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
+        this.employeeSalaryServiceProxy.generateSalaryNewExcel(schoolIds, month)
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    Remove(i: number) {
+        const control = this.data;
+        if (control.length > 1) {
+            control.splice(i,1);
+        }
+    }
+
+    Create()
+    {
+        var schoolI = this.form.get('schoolIds').value;
+        var month = this.form.get('months').value;
+        this.createData = new CreateSalaryNewDto();
+        this.createData.data = this.data;
+        this.createData.months = month;
+        this.createData.year = 2081;
+        this.createData.schoolIds = schoolI;
+        this.employeeSalaryServiceProxy.createSalaryNew(this.createData).subscribe();
     }
 }
