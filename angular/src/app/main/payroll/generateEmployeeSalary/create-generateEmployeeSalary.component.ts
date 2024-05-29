@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { CreateEmployeeSalaryNewDto, CreateSalaryNewDto, EmployeeSalarySchoolInfoLookupTableDto, EmployeeSalaryServiceProxy, Months } from "@shared/service-proxies/service-proxies";
+import { CreateEmployeeSalaryNewDto, CreateGenerateSalaryNewDto, CreateSalaryNewDto, EmployeeSalarySchoolInfoLookupTableDto, EmployeeSalaryServiceProxy, Months } from "@shared/service-proxies/service-proxies";
 import { FileDownloadService } from "@shared/utils/file-download.service";
 
 @Component({
@@ -14,6 +14,7 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     schools: EmployeeSalarySchoolInfoLookupTableDto[];
     data: CreateEmployeeSalaryNewDto[] = [];
     createData: CreateSalaryNewDto;
+    input: CreateGenerateSalaryNewDto;
 
     allMonths = [
         { id: 1, displayName: 'Baisakh' },
@@ -45,6 +46,7 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     CreateForm(item: any = {}) {
         this.form = this.fb.group({
             schoolIds: [item.schoolIds ? item.schoolIds : ''],
+            year: [item.year ? item.year : 2081],
             months: []
         })
     }
@@ -58,7 +60,12 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     GetData() {
         var schoolIds = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
-        this.employeeSalaryServiceProxy.generateSalaryNew(schoolIds, month).subscribe((res) => {
+        var year = this.form.get('year').value;
+        this.input = new CreateGenerateSalaryNewDto();
+        this.input.months = month;
+        this.input.year = year;
+        this.input.schoolIds = schoolIds;
+        this.employeeSalaryServiceProxy.generateSalaryNew(this.input).subscribe((res) => {
             this.data = res;
         })
     }
@@ -66,7 +73,12 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     GetExcel() {
         var schoolIds = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
-        this.employeeSalaryServiceProxy.generateSalaryNewExcel(schoolIds, month)
+        var year = this.form.get('year').value;
+        this.input = new CreateGenerateSalaryNewDto();
+        this.input.months = month;
+        this.input.year = year;
+        this.input.schoolIds = schoolIds;
+        this.employeeSalaryServiceProxy.generateSalaryNewExcel(this.input)
             .subscribe(result => {
                 this._fileDownloadService.downloadTempFile(result);
             });
@@ -75,19 +87,20 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     Remove(i: number) {
         const control = this.data;
         if (control.length > 1) {
-            control.splice(i,1);
+            control.splice(i, 1);
         }
     }
 
-    Create()
-    {
-        var schoolI = this.form.get('schoolIds').value;
+    Create() {
+        //    var schoolI = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
         this.createData = new CreateSalaryNewDto();
         this.createData.data = this.data;
         this.createData.months = month;
         this.createData.year = 2081;
-        this.createData.schoolIds = schoolI;
+        //  this.createData.schoolIds = schoolI;
         this.employeeSalaryServiceProxy.createSalaryNew(this.createData).subscribe();
+        this.CreateForm();
+        this.data = [];
     }
 }

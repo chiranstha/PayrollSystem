@@ -35,6 +35,10 @@ export class AppNavigationService {
             new AppMenuItem('GenerateEmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/generateEmployeeSalary'),
             new AppMenuItem('FestivalBonusSettings', 'Pages.FestivalBonusSettings', 'flaticon-more', '/app/main/payroll/festivalBonusSettings'),
             new AppMenuItem('GradeUpgrades', 'Pages.GradeUpgrades', 'flaticon-more', '/app/main/payroll/gradeUpgrades'),
+            new AppMenuItem('Reports', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '',[],[
+                new AppMenuItem('Salary Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/salaryReport'),
+                new AppMenuItem('School Wise Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/schoolWiseReport'),
+            ] ),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',

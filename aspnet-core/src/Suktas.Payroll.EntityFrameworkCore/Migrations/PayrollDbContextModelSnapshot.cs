@@ -2321,6 +2321,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<int>("SN")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SchoolInfoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("SchoolLevel")
                         .HasColumnType("nvarchar(max)");
 
@@ -2361,6 +2364,8 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("EmployeeSalaryMasterNewId");
 
+                    b.HasIndex("SchoolInfoId");
+
                     b.ToTable("tbl_EmployeeSalaryDetailNew");
                 });
 
@@ -2391,6 +2396,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Months")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -2977,7 +2985,15 @@ namespace Suktas.Payroll.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
+                        .WithMany()
+                        .HasForeignKey("SchoolInfoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("EmployeeSalaryMasterNewFk");
+
+                    b.Navigation("SchoolInfoFk");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryMasterMonthNew", b =>

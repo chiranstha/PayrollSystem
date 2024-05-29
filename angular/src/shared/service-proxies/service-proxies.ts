@@ -6802,29 +6802,21 @@ export class EmployeeSalaryServiceProxy {
     }
 
     /**
-     * @param schoolIds (optional) 
-     * @param months (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    generateSalaryNew(schoolIds: string[] | undefined, months: Months[] | undefined): Observable<CreateEmployeeSalaryNewDto[]> {
+    generateSalaryNew(body: CreateGenerateSalaryNewDto | undefined): Observable<CreateEmployeeSalaryNewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalaryNew";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (schoolIds === null || schoolIds === undefined)
-            throw new Error("The parameter 'schoolIds' cannot be null.");
-        else
-            schoolIds.forEach(item_ => content_.append("schoolIds", item_.toString()));
-        if (months === null || months === undefined)
-            throw new Error("The parameter 'months' cannot be null.");
-        else
-            months.forEach(item_ => content_.append("months", item_.toString()));
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -6862,6 +6854,254 @@ export class EmployeeSalaryServiceProxy {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param year (optional) 
+     * @return Success
+     */
+    getAllSalaries(year: number | undefined): Observable<MonthwiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GetAllSalaries?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllSalaries(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSalaries(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<MonthwiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<MonthwiseReportDto[]>;
+        }));
+    }
+
+    protected processGetAllSalaries(response: HttpResponseBase): Observable<MonthwiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(MonthwiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param year (optional) 
+     * @return Success
+     */
+    getAllSalariesExcel(year: number | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GetAllSalariesExcel?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllSalariesExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSalariesExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGetAllSalariesExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param year (optional) 
+     * @param schoolId (optional) 
+     * @return Success
+     */
+    schoolWiseReport(year: number | undefined, schoolId: string | undefined): Observable<SchoolWiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/SchoolWiseReport?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        if (schoolId === null)
+            throw new Error("The parameter 'schoolId' cannot be null.");
+        else if (schoolId !== undefined)
+            url_ += "schoolId=" + encodeURIComponent("" + schoolId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSchoolWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSchoolWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SchoolWiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SchoolWiseReportDto[]>;
+        }));
+    }
+
+    protected processSchoolWiseReport(response: HttpResponseBase): Observable<SchoolWiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SchoolWiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param year (optional) 
+     * @param schoolId (optional) 
+     * @return Success
+     */
+    schoolWiseReportExcel(year: number | undefined, schoolId: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/SchoolWiseReportExcel?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        if (schoolId === null)
+            throw new Error("The parameter 'schoolId' cannot be null.");
+        else if (schoolId !== undefined)
+            url_ += "schoolId=" + encodeURIComponent("" + schoolId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSchoolWiseReportExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSchoolWiseReportExcel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processSchoolWiseReportExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -6925,29 +7165,77 @@ export class EmployeeSalaryServiceProxy {
     }
 
     /**
-     * @param schoolIds (optional) 
-     * @param months (optional) 
+     * @param masterId (optional) 
      * @return Success
      */
-    generateSalaryNewExcel(schoolIds: string[] | undefined, months: Months[] | undefined): Observable<FileDto> {
+    getSalaryNewForEdit(masterId: string | undefined): Observable<CreateSalaryNewDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GetSalaryNewForEdit?";
+        if (masterId === null)
+            throw new Error("The parameter 'masterId' cannot be null.");
+        else if (masterId !== undefined)
+            url_ += "masterId=" + encodeURIComponent("" + masterId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSalaryNewForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSalaryNewForEdit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CreateSalaryNewDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CreateSalaryNewDto>;
+        }));
+    }
+
+    protected processGetSalaryNewForEdit(response: HttpResponseBase): Observable<CreateSalaryNewDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreateSalaryNewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    generateSalaryNewExcel(body: CreateGenerateSalaryNewDto | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalaryNewExcel";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (schoolIds === null || schoolIds === undefined)
-            throw new Error("The parameter 'schoolIds' cannot be null.");
-        else
-            schoolIds.forEach(item_ => content_.append("schoolIds", item_.toString()));
-        if (months === null || months === undefined)
-            throw new Error("The parameter 'months' cannot be null.");
-        else
-            months.forEach(item_ => content_.append("months", item_.toString()));
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -7483,6 +7771,123 @@ export class EmployeeSalaryExcelExporterServiceProxy {
     }
 
     protected processExportToFileSalary(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param data (optional) 
+     * @return Success
+     */
+    getAllSalaries(data: MonthwiseReportDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalaryExcelExporter/GetAllSalaries?";
+        if (data === null)
+            throw new Error("The parameter 'data' cannot be null.");
+        else if (data !== undefined)
+            data && data.forEach((item, index) => {
+                for (const attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "data[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllSalaries(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSalaries(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processGetAllSalaries(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    schoolWiseReport(body: SchoolWiseReportDto[] | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/EmployeeSalaryExcelExporter/SchoolWiseReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSchoolWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSchoolWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileDto>;
+        }));
+    }
+
+    protected processSchoolWiseReport(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -22150,6 +22555,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
     wardNo!: number;
     schoolLevel!: string | undefined;
     schoolName!: string | undefined;
+    schoolInfoId!: string;
     employeeType!: string | undefined;
     employeeLevel!: string | undefined;
     employeeName!: string | undefined;
@@ -22191,6 +22597,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
             this.wardNo = _data["wardNo"];
             this.schoolLevel = _data["schoolLevel"];
             this.schoolName = _data["schoolName"];
+            this.schoolInfoId = _data["schoolInfoId"];
             this.employeeType = _data["employeeType"];
             this.employeeLevel = _data["employeeLevel"];
             this.employeeName = _data["employeeName"];
@@ -22232,6 +22639,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
         data["wardNo"] = this.wardNo;
         data["schoolLevel"] = this.schoolLevel;
         data["schoolName"] = this.schoolName;
+        data["schoolInfoId"] = this.schoolInfoId;
         data["employeeType"] = this.employeeType;
         data["employeeLevel"] = this.employeeLevel;
         data["employeeName"] = this.employeeName;
@@ -22266,6 +22674,7 @@ export interface ICreateEmployeeSalaryNewDto {
     wardNo: number;
     schoolLevel: string | undefined;
     schoolName: string | undefined;
+    schoolInfoId: string;
     employeeType: string | undefined;
     employeeLevel: string | undefined;
     employeeName: string | undefined;
@@ -22407,6 +22816,66 @@ export class CreateFriendshipWithDifferentTenantInput implements ICreateFriendsh
 export interface ICreateFriendshipWithDifferentTenantInput {
     tenancyName: string;
     userName: string | undefined;
+}
+
+export class CreateGenerateSalaryNewDto implements ICreateGenerateSalaryNewDto {
+    schoolIds!: string[] | undefined;
+    year!: number;
+    months!: Months[] | undefined;
+
+    constructor(data?: ICreateGenerateSalaryNewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["schoolIds"])) {
+                this.schoolIds = [] as any;
+                for (let item of _data["schoolIds"])
+                    this.schoolIds!.push(item);
+            }
+            this.year = _data["year"];
+            if (Array.isArray(_data["months"])) {
+                this.months = [] as any;
+                for (let item of _data["months"])
+                    this.months!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateGenerateSalaryNewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateGenerateSalaryNewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.schoolIds)) {
+            data["schoolIds"] = [];
+            for (let item of this.schoolIds)
+                data["schoolIds"].push(item);
+        }
+        data["year"] = this.year;
+        if (Array.isArray(this.months)) {
+            data["months"] = [];
+            for (let item of this.months)
+                data["months"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface ICreateGenerateSalaryNewDto {
+    schoolIds: string[] | undefined;
+    year: number;
+    months: Months[] | undefined;
 }
 
 export class CreateInvoiceDto implements ICreateInvoiceDto {
@@ -23437,7 +23906,6 @@ export interface ICreatePaymentDto {
 }
 
 export class CreateSalaryNewDto implements ICreateSalaryNewDto {
-    schoolIds!: string[] | undefined;
     months!: Months[] | undefined;
     data!: CreateEmployeeSalaryNewDto[] | undefined;
     year!: number;
@@ -23453,11 +23921,6 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["schoolIds"])) {
-                this.schoolIds = [] as any;
-                for (let item of _data["schoolIds"])
-                    this.schoolIds!.push(item);
-            }
             if (Array.isArray(_data["months"])) {
                 this.months = [] as any;
                 for (let item of _data["months"])
@@ -23481,11 +23944,6 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schoolIds)) {
-            data["schoolIds"] = [];
-            for (let item of this.schoolIds)
-                data["schoolIds"].push(item);
-        }
         if (Array.isArray(this.months)) {
             data["months"] = [];
             for (let item of this.months)
@@ -23502,7 +23960,6 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
 }
 
 export interface ICreateSalaryNewDto {
-    schoolIds: string[] | undefined;
     months: Months[] | undefined;
     data: CreateEmployeeSalaryNewDto[] | undefined;
     year: number;
@@ -31488,6 +31945,62 @@ export enum Months {
     Chaitra = 12,
 }
 
+export class MonthwiseReportDto implements IMonthwiseReportDto {
+    id!: string;
+    year!: number;
+    monthName!: string | undefined;
+    schoolWithAmounts!: SchoolWithAmount[] | undefined;
+
+    constructor(data?: IMonthwiseReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.year = _data["year"];
+            this.monthName = _data["monthName"];
+            if (Array.isArray(_data["schoolWithAmounts"])) {
+                this.schoolWithAmounts = [] as any;
+                for (let item of _data["schoolWithAmounts"])
+                    this.schoolWithAmounts!.push(SchoolWithAmount.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): MonthwiseReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MonthwiseReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["year"] = this.year;
+        data["monthName"] = this.monthName;
+        if (Array.isArray(this.schoolWithAmounts)) {
+            data["schoolWithAmounts"] = [];
+            for (let item of this.schoolWithAmounts)
+                data["schoolWithAmounts"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IMonthwiseReportDto {
+    id: string;
+    year: number;
+    monthName: string | undefined;
+    schoolWithAmounts: SchoolWithAmount[] | undefined;
+}
+
 export class MoveOrganizationUnitInput implements IMoveOrganizationUnitInput {
     id!: number;
     newParentId!: number | undefined;
@@ -34408,6 +34921,90 @@ export interface ISavePageInput {
     dashboardName: string | undefined;
     application: string | undefined;
     pages: Page[] | undefined;
+}
+
+export class SchoolWiseReportDto implements ISchoolWiseReportDto {
+    year!: number;
+    months!: string | undefined;
+    totalAmount!: number;
+
+    constructor(data?: ISchoolWiseReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.year = _data["year"];
+            this.months = _data["months"];
+            this.totalAmount = _data["totalAmount"];
+        }
+    }
+
+    static fromJS(data: any): SchoolWiseReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchoolWiseReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["year"] = this.year;
+        data["months"] = this.months;
+        data["totalAmount"] = this.totalAmount;
+        return data;
+    }
+}
+
+export interface ISchoolWiseReportDto {
+    year: number;
+    months: string | undefined;
+    totalAmount: number;
+}
+
+export class SchoolWithAmount implements ISchoolWithAmount {
+    schoolNames!: string | undefined;
+    totalAmount!: number;
+
+    constructor(data?: ISchoolWithAmount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.schoolNames = _data["schoolNames"];
+            this.totalAmount = _data["totalAmount"];
+        }
+    }
+
+    static fromJS(data: any): SchoolWithAmount {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchoolWithAmount();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schoolNames"] = this.schoolNames;
+        data["totalAmount"] = this.totalAmount;
+        return data;
+    }
+}
+
+export interface ISchoolWithAmount {
+    schoolNames: string | undefined;
+    totalAmount: number;
 }
 
 export class SecuritySettingsEditDto implements ISecuritySettingsEditDto {

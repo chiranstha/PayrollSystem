@@ -354,16 +354,16 @@ namespace Suktas.Payroll.Payroll
             return result;
         }
 
-        public async Task<List<CreateEmployeeSalaryNewDto>> GenerateSalaryNew([FromForm] List<Guid> schoolIds, [FromForm] List<Months> months)
+        public async Task<List<CreateEmployeeSalaryNewDto>> GenerateSalaryNew(CreateGenerateSalaryNewDto input)
         {
             var result = new List<CreateEmployeeSalaryNewDto>();
-            var schools = await _lookupSchoolInfoRepository.GetAll().Where(x => schoolIds.Contains(x.Id)).ToListAsync();
-            var employees = await _lookupEmployeeRepository.GetAll().Where(x => schoolIds.Contains(x.SchoolInfoId))
+            var schools = await _lookupSchoolInfoRepository.GetAll().Where(x => input.SchoolIds.Contains(x.Id)).ToListAsync();
+            var employees = await _lookupEmployeeRepository.GetAll().Where(x => input.SchoolIds.Contains(x.SchoolInfoId))
                 .Include(x => x.SchoolInfoFk).Include(x => x.EmployeeLevelFk).ToListAsync();
             var categorySalaries = await _categorySalaryRepository.GetAll().ToListAsync();
             var gradeUpgrades = await _gradeUpgradeRepository.GetAll().ToListAsync();
             var principalAllowanceSettins = await _principalAllowanceSettingRepository.GetAll().ToListAsync();
-            var festivalAllowance = await _festivalBonusSettingRepository.GetAll().Where(x => months.Contains(x.MonthId)).ToListAsync();
+            var festivalAllowance = await _festivalBonusSettingRepository.GetAll().Where(x => input.Months.Contains(x.MonthId)).ToListAsync();
             int sn = 1;
             foreach (var employee in employees)
             {
@@ -372,6 +372,7 @@ namespace Suktas.Payroll.Payroll
                     SN = sn++,
                     WardNo = employee.SchoolInfoFk.WardNo,
                     SchoolLevel = employee.SchoolInfoFk.Level,
+                    SchoolInfoId = employee.SchoolInfoId,
                     SchoolName = employee.SchoolInfoFk.Name,
                     EmployeeType = employee.Category.ToString(),
                     EmployeeLevel = employee.EmployeeLevelFk.Name,
@@ -382,8 +383,8 @@ namespace Suktas.Payroll.Payroll
                     InsuranceAmount = employee.InsuranceAmount,
                     InflationAllowance = 2000,
                     PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
-                    Month = months.Count,
-                    MonthNames = string.Join(',', months.Select(x => x.ToString())),
+                    Month = input.Months.Count,
+                    MonthNames = string.Join(',', input.Months.Select(x => x.ToString())),
                     InternalAmount = 0,
                 };
                 data.GradeRate = Math.Round(data.BasicSalary / 30, 0);
@@ -403,15 +404,97 @@ namespace Suktas.Payroll.Payroll
             return result;
         }
 
+        public async Task<List<MonthwiseReportDto>> GetAllSalaries(int year)
+        {
+            var result = new List<MonthwiseReportDto>();
+            var query = _employeeSalaryMasterNew.GetAll();
+            if (year != 0)
+                query = query.Where(x => x.Year == year);
+            var employeeSalaryMasters = await query.ToListAsync();
+            var masterIds = employeeSalaryMasters.Select(x => x.Id).ToList();
+
+            var detailQuery = _employeeSalaryDetailNewRepository.GetAll();
+            var data = await detailQuery.Where(x => masterIds.Contains(x.EmployeeSalaryMasterNewId))
+                .Select(x => new
+                {
+                    x.SchoolInfoId,
+                    x.EmployeeSalaryMasterNewId,
+                    x.TotalPaidAmount
+                }).ToListAsync();
+            foreach (var employeeSalaryMaster in employeeSalaryMasters)
+            {
+                var months = await _employeeSalaryMasterMonthNew.GetAll().Where(x => x.EmployeeSalaryMasterNewId == employeeSalaryMaster.Id)
+                    .Select(x => x.Month).ToListAsync();
+                var masterWiseData = data.Where(x => x.EmployeeSalaryMasterNewId == employeeSalaryMaster.Id);
+                var distinctSchools = masterWiseData.Select(x => x.SchoolInfoId).Distinct();
+                var schoolInfos = await _lookupSchoolInfoRepository.GetAll().ToListAsync();
+                List<SchoolWithAmount> schoolWithAmounts = new List<SchoolWithAmount>();
+                foreach (var distinctSchool in distinctSchools)
+                {
+                    schoolWithAmounts.Add(new SchoolWithAmount
+                    {
+                        SchoolNames = schoolInfos.FirstOrDefault(x => x.Id == distinctSchool).Name,
+                        TotalAmount = masterWiseData.Where(x => x.SchoolInfoId == distinctSchool).Select(x => x.TotalPaidAmount).Sum()
+                    });
+                }
+                var res = new MonthwiseReportDto
+                {
+                    Id = employeeSalaryMaster.Id,
+                    Year = employeeSalaryMaster.Year,
+                    MonthName = string.Join(',', months.Select(x => x.ToString())),
+                    SchoolWithAmounts = schoolWithAmounts
+                };
+                result.Add(res);
+            }
+            return result;
+        }
+
+        public async Task<FileDto> GetAllSalariesExcel(int year)
+        {
+            var data = await GetAllSalaries(year);
+            return _employeeSalaryExcelExporter.GetAllSalaries(data);
+        }
+
+        public async Task<List<SchoolWiseReportDto>> SchoolWiseReport(int year, Guid schoolId)
+        {
+            var result = new List<SchoolWiseReportDto>();
+            var master = _employeeSalaryMasterNew.GetAll();
+            if (year != 0)
+                master = master.Where(x => x.Year == year);
+            var masterIds = master.Select(x => x.Id).Distinct();
+            var details = await _employeeSalaryDetailNewRepository.GetAll().Where(x => x.SchoolInfoId == schoolId && masterIds.Contains(x.EmployeeSalaryMasterNewId)).ToListAsync();
+            var months = await _employeeSalaryMasterMonthNew.GetAll().Where(x => masterIds.Contains(x.EmployeeSalaryMasterNewId)).ToListAsync();
+            foreach (var masterId in masterIds)
+            {
+                var data = new SchoolWiseReportDto
+                {
+                    Year = year,
+                    Months = string.Join(',', months.Where(x => x.EmployeeSalaryMasterNewId == masterId).Select(x => x.Month).Select(x => x.ToString())),
+                    TotalAmount = details.Where(x => x.EmployeeSalaryMasterNewId == masterId).Sum(x => x.TotalPaidAmount)
+                };
+                if (data.TotalAmount > 0)
+                    result.Add(data);
+            }
+            return result;
+        }
+
+        public async Task<FileDto> SchoolWiseReportExcel(int year, Guid schoolId)
+        {
+            var data = await SchoolWiseReport(year,schoolId);
+            return _employeeSalaryExcelExporter.SchoolWiseReport(data);
+        }
+
+
         public async Task CreateSalaryNew(CreateSalaryNewDto data)
         {
             var employeeSalaryMaster = new EmployeeSalaryMasterNew
             {
                 Year = data.Year,
+                Months = string.Join(",", data.months.Select(x => x.ToString())),
                 TenantId = AbpSession.TenantId
             };
             var masterId = await _employeeSalaryMasterNew.InsertAndGetIdAsync(employeeSalaryMaster);
-            foreach(var month in data.months)
+            foreach (var month in data.months)
             {
                 var employeeSalaryMasterMonthNew = new EmployeeSalaryMasterMonthNew
                 {
@@ -420,18 +503,8 @@ namespace Suktas.Payroll.Payroll
                     Month = month
                 };
                 await _employeeSalaryMasterMonthNew.InsertAsync(employeeSalaryMasterMonthNew);
-            }    
-            foreach(var schoolId in data.schoolIds)
-            {
-                var school = new EmployeeSalaryMasterSchoolNew
-                {
-                    SchoolInfoId = schoolId,
-                    EmployeeSalaryMasterNewId = masterId,
-                    TenantId = AbpSession.TenantId
-                };
-                await _employeeSalaryMasterSchoolNew.InsertAsync(school);
             }
-            foreach(var detail in data.data)
+            foreach (var detail in data.data)
             {
                 var set = new EmployeeSalaryDetailNew
                 {
@@ -464,15 +537,61 @@ namespace Suktas.Payroll.Payroll
                     TotalPaidAmount = detail.TotalPaidAmount,
                     Remarks = detail.Remarks,
                     IsPaid = true,
+                    TenantId = AbpSession.TenantId,
+                    SchoolInfoId = detail.SchoolInfoId,
                     EmployeeSalaryMasterNewId = masterId
                 };
                 await _employeeSalaryDetailNewRepository.InsertAsync(set);
             }
         }
 
-        public async Task<FileDto> GenerateSalaryNewExcel([FromForm] List<Guid> schoolIds, [FromForm] List<Months> months)
+        public async Task<CreateSalaryNewDto> GetSalaryNewForEdit(Guid masterId)
         {
-            var data = await GenerateSalaryNew(schoolIds, months);
+            var result = new CreateSalaryNewDto
+            {
+                Year = (await _employeeSalaryMasterNew.FirstOrDefaultAsync(x => x.Id == masterId)).Year,
+                //       schoolIds = await _employeeSalaryMasterSchoolNew.GetAll().Where(x => x.EmployeeSalaryMasterNewId == masterId).Select(x => x.SchoolInfoId).ToListAsync(),
+                months = await _employeeSalaryMasterMonthNew.GetAll().Where(x => x.EmployeeSalaryMasterNewId == masterId).Select(x => x.Month).ToListAsync(),
+                data = (await _employeeSalaryDetailNewRepository.GetAll().Where(x => x.EmployeeSalaryMasterNewId == masterId).ToListAsync()).Select(detail => new CreateEmployeeSalaryNewDto
+                {
+                    Id = detail.Id,
+                    SN = detail.SN,
+                    WardNo = detail.WardNo,
+                    SchoolInfoId = detail.SchoolInfoId,
+                    SchoolLevel = detail.SchoolLevel,
+                    SchoolName = detail.SchoolName,
+                    EmployeeType = detail.EmployeeType,
+                    EmployeeLevel = detail.EmployeeLevel,
+                    EmployeeName = detail.EmployeeName,
+                    BasicSalary = detail.BasicSalary,
+                    Grade = detail.Grade,
+                    GradeRate = detail.GradeRate,
+                    GradeAmount = detail.GradeAmount,
+                    TechnicalGradeAmount = detail.TechnicalGradeAmount,
+                    TotalGradeAmount = detail.TotalGradeAmount,
+                    Total = detail.Total,
+                    EPFAmount = detail.EPFAmount,
+                    InsuranceAmount = detail.InsuranceAmount,
+                    TotalSalary = detail.TotalSalary,
+                    InflationAllowance = detail.InflationAllowance,
+                    PrincipalAllowance = detail.PrincipalAllowance,
+                    TotalSalaryAmount = detail.TotalSalaryAmount,
+                    Month = detail.Month,
+                    MonthNames = detail.MonthNames,
+                    TotalForAllMonths = detail.TotalForAllMonths,
+                    FestivalAllowance = detail.FestivalAllowance,
+                    TotalWithAllowanceForAllMonths = detail.TotalWithAllowanceForAllMonths,
+                    InternalAmount = detail.InternalAmount,
+                    TotalPaidAmount = detail.TotalPaidAmount,
+                    Remarks = detail.Remarks
+                }).ToList(),
+            };
+            return result;
+        }
+
+        public async Task<FileDto> GenerateSalaryNewExcel(CreateGenerateSalaryNewDto input)
+        {
+            var data = await GenerateSalaryNew(input);
             return _employeeSalaryExcelExporter.ExportToFileSalary(data);
         }
 

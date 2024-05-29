@@ -67,6 +67,11 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
                         data: { permission: 'Pages.Tenant.Dashboard' },
                     },
+                    {
+                        path: 'reports',
+                        loadChildren: () => import('./reports/reports.module').then((m) => m.ReportsModule),
+                        data: { permission: 'Pages.EmployeeLevels' },
+                    },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },
                 ],

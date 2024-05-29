@@ -11,6 +11,7 @@ namespace Suktas.Payroll.Payroll.Dtos
         public int WardNo { get; set; }
         public string SchoolLevel { get; set; }
         public string SchoolName { get; set; }
+        public Guid SchoolInfoId { get; set; }
         public string EmployeeType { get; set; }
         public string EmployeeLevel { get; set; }
         public string EmployeeName { get; set; }

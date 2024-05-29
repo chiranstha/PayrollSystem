@@ -161,5 +161,50 @@ namespace Suktas.Payroll.Payroll.Exporting
 
                     });
         }
+
+        public FileDto GetAllSalaries(List<MonthwiseReportDto> data)
+        {
+            return CreateExcelPackage(
+                   "Salary Report.xlsx",
+                   excelPackage =>
+                   {
+                       var sheet = excelPackage.CreateSheet("Salary Report");
+
+                       AddHeader(
+                           sheet,
+                       "S.N.",
+                       "Year",
+                       "MonthName");
+
+                       AddObjects(
+                           sheet, data,
+                           d => d.Id,
+                           d => d.Year,
+                           d => d.MonthName
+                           );
+                   });
+        }
+
+        public FileDto SchoolWiseReport(List<SchoolWiseReportDto> data)
+        {
+            return CreateExcelPackage(
+                  "School Wise Report.xlsx",
+                  excelPackage =>
+                  {
+                      var sheet = excelPackage.CreateSheet("School Wise Report");
+
+                      AddHeader(sheet,
+                      "Year",
+                      "Month",
+                      "Amount");
+
+                      AddObjects(
+                          sheet, data,
+                          d => d.Year,
+                          d => d.Months,
+                          d => d.TotalAmount
+                          );
+                  });
+        }
     }
 }

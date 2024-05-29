@@ -5,12 +5,16 @@
             <form [formGroup]="form">
                 <div>
                     <div class="row">
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
                             <label class="form-label" for="schoolIds">Schools</label>
                             <ng-select [items]="schools" bindLabel="displayName" bindValue="id" [multiple]="true"
-                                formControlName="schoolIds" id="schoolIds"></ng-select>
+                                [closeOnSelect]="false" formControlName="schoolIds" id="schoolIds"></ng-select>
                         </div>
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                            <label class="form-label" for="Year">Year</label>
+                            <input type="number" class="form-control" formControlName="year" name="year" />
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
                             <label class="form-label" for="Months">Months</label>
                             <ng-select [items]="allMonths" bindLabel="displayName" bindValue="id" [multiple]="true"
                                 [closeOnSelect]="false" formControlName="months" id="months"></ng-select>
@@ -20,13 +24,13 @@
                                 <span>{{ l('Get') }}</span>
                             </button>
                         </div>
-                        <div *ngIf="data.length >= 1" class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 mt-8">
-                            <button (click)="GetExcel()" class="btn btn-primary blue">                                
+                        <div *ngIf="data.length >= 1" class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 mt-8">
+                            <button (click)="GetExcel()" class="btn btn-primary blue">
                                 <span>{{ l('Excel') }}</span>
                             </button>
-                        </div>
-                        <div *ngIf="data.length >= 1" class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-8">
-                            <button (click)="Create()" class="btn btn-primary blue">                                
+                            <!-- </div>
+                        <div *ngIf="data.length >= 1" class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-8"> -->
+                            <button (click)="Create()" class="btn btn-primary blue">
                                 <span>{{ l('Payment') }}</span>
                             </button>
                         </div>
@@ -72,8 +76,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let row of data; let i = index" class="text-center">                            
-                            <td><p>{{i+1}}</p></td>
+                        <tr *ngFor="let row of data; let i = index" class="text-center">
+                            <td>
+                                <p>{{i+1}}</p>
+                            </td>
                             <td>
                                 <p>{{ row.wardNo }}</p>
                             </td>
@@ -156,7 +162,7 @@
                                 {{ row.remarks }}
                             </td>
                             <td>
-                                <button (click)="Remove(i)" class="btn btn-danger red">                                
+                                <button (click)="Remove(i)" class="btn btn-danger red">
                                     <span>{{ l('Remove') }}</span>
                                 </button>
                             </td>
@@ -164,8 +170,9 @@
                         <tr *ngIf="!data || !data.length">
                             <td>No Results Found!</td>
                         </tr>
-                    </tbody>
+                    </tbody>                    
                 </table>
+                {{this.data | json}}
             </div>
         </div>
     </div>

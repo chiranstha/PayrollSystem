@@ -41,4 +41,4 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale },
     ],
 })
-export class MainModule {}
+export class MainModule { }

@@ -2,20 +2,14 @@
     <div class="content d-flex flex-column flex-column-fluid">
         <sub-header [title]="'SchoolInfos' | localize" [description]="'SchoolInfosHeaderInfo' | localize">
             <div role="actions">
-                <button
-                    (click)="exportToExcel()"
-                    class="btn btn-outline btn-outline-success btn-active-light-success me-1"
-                >
+                <button (click)="exportToExcel()"
+                    class="btn btn-outline btn-outline-success btn-active-light-success me-1">
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
 
-                <button
-                    id="btn_create_schoolInfo"
-                    *ngIf="isGranted('Pages.SchoolInfos.Create')"
-                    (click)="createSchoolInfo()"
-                    class="btn btn-primary blue"
-                >
+                <button id="btn_create_schoolInfo" *ngIf="isGranted('Pages.SchoolInfos.Create')"
+                    (click)="createSchoolInfo()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
                     {{ l('CreateNewSchoolInfo') }}
                 </button>
@@ -31,20 +25,12 @@
                                 <div class="col-xl-12">
                                     <div class="form-group m-form__group align-items-center">
                                         <div class="input-group">
-                                            <input
-                                                [(ngModel)]="filterText"
-                                                name="filterText"
-                                                autoFocus
-                                                class="form-control m-input"
-                                                [placeholder]="l('SearchWithThreeDot')"
-                                                type="text"
-                                            />
+                                            <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                                class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                                type="text" />
                                             <span class="input-group-btn">
-                                                <button
-                                                    (click)="getSchoolInfos()"
-                                                    class="btn btn-primary"
-                                                    type="submit"
-                                                >
+                                                <button (click)="getSchoolInfos()" class="btn btn-primary"
+                                                    type="submit">
                                                     <i class="flaticon-search-1"></i>
                                                 </button>
                                             </span>
@@ -58,30 +44,21 @@
                                 </div>
 
                                 <div class="col-md-12 mt-5">
-                                    <button
-                                        (click)="resetFilters()"
-                                        class="btn btn-secondary btn-sm"
-                                        id="btn-reset-filters"
-                                    >
+                                    <button (click)="resetFilters()" class="btn btn-secondary btn-sm"
+                                        id="btn-reset-filters">
                                         Reset
                                     </button>
                                 </div>
                             </div>
                             <div class="row my-4">
                                 <div class="col-sm-12">
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="!advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
+                                    <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown">
                                         <i class="fa fa-angle-down"></i>
                                         {{ l('ShowAdvancedFilters') }}
                                     </span>
-                                    <span
-                                        class="clickable-item text-muted"
-                                        *ngIf="advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown"
-                                    >
+                                    <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                        (click)="advancedFiltersAreShown = !advancedFiltersAreShown">
                                         <i class="fa fa-angle-up"></i>
                                         {{ l('HideAdvancedFilters') }}
                                     </span>
@@ -93,26 +70,17 @@
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
-                            <p-table
-                                #dataTable
-                                (onLazyLoad)="getSchoolInfos($event)"
+                            <p-table #dataTable (onLazyLoad)="getSchoolInfos($event)"
                                 [value]="primengTableHelper.records"
-                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
-                                [paginator]="false"
-                                [lazy]="true"
-                                [scrollable]="true"
-                                ScrollWidth="100%"
+                                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false"
+                                [lazy]="true" [scrollable]="true" ScrollWidth="100%"
                                 [tableStyle]="{ 'min-width': '50rem' }"
-                                [resizableColumns]="primengTableHelper.resizableColumns"
-                            >
+                                [resizableColumns]="primengTableHelper.resizableColumns">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th
-                                            style="width: 130px"
-                                            [hidden]="
+                                        <th style="width: 130px" [hidden]="
                                                 !isGrantedAny('Pages.SchoolInfos.Edit', 'Pages.SchoolInfos.Delete')
-                                            "
-                                        >
+                                            ">
                                             {{ l('Actions') }}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
@@ -135,12 +103,9 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
-                                        <td
-                                            style="width: 130px"
-                                            [hidden]="
+                                        <td style="width: 130px" [hidden]="
                                                 !isGrantedAny('Pages.SchoolInfos.Edit', 'Pages.SchoolInfos.Delete')
-                                            "
-                                        >
+                                            ">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i>
@@ -149,33 +114,24 @@
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
-                                                        <a
-                                                            href="javascript:;"
-                                                            class="dropdown-item"
-                                                            (click)="viewSchoolInfoModal.show(record)"
-                                                        >
+                                                        <a href="javascript:;" class="dropdown-item"
+                                                            (click)="viewSchoolInfoModal.show(record)">
                                                             {{ l('View') }}
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a
-                                                            href="javascript:;"
+                                                        <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.SchoolInfos.Edit')"
-                                                            class="dropdown-item"
-                                                            (click)="
+                                                            class="dropdown-item" (click)="
                                                                 createOrEditSchoolInfoModal.show(record.schoolInfo.id)
-                                                            "
-                                                        >
+                                                            ">
                                                             {{ l('Edit') }}
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="javascript:;"
+                                                        <a class="dropdown-item" href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.SchoolInfos.Delete')"
-                                                            (click)="deleteSchoolInfo(record.schoolInfo)"
-                                                        >
+                                                            (click)="deleteSchoolInfo(record.schoolInfo)">
                                                             {{ l('Delete') }}
                                                         </a>
                                                     </li>
@@ -205,17 +161,13 @@
                                 {{ l('NoData') }}
                             </div>
                             <div class="primeng-paging-container">
-                                <p-paginator
-                                    [rows]="primengTableHelper.defaultRecordsCountPerPage"
-                                    #paginator
+                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
                                     (onPageChange)="getSchoolInfos($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
-                                    [showCurrentPageReport]="true"
-                                    [currentPageReportTemplate]="
+                                    [showCurrentPageReport]="true" [currentPageReportTemplate]="
                                         'TotalRecordsCount' | localize : primengTableHelper.totalRecordsCount
-                                    "
-                                ></p-paginator>
+                                    "></p-paginator>
                             </div>
                         </div>
                         <!--<Primeng-Datatable-End>-->
@@ -223,10 +175,8 @@
                 </div>
             </div>
         </div>
-        <createOrEditSchoolInfoModal
-            #createOrEditSchoolInfoModal
-            (modalSave)="getSchoolInfos()"
-        ></createOrEditSchoolInfoModal>
+        <createOrEditSchoolInfoModal #createOrEditSchoolInfoModal (modalSave)="getSchoolInfos()">
+        </createOrEditSchoolInfoModal>
         <viewSchoolInfoModal #viewSchoolInfoModal></viewSchoolInfoModal>
     </div>
 </div>

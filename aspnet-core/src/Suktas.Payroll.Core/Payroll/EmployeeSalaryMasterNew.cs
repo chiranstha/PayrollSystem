@@ -12,6 +12,7 @@ namespace Suktas.Payroll.Payroll
     public class EmployeeSalaryMasterNew : Entity<Guid>, IMayHaveTenant
     {
         public virtual int Year { get; set; }
+        public virtual string Months { get; set; }
         public int? TenantId { get; set; }
 
     }

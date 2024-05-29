@@ -9,6 +9,7 @@ namespace Suktas.Payroll.Payroll.Exporting
         FileDto ExportToFile(List<GetEmployeeSalaryForViewDto> employeeSalary);
         FileDto ExportToFileSalary(List<CreateEmployeeSalaryNewDto> data);
 
-
+        FileDto GetAllSalaries(List<MonthwiseReportDto> data);
+        FileDto SchoolWiseReport(List<SchoolWiseReportDto> data);
     }
 }
