@@ -2,6 +2,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { SalaryReportComponent } from "./salaryReport/salaryReport.component";
 import { NgModule } from "@angular/core";
 import { SchoolWiseReportComponent } from "./schoolWiseReport/schoolWiseReport.component";
+import { LevelWiseReportComponent } from "./levelWiseReport/levelWiseReport.component";
 
 const routes: Routes = [
     {
@@ -12,6 +13,11 @@ const routes: Routes = [
     {
         path: 'schoolWiseReport',
         component: SchoolWiseReportComponent,
+        pathMatch: 'full'
+    },
+    {
+        path: 'levelWiseReport',
+        component: LevelWiseReportComponent,
         pathMatch: 'full'
     }
 ];

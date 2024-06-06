@@ -38,6 +38,7 @@ export class AppNavigationService {
             new AppMenuItem('Reports', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '',[],[
                 new AppMenuItem('Salary Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/salaryReport'),
                 new AppMenuItem('School Wise Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/schoolWiseReport'),
+                new AppMenuItem('Level Wise Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/levelWiseReport'),
             ] ),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(

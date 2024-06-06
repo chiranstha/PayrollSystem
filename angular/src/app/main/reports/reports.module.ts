@@ -6,8 +6,9 @@ import { AdminSharedModule } from "@app/admin/shared/admin-shared.module";
 import { SchoolWiseReportComponent } from "./schoolWiseReport/schoolWiseReport.component";
 import { CommonModule } from "@angular/common";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { LevelWiseReportComponent } from "./levelWiseReport/levelWiseReport.component";
 
 @NgModule({
-    declarations: [SalaryReportComponent, SchoolWiseReportComponent],
+    declarations: [SalaryReportComponent, SchoolWiseReportComponent, LevelWiseReportComponent],
     imports: [AppSharedModule, ReportsRoutingModule, AdminSharedModule, NgSelectModule]
 }) export class ReportsModule { } 

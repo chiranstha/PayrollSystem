@@ -371,6 +371,7 @@ namespace Suktas.Payroll.Payroll
                 {
                     SN = sn++,
                     WardNo = employee.SchoolInfoFk.WardNo,
+                    EmployeeId = employee.Id,
                     SchoolLevel = employee.SchoolInfoFk.Level,
                     SchoolInfoId = employee.SchoolInfoId,
                     SchoolName = employee.SchoolInfoFk.Name,
@@ -510,6 +511,7 @@ namespace Suktas.Payroll.Payroll
                 {
                     SN = detail.SN,
                     WardNo = detail.WardNo,
+                    EmployeeId = detail.EmployeeId,
                     SchoolLevel = detail.SchoolLevel,
                     SchoolName = detail.SchoolName,
                     EmployeeType = detail.EmployeeType,
@@ -557,6 +559,7 @@ namespace Suktas.Payroll.Payroll
                     Id = detail.Id,
                     SN = detail.SN,
                     WardNo = detail.WardNo,
+                    EmployeeId = detail.EmployeeId,
                     SchoolInfoId = detail.SchoolInfoId,
                     SchoolLevel = detail.SchoolLevel,
                     SchoolName = detail.SchoolName,
@@ -752,7 +755,7 @@ namespace Suktas.Payroll.Payroll
             return await _lookupEmployeeLevelRepository.GetAll()
                 .Select(employeeLevel => new EmployeeSalaryEmployeeLevelLookupTableDto
                 {
-                    Id = employeeLevel.Id.ToString(),
+                    Id = employeeLevel.Id,
                     DisplayName = employeeLevel == null || employeeLevel.Name == null
                         ? ""
                         : employeeLevel.Name.ToString()

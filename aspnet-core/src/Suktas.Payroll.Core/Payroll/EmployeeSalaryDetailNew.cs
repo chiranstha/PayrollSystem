@@ -41,13 +41,16 @@ namespace Suktas.Payroll.Payroll
         public string Remarks { get; set; }
         public bool IsPaid { get; set; }
         public int? TenantId { get ; set; }
-        public virtual Guid SchoolInfoId { get; set; }
 
+        public virtual Guid EmployeeId { get; set; }
+        [ForeignKey("EmployeeId")]
+        public Employee EmployeeFk { get; set; }
+
+        public virtual Guid SchoolInfoId { get; set; }
         [ForeignKey("SchoolInfoId")]
         public SchoolInfo SchoolInfoFk { get; set; }
 
         public virtual Guid EmployeeSalaryMasterNewId { get; set; }
-
         [ForeignKey("EmployeeSalaryMasterNewId")]
         public EmployeeSalaryMasterNew EmployeeSalaryMasterNewFk { get; set; }
     }

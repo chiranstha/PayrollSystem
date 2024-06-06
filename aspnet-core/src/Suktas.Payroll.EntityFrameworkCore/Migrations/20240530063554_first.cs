@@ -592,6 +592,7 @@ namespace Suktas.Payroll.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
+                    Months = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -1088,53 +1089,6 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbl_EmployeeSalaryDetailNew",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SN = table.Column<int>(type: "int", nullable: false),
-                    WardNo = table.Column<int>(type: "int", nullable: false),
-                    SchoolLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SchoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false),
-                    GradeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TechnicalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EPFAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InsuranceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InflationAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PrincipalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalSalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Month = table.Column<int>(type: "int", nullable: false),
-                    MonthNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FestivalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalWithAllowanceForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InternalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalPaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    TenantId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeSalaryMasterNewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbl_EmployeeSalaryDetailNew", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_tbl_EmployeeSalaryDetailNew_tbl_EmployeeSalaryMasterNew_EmployeeSalaryMasterNewId",
-                        column: x => x.EmployeeSalaryMasterNewId,
-                        principalTable: "tbl_EmployeeSalaryMasterNew",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_EmployeeSalaryMasterMonthNew",
                 columns: table => new
                 {
@@ -1359,6 +1313,65 @@ namespace Suktas.Payroll.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_tbl_EmployeeSalary_tbl_SchoolInfo_SchoolInfoId",
+                        column: x => x.SchoolInfoId,
+                        principalTable: "tbl_SchoolInfo",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmployeeSalaryDetailNew",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SN = table.Column<int>(type: "int", nullable: false),
+                    WardNo = table.Column<int>(type: "int", nullable: false),
+                    SchoolLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SchoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Grade = table.Column<int>(type: "int", nullable: false),
+                    GradeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TechnicalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalGradeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EPFAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InsuranceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InflationAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PrincipalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSalaryAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    MonthNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FestivalAllowance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalWithAllowanceForAllMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InternalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalPaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SchoolInfoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeSalaryMasterNewId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmployeeSalaryDetailNew", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryDetailNew_tbl_EmployeeSalaryMasterNew_EmployeeSalaryMasterNewId",
+                        column: x => x.EmployeeSalaryMasterNewId,
+                        principalTable: "tbl_EmployeeSalaryMasterNew",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryDetailNew_tbl_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "tbl_Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_tbl_EmployeeSalaryDetailNew_tbl_SchoolInfo_SchoolInfoId",
                         column: x => x.SchoolInfoId,
                         principalTable: "tbl_SchoolInfo",
                         principalColumn: "Id");
@@ -1876,9 +1889,19 @@ namespace Suktas.Payroll.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryDetailNew_EmployeeId",
+                table: "tbl_EmployeeSalaryDetailNew",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_EmployeeSalaryDetailNew_EmployeeSalaryMasterNewId",
                 table: "tbl_EmployeeSalaryDetailNew",
                 column: "EmployeeSalaryMasterNewId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmployeeSalaryDetailNew_SchoolInfoId",
+                table: "tbl_EmployeeSalaryDetailNew",
+                column: "SchoolInfoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_EmployeeSalaryMasterMonthNew_EmployeeSalaryMasterNewId",

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Abp.AspNetZeroCore.Net;
+﻿using Abp.AspNetZeroCore.Net;
 using Abp.Collections.Extensions;
 using Abp.Dependency;
 using Abp.Extensions;
@@ -10,6 +7,9 @@ using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
 using Suktas.Payroll.Dto;
 using Suktas.Payroll.Storage;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using ICell = NPOI.SS.UserModel.ICell;
 
 namespace Suktas.Payroll.DataExporting.Excel.NPOI;
@@ -70,58 +70,23 @@ public abstract class NpoiExcelExporterBase : PayrollAppServiceBase, ITransientD
         return file;
     }
 
-    protected void AddMasterHeader(ISheet sheet, int row, string data)
-    {
-        if (string.IsNullOrWhiteSpace(data)) return;
-        sheet.CreateRow(row);
+    //protected void AddMasterHeader(ISheet sheet, int row, string data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data)) return;
+    //    sheet.CreateRow(row);
 
-        var cell = sheet.GetRow(row).CreateCell(0);
-        cell.SetCellValue(data);
-        var cellStyle = sheet.Workbook.CreateCellStyle();
-        var font = sheet.Workbook.CreateFont();
-        font.IsBold = true;
-        font.FontHeightInPoints = 12;
-        cellStyle.SetFont(font);
-        cell.CellStyle = cellStyle;
-    }
-
-    protected void AddHeaderWithMainHeader(ISheet sheet, int rowNumber, params string[] headerTexts)
-    {
-        if (headerTexts.IsNullOrEmpty())
-        {
-            return;
-        }
-
-        sheet.CreateRow(rowNumber);
-
-        for (var i = 0; i < headerTexts.Length; i++)
-        {
-            AddHeaderWithMainHeader(sheet, rowNumber, i, headerTexts[i]);
-        }
-    }
-
-    protected void ColumnResize(ISheet sheet, int number, int start = 1)
-    {
-        for (var i = start; i <= number; i++)
-            sheet.AutoSizeColumn(i);
-    }
-
-    
-
-    protected void AddHeaderWithMainHeader(ISheet sheet, int rowNumber, int columnIndex, string headerText)
-    {
-        var cell = sheet.GetRow(rowNumber).CreateCell(columnIndex);
-        cell.SetCellValue(headerText);
-        var cellStyle = sheet.Workbook.CreateCellStyle();
-        var font = sheet.Workbook.CreateFont();
-        font.IsBold = true;
-        font.FontHeightInPoints = 12;
-        cellStyle.SetFont(font);
-        cell.CellStyle = cellStyle;
-    }
+    //    var cell = sheet.GetRow(row).CreateCell(0);
+    //    cell.SetCellValue(data);
+    //    var cellStyle = sheet.Workbook.CreateCellStyle();
+    //    var font = sheet.Workbook.CreateFont();
+    //    font.IsBold = true;
+    //    font.FontHeightInPoints = 12;
+    //    cellStyle.SetFont(font);
+    //    cell.CellStyle = cellStyle;
+    //}
 
     protected void AddMasterHeader(ISheet sheet, int rowStart, int rowEnd, int columnStart, int columnEnd,
-        string headerTexts, int fontSize = 12)
+       string headerTexts, int fontSize = 12)
     {
         if (headerTexts.IsNullOrWhiteSpace())
         {
@@ -145,57 +110,105 @@ public abstract class NpoiExcelExporterBase : PayrollAppServiceBase, ITransientD
         cell.SetCellValue(headerTexts);
     }
 
-    protected void AddMasterObject(ISheet sheet, int row, string data)
+    protected void AddHeaderWithMainHeader(ISheet sheet, int rowNumber, params string[] headerTexts)
     {
-        if (string.IsNullOrWhiteSpace(data)) return;
-        var cell = sheet.GetRow(row).CreateCell(1);
-        cell.SetCellValue(data);
-    }
+        if (headerTexts.IsNullOrEmpty())
+        {
+            return;
+        }
 
-    protected void AddMasterDetailHeader(ISheet sheet, int row, params string[] headerTexts)
-    {
-        if (headerTexts.IsNullOrEmpty()) return;
-
-        sheet.CreateRow(row);
+        sheet.CreateRow(rowNumber);
 
         for (var i = 0; i < headerTexts.Length; i++)
         {
-            var cell = sheet.GetRow(row).CreateCell(i);
-            cell.SetCellValue(headerTexts[i]);
-            var cellStyle = sheet.Workbook.CreateCellStyle();
-            var font = sheet.Workbook.CreateFont();
-            font.IsBold = true;
-            font.FontHeightInPoints = 12;
-            cellStyle.SetFont(font);
-            cell.CellStyle = cellStyle;
+            AddHeaderWithMainHeader(sheet, rowNumber, i, headerTexts[i]);
         }
     }
-
-    protected void AddMasterDetailObject<T>(ISheet sheet, int startRow, IList<T> items,
-        params Func<T, object>[] propertySelectors)
+    private void AddHeaderWithMainHeader(ISheet sheet, int rowNumber, int columnIndex, string headerText)
     {
-        if (items.IsNullOrEmpty() || propertySelectors.IsNullOrEmpty()) return;
-
-        for (var i = startRow; i < items.Count + startRow; i++)
-        {
-            var row = sheet.CreateRow(i);
-
-            for (var j = 0; j < propertySelectors.Length; j++)
-            {
-                var cell = row.CreateCell(j);
-                var value = propertySelectors[j](items[i - startRow]);
-                if (value != null)
-                {
-                    if (value.GetType() == typeof(decimal))
-                        cell.SetCellValue(Convert.ToDouble(value));
-                    else
-                        cell.SetCellValue(value.ToString());
-                }
-            }
-        }
+        var cell = sheet.GetRow(rowNumber).CreateCell(columnIndex);
+        cell.SetCellValue(headerText);
+        var cellStyle = sheet.Workbook.CreateCellStyle();
+        var font = sheet.Workbook.CreateFont();
+        font.IsBold = true;
+        font.FontHeightInPoints = 12;
+        cellStyle.SetFont(font);
+        cell.CellStyle = cellStyle;
     }
 
-    protected void AddHeaderSecoundWithMerge(ISheet sheet, int rowNumber, int columnIndex,int mergeCell, string headerTexts)
+    protected void AddHeader(ISheet sheet, params string[] headerTexts)
+    {
+        if (headerTexts.IsNullOrEmpty()) return;
+
+        sheet.CreateRow(0);
+
+        for (var i = 0; i < headerTexts.Length; i++) AddHeader(sheet, i, headerTexts[i]);
+    }
+
+    private void AddHeader(ISheet sheet, int columnIndex, string headerText)
+    {
+        var cell = sheet.GetRow(0).CreateCell(columnIndex);
+        cell.SetCellValue(headerText);
+        StyleCell(sheet, cell);
+    }
+
+    protected void ColumnResize(ISheet sheet, int number, int start = 1)
+    {
+        for (var i = start; i <= number; i++)
+            sheet.AutoSizeColumn(i);
+    }
+
+    //protected void AddMasterObject(ISheet sheet, int row, string data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data)) return;
+    //    var cell = sheet.GetRow(row).CreateCell(1);
+    //    cell.SetCellValue(data);
+    //}
+
+    //protected void AddMasterDetailHeader(ISheet sheet, int row, params string[] headerTexts)
+    //{
+    //    if (headerTexts.IsNullOrEmpty()) return;
+
+    //    sheet.CreateRow(row);
+
+    //    for (var i = 0; i < headerTexts.Length; i++)
+    //    {
+    //        var cell = sheet.GetRow(row).CreateCell(i);
+    //        cell.SetCellValue(headerTexts[i]);
+    //        var cellStyle = sheet.Workbook.CreateCellStyle();
+    //        var font = sheet.Workbook.CreateFont();
+    //        font.IsBold = true;
+    //        font.FontHeightInPoints = 12;
+    //        cellStyle.SetFont(font);
+    //        cell.CellStyle = cellStyle;
+    //    }
+    //}
+
+    //protected void AddMasterDetailObject<T>(ISheet sheet, int startRow, IList<T> items,
+    //    params Func<T, object>[] propertySelectors)
+    //{
+    //    if (items.IsNullOrEmpty() || propertySelectors.IsNullOrEmpty()) return;
+
+    //    for (var i = startRow; i < items.Count + startRow; i++)
+    //    {
+    //        var row = sheet.CreateRow(i);
+
+    //        for (var j = 0; j < propertySelectors.Length; j++)
+    //        {
+    //            var cell = row.CreateCell(j);
+    //            var value = propertySelectors[j](items[i - startRow]);
+    //            if (value != null)
+    //            {
+    //                if (value.GetType() == typeof(decimal))
+    //                    cell.SetCellValue(Convert.ToDouble(value));
+    //                else
+    //                    cell.SetCellValue(value.ToString());
+    //            }
+    //        }
+    //    }
+    //}
+
+    protected void AddHeaderSecoundWithMerge(ISheet sheet, int rowNumber, int columnIndex, int mergeCell, string headerTexts)
     {
         if (headerTexts.IsNullOrWhiteSpace())
         {
@@ -240,18 +253,22 @@ public abstract class NpoiExcelExporterBase : PayrollAppServiceBase, ITransientD
     //}
 
 
-    protected void AddHeader(ISheet sheet, params string[] headerTexts)
+   
+    protected void AddHeaderWithHeader(ISheet sheet, int row, params string[] headerTexts)
     {
-        if (headerTexts.IsNullOrEmpty()) return;
+        if (headerTexts.IsNullOrEmpty())
+            return;
 
-        sheet.CreateRow(0);
+        for (var i = 0; i < row; i++)
+            sheet.CreateRow(i);
+        
+        sheet.CreateRow(row);
 
-        for (var i = 0; i < headerTexts.Length; i++) AddHeader(sheet, i, headerTexts[i]);
+        for (var i = 0; i < headerTexts.Length; i++) AddHeaderWithHeader(sheet, i, headerTexts[i]);
     }
 
-    
 
-    private void StyleCell(ISheet sheet,ICell cell)
+    private void StyleCell(ISheet sheet, ICell cell)
     {
         var cellStyle = sheet.Workbook.CreateCellStyle();
         var font = sheet.Workbook.CreateFont();
@@ -261,22 +278,20 @@ public abstract class NpoiExcelExporterBase : PayrollAppServiceBase, ITransientD
         cell.CellStyle = cellStyle;
     }
 
-    
-    protected void AddSecondHeader(ISheet sheet,int row, int columnIndex, string headerText)
-    {
-        var cell = sheet.GetRow(row).CreateCell(columnIndex);
-        cell.SetCellValue(headerText);
-        StyleCell(sheet, cell);
-    }
 
-    
-    
-    protected void AddHeader(ISheet sheet, int columnIndex, string headerText)
-    {
-        var cell = sheet.GetRow(0).CreateCell(columnIndex);
-        cell.SetCellValue(headerText);
-        StyleCell(sheet, cell);
-    }
+    //protected void AddSecondHeader(ISheet sheet, int row, int columnIndex, string headerText)
+    //{
+    //    var cell = sheet.GetRow(row).CreateCell(columnIndex);
+    //    cell.SetCellValue(headerText);
+    //    StyleCell(sheet, cell);
+    //}
+
+    //protected void AddHeaderWithHeader(ISheet sheet, int row, int columnIndex, string headerText)
+    //{
+    //    var cell = sheet.GetRow(row).CreateCell(columnIndex);
+    //    cell.SetCellValue(headerText);
+    //    StyleCell(sheet, cell);
+    //}
 
     protected void AddObjects<T>(ISheet sheet, IList<T> items, params Func<T, object>[] propertySelectors)
     {

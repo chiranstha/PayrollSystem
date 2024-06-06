@@ -2270,6 +2270,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<decimal>("EPFAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("EmployeeLevel")
                         .HasColumnType("nvarchar(max)");
 
@@ -2361,6 +2364,8 @@ namespace Suktas.Payroll.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("EmployeeSalaryMasterNewId");
 
@@ -2979,6 +2984,12 @@ namespace Suktas.Payroll.Migrations
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryDetailNew", b =>
                 {
+                    b.HasOne("Suktas.Payroll.Payroll.Employee", "EmployeeFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Suktas.Payroll.Payroll.EmployeeSalaryMasterNew", "EmployeeSalaryMasterNewFk")
                         .WithMany()
                         .HasForeignKey("EmployeeSalaryMasterNewId")
@@ -2990,6 +3001,8 @@ namespace Suktas.Payroll.Migrations
                         .HasForeignKey("SchoolInfoId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("EmployeeFk");
 
                     b.Navigation("EmployeeSalaryMasterNewFk");
 

@@ -15455,6 +15455,144 @@ export class ProfileServiceProxy {
 }
 
 @Injectable()
+export class ReportsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param year (optional) 
+     * @param level (optional) 
+     * @return Success
+     */
+    getLevelWiseReport(year: number | undefined, level: string | undefined): Observable<LevelWiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/GetLevelWiseReport?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        if (level === null)
+            throw new Error("The parameter 'level' cannot be null.");
+        else if (level !== undefined)
+            url_ += "level=" + encodeURIComponent("" + level) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLevelWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLevelWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LevelWiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LevelWiseReportDto[]>;
+        }));
+    }
+
+    protected processGetLevelWiseReport(response: HttpResponseBase): Observable<LevelWiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LevelWiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLevels(): Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/GetAllLevels";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLevels(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLevels(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]>;
+        }));
+    }
+
+    protected processGetAllLevels(response: HttpResponseBase): Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EmployeeSalaryEmployeeLevelLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -22559,6 +22697,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
     employeeType!: string | undefined;
     employeeLevel!: string | undefined;
     employeeName!: string | undefined;
+    employeeId!: string;
     basicSalary!: number;
     grade!: number;
     gradeRate!: number;
@@ -22601,6 +22740,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
             this.employeeType = _data["employeeType"];
             this.employeeLevel = _data["employeeLevel"];
             this.employeeName = _data["employeeName"];
+            this.employeeId = _data["employeeId"];
             this.basicSalary = _data["basicSalary"];
             this.grade = _data["grade"];
             this.gradeRate = _data["gradeRate"];
@@ -22643,6 +22783,7 @@ export class CreateEmployeeSalaryNewDto implements ICreateEmployeeSalaryNewDto {
         data["employeeType"] = this.employeeType;
         data["employeeLevel"] = this.employeeLevel;
         data["employeeName"] = this.employeeName;
+        data["employeeId"] = this.employeeId;
         data["basicSalary"] = this.basicSalary;
         data["grade"] = this.grade;
         data["gradeRate"] = this.gradeRate;
@@ -22678,6 +22819,7 @@ export interface ICreateEmployeeSalaryNewDto {
     employeeType: string | undefined;
     employeeLevel: string | undefined;
     employeeName: string | undefined;
+    employeeId: string;
     basicSalary: number;
     grade: number;
     gradeRate: number;
@@ -25173,7 +25315,7 @@ export enum EmployeeGrade {
 }
 
 export class EmployeeSalaryEmployeeLevelLookupTableDto implements IEmployeeSalaryEmployeeLevelLookupTableDto {
-    id!: string | undefined;
+    id!: string;
     displayName!: string | undefined;
 
     constructor(data?: IEmployeeSalaryEmployeeLevelLookupTableDto) {
@@ -25208,7 +25350,7 @@ export class EmployeeSalaryEmployeeLevelLookupTableDto implements IEmployeeSalar
 }
 
 export interface IEmployeeSalaryEmployeeLevelLookupTableDto {
-    id: string | undefined;
+    id: string;
     displayName: string | undefined;
 }
 
@@ -30788,6 +30930,54 @@ export interface ILdapSettingsEditDto {
     userName: string | undefined;
     password: string | undefined;
     useSsl: boolean;
+}
+
+export class LevelWiseReportDto implements ILevelWiseReportDto {
+    school!: string | undefined;
+    empName!: string | undefined;
+    salary!: number;
+    months!: string | undefined;
+
+    constructor(data?: ILevelWiseReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.school = _data["school"];
+            this.empName = _data["empName"];
+            this.salary = _data["salary"];
+            this.months = _data["months"];
+        }
+    }
+
+    static fromJS(data: any): LevelWiseReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LevelWiseReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["school"] = this.school;
+        data["empName"] = this.empName;
+        data["salary"] = this.salary;
+        data["months"] = this.months;
+        return data;
+    }
+}
+
+export interface ILevelWiseReportDto {
+    school: string | undefined;
+    empName: string | undefined;
+    salary: number;
+    months: string | undefined;
 }
 
 export class LinkToUserInput implements ILinkToUserInput {

@@ -1,21 +1,18 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef} from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { GradeUpgradesServiceProxy, CreateOrEditGradeUpgradeDto ,GradeUpgradeEmployeeLookupTableDto
-					} from '@shared/service-proxies/service-proxies';
+import {
+    GradeUpgradesServiceProxy, CreateOrEditGradeUpgradeDto, GradeUpgradeEmployeeLookupTableDto
+} from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DateTime } from 'luxon';
-
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
-
-
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     selector: 'createOrEditGradeUpgradeModal',
     templateUrl: './create-or-edit-gradeUpgrade-modal.component.html'
 })
-export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase implements OnInit{
-   
+export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase implements OnInit {
+
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
@@ -27,19 +24,19 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
 
     employeeName = '';
 
-	allEmployees: GradeUpgradeEmployeeLookupTableDto[];
-					
+    allEmployees: GradeUpgradeEmployeeLookupTableDto[];
+
 
     constructor(
         injector: Injector,
         private _gradeUpgradesServiceProxy: GradeUpgradesServiceProxy,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
-    
+
     show(gradeUpgradeId?: string): void {
-    
+
 
         if (!gradeUpgradeId) {
             this.gradeUpgrade = new CreateOrEditGradeUpgradeDto();
@@ -60,25 +57,25 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
                 this.modal.show();
             });
         }
-        this._gradeUpgradesServiceProxy.getAllEmployeeForTableDropdown().subscribe(result => {						
-						this.allEmployees = result;
-					});
-					
-        
+        this._gradeUpgradesServiceProxy.getAllEmployeeForTableDropdown().subscribe(result => {
+            this.allEmployees = result;
+        });
+
+
     }
 
     save(): void {
-            this.saving = true;
-            
-			
-			
-            this._gradeUpgradesServiceProxy.createOrEdit(this.gradeUpgrade)
-             .pipe(finalize(() => { this.saving = false;}))
-             .subscribe(() => {
+        this.saving = true;
+
+
+
+        this._gradeUpgradesServiceProxy.createOrEdit(this.gradeUpgrade)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
-             });
+            });
     }
 
 
@@ -97,8 +94,8 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
         this.active = false;
         this.modal.hide();
     }
-    
-     ngOnInit(): void {
-        
-     }    
+
+    ngOnInit(): void {
+
+    }
 }

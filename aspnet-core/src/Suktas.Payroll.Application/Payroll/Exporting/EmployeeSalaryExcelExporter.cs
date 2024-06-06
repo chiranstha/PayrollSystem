@@ -170,18 +170,18 @@ namespace Suktas.Payroll.Payroll.Exporting
                    {
                        var sheet = excelPackage.CreateSheet("Salary Report");
 
-                       AddHeader(
-                           sheet,
+                       AddHeaderWithHeader(
+                           sheet,2,
                        "S.N.",
                        "Year",
                        "MonthName");
 
-                       AddObjects(
-                           sheet, data,
-                           d => d.Id,
-                           d => d.Year,
-                           d => d.MonthName
-                           );
+                       //AddObjects(
+                       //    sheet, data,
+                       //    d => d.Id,
+                       //    d => d.Year,
+                       //    d => d.MonthName
+                       //    );
                    });
         }
 

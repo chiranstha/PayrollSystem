@@ -15,6 +15,7 @@ namespace Suktas.Payroll.Payroll.Dtos
         public string EmployeeType { get; set; }
         public string EmployeeLevel { get; set; }
         public string EmployeeName { get; set; }
+        public Guid EmployeeId { get; set; }
         public decimal BasicSalary { get; set; }
         public int Grade { get; set; }
         public decimal GradeRate { get; set; }

@@ -12,7 +12,7 @@ using Suktas.Payroll.EntityFrameworkCore;
 namespace Suktas.Payroll.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    [Migration("20240526085257_first")]
+    [Migration("20240530063554_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -2273,6 +2273,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<decimal>("EPFAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("EmployeeLevel")
                         .HasColumnType("nvarchar(max)");
 
@@ -2324,6 +2327,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<int>("SN")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SchoolInfoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("SchoolLevel")
                         .HasColumnType("nvarchar(max)");
 
@@ -2362,7 +2368,11 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.HasIndex("EmployeeSalaryMasterNewId");
+
+                    b.HasIndex("SchoolInfoId");
 
                     b.ToTable("tbl_EmployeeSalaryDetailNew");
                 });
@@ -2394,6 +2404,9 @@ namespace Suktas.Payroll.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Months")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
@@ -2974,13 +2987,29 @@ namespace Suktas.Payroll.Migrations
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryDetailNew", b =>
                 {
+                    b.HasOne("Suktas.Payroll.Payroll.Employee", "EmployeeFk")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Suktas.Payroll.Payroll.EmployeeSalaryMasterNew", "EmployeeSalaryMasterNewFk")
                         .WithMany()
                         .HasForeignKey("EmployeeSalaryMasterNewId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Suktas.Payroll.Payroll.SchoolInfo", "SchoolInfoFk")
+                        .WithMany()
+                        .HasForeignKey("SchoolInfoId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeFk");
+
                     b.Navigation("EmployeeSalaryMasterNewFk");
+
+                    b.Navigation("SchoolInfoFk");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryMasterMonthNew", b =>
