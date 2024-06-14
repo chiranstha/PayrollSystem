@@ -61,7 +61,7 @@ namespace Suktas.Payroll.EntityFrameworkCore
         public virtual DbSet<EmployeeSalaryMasterMonthNew> EmployeeSalaryMasterMonthNew { get; set; }
         public virtual DbSet<EmployeeSalaryMasterNew> EmployeeSalaryMasterNews { get; set; }
         public virtual DbSet<EmployeeSalaryMasterSchoolNew> EmployeeSalaryMasterSchoolNews { get; set; }
-
+        public virtual DbSet<SchoolLevel> SchoolLevels { get; set; }
         public PayrollDbContext(DbContextOptions<PayrollDbContext> options)
             : base(options)
         {
@@ -90,6 +90,10 @@ namespace Suktas.Payroll.EntityFrameworkCore
                        {
                            x.HasIndex(e => new { e.TenantId });
                        });
+            modelBuilder.Entity<SchoolLevel>(x =>
+            {
+                x.HasIndex(e => new { e.TenantId });
+            });
             modelBuilder.Entity<FinancialYear>(f =>
                        {
                            f.HasIndex(e => new { e.TenantId });

@@ -14,7 +14,7 @@ namespace Suktas.Payroll.Payroll.Dtos
         public string PhoneNo { get; set; }
 
         public string Email { get; set; }
-        public string Level { get; set; }
+        public Guid SchooolLevelId { get; set; }
         public string Description { get; set; }
         public int WardNo { get; set; }
         public byte[] ImageBytes { get; set; }

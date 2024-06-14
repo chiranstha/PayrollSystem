@@ -12,11 +12,9 @@ namespace Suktas.Payroll.Payroll
     public class GradeUpgrade : Entity<Guid>, IMayHaveTenant
     {
         public int? TenantId { get; set; }
-
         public virtual string DateMiti { get; set; }
-
         public virtual EmployeeGrade Grade { get; set; }
-
+        public virtual TechnicalGrade TechnicalGrade { get; set; }
         public virtual string Remarks { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual Guid? EmployeeId { get; set; }

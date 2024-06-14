@@ -359,7 +359,7 @@ namespace Suktas.Payroll.Payroll
             var result = new List<CreateEmployeeSalaryNewDto>();
             var schools = await _lookupSchoolInfoRepository.GetAll().Where(x => input.SchoolIds.Contains(x.Id)).ToListAsync();
             var employees = await _lookupEmployeeRepository.GetAll().Where(x => input.SchoolIds.Contains(x.SchoolInfoId))
-                .Include(x => x.SchoolInfoFk).Include(x => x.EmployeeLevelFk).ToListAsync();
+                .Include(x => x.SchoolInfoFk).ThenInclude(x => x.SchoolLevelFk).Include(x => x.EmployeeLevelFk).ToListAsync();
             var categorySalaries = await _categorySalaryRepository.GetAll().ToListAsync();
             var gradeUpgrades = await _gradeUpgradeRepository.GetAll().ToListAsync();
             var principalAllowanceSettins = await _principalAllowanceSettingRepository.GetAll().ToListAsync();
@@ -372,14 +372,14 @@ namespace Suktas.Payroll.Payroll
                     SN = sn++,
                     WardNo = employee.SchoolInfoFk.WardNo,
                     EmployeeId = employee.Id,
-                    SchoolLevel = employee.SchoolInfoFk.Level,
+                    SchoolLevel = employee.SchoolInfoFk.SchoolLevelFk.Name,
                     SchoolInfoId = employee.SchoolInfoId,
                     SchoolName = employee.SchoolInfoFk.Name,
                     EmployeeType = employee.Category.ToString(),
                     EmployeeLevel = employee.EmployeeLevelFk.Name,
                     EmployeeName = employee.Name,
                     BasicSalary = categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).Salary,
-                    Grade = (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).Grade,
+                    Grade = (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).Grade + (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).TechnicalGrade,
                     TechnicalGradeAmount = employee.IsTechnical ? categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).TechnicalAmount : 0,
                     InsuranceAmount = employee.InsuranceAmount,
                     InflationAllowance = 2000,

@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { SchoolInfosServiceProxy, CreateOrEditSchoolInfoDto } from '@shared/service-proxies/service-proxies';
+import { SchoolInfosServiceProxy, CreateOrEditSchoolInfoDto, UniversalDropdownDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
@@ -24,7 +24,7 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
     saving = false;
 
     schoolInfo: CreateOrEditSchoolInfoDto = new CreateOrEditSchoolInfoDto();
-
+    schoolLevels: UniversalDropdownDto[];
     imageFileUploader: FileUploader;
     imageFileToken: string;
     imageFileName: string;
@@ -57,6 +57,9 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
                 this.modal.show();
             });
         }
+        this._schoolInfosServiceProxy.getAllSchoolLevels().subscribe((res) => {
+            this.schoolLevels = res;
+        })
 
         this.imageFileUploader = this.initializeUploader(
             AppConsts.remoteServiceBaseUrl + '/SchoolInfos/UploadimageFile',

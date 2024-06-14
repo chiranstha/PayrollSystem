@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Abp.UI;
 using Suktas.Campus.Configuration.Dto;
 using Suktas.Payroll.Storage;
+using System.Collections.Generic;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -24,18 +25,19 @@ namespace Suktas.Payroll.Payroll
     {
         private readonly IRepository<SchoolInfo, Guid> _schoolInfoRepository;
         private readonly ISchoolInfosExcelExporter _schoolInfosExcelExporter;
-
+        private readonly IRepository<SchoolLevel, Guid> _schoolLevelRepository;
         private readonly ITempFileCacheManager _tempFileCacheManager;
         private readonly IBinaryObjectManager _binaryObjectManager;
 
         public SchoolInfosAppService(IRepository<SchoolInfo, Guid> schoolInfoRepository,
             ISchoolInfosExcelExporter schoolInfosExcelExporter
             , ITempFileCacheManager tempFileCacheManager,
+            IRepository<SchoolLevel, Guid> schoolLevelRepository,
             IBinaryObjectManager binaryObjectManager)
         {
             _schoolInfoRepository = schoolInfoRepository;
             _schoolInfosExcelExporter = schoolInfosExcelExporter;
-
+            _schoolLevelRepository = schoolLevelRepository;
             _tempFileCacheManager = tempFileCacheManager;
             _binaryObjectManager = binaryObjectManager;
 
@@ -119,7 +121,7 @@ namespace Suktas.Payroll.Payroll
                 PhoneNo = schoolInfo.PhoneNo,
                 Email = schoolInfo.Email,
                 WardNo = schoolInfo.WardNo,
-                Level = schoolInfo.Level,
+                SchooolLevelId = schoolInfo.SchooolLevelId,
                 Description = schoolInfo.Description,
                 Image = schoolInfo.Image
             };
@@ -157,7 +159,7 @@ namespace Suktas.Payroll.Payroll
                 PhoneNo = input.PhoneNo,
                 Email = input.Email,
                 WardNo = input.WardNo,
-                Level = input.Level,
+                SchooolLevelId = input.SchooolLevelId,
                 Description = input.Description
             };
 
@@ -181,7 +183,7 @@ namespace Suktas.Payroll.Payroll
             schoolInfo.PhoneNo = input.PhoneNo;
             schoolInfo.Email = input.Email;
             schoolInfo.WardNo = input.WardNo;
-            schoolInfo.Level = input.Level;
+            schoolInfo.SchooolLevelId = input.SchooolLevelId;
             schoolInfo.Description = input.Description;
 
             if (!string.IsNullOrWhiteSpace(input.ImageToken))
@@ -279,6 +281,15 @@ namespace Suktas.Payroll.Payroll
 
             await _binaryObjectManager.DeleteAsync(schoolInfo.Image.Value);
             schoolInfo.Image = null;
+        }
+
+        public virtual async Task<List<UniversalDropdownDto>> GetAllSchoolLevels()
+        {
+            return (await _schoolLevelRepository.GetAll().Select(x => new UniversalDropdownDto
+            {
+                Id = x.Id,
+                DisplayName = x.Name
+            }).ToListAsync());
         }
 
     }

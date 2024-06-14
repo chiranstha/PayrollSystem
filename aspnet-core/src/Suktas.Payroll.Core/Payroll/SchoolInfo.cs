@@ -22,11 +22,12 @@ namespace Suktas.Payroll.Payroll
 
         public virtual string Description { get; set; }
 
-        public virtual string Level { get; set; }
-        public virtual int WardNo { get; set; }
-        //File
+        public virtual Guid SchooolLevelId { get; set; }
 
-        public virtual Guid? Image { get; set; } //File, (BinaryObjectId)
+        [ForeignKey("SchooolLevelId")]
+        public virtual SchoolLevel SchoolLevelFk { get; set; }
+        public virtual int WardNo { get; set; }
+        public virtual Guid? Image { get; set; }
 
     }
 }

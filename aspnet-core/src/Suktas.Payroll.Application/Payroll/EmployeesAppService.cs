@@ -212,6 +212,7 @@ namespace Suktas.Payroll.Payroll
             {
                 DateMiti = DateTime.Today.ToString(),
                 Grade = input.Grade,
+                TechnicalGrade = input.TechnicalGrade,
                 Remarks = "",
                 IsActive = true,
                 EmployeeId = empId,
@@ -243,6 +244,14 @@ namespace Suktas.Payroll.Payroll
             employee.SchoolInfoId = input.SchoolInfoId;
             employee.IsTechnical = input.IsTechnical;
             await _employeeRepository.UpdateAsync(employee);
+
+            var grade = await _gradeUpgradeRepository.FirstOrDefaultAsync(x => x.EmployeeId == input.Id);
+            if(grade != null)
+            {
+                grade.TechnicalGrade = input.TechnicalGrade;
+                grade.Grade = input.Grade;
+                await _gradeUpgradeRepository.UpdateAsync(grade);
+            }
         }
 
         [AbpAuthorize(AppPermissions.Pages_Employees_Delete)]

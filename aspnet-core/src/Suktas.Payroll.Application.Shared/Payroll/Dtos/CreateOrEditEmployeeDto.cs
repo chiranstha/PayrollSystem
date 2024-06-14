@@ -40,6 +40,7 @@ namespace Suktas.Payroll.Payroll.Dtos
         public bool IsTechnical { get; set; }
 
         public EmployeeGrade Grade { get; set; }
+        public TechnicalGrade TechnicalGrade { get; set; }
 
         public Guid EmployeeLevelId { get; set; }
 

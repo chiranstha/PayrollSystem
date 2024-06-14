@@ -22,10 +22,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="SchoolInfo_Level">{{ l('Level') }} *</label>
-                        <input type="text" #SchoolInfo_Level="ngModel" id="SchoolInfo_Level" class="form-control"
-                            [(ngModel)]="schoolInfo.level" name="Level" required />
-                        <validation-messages [formCtrl]="SchoolInfo_Level"></validation-messages>
+                        <label for="schooolLevelId">{{ l('School Level') }}</label>
+                        <select name="schoolInfo.schooolLevelId" [(ngModel)]="schoolInfo.schooolLevelId"
+                            class="form-select" required>
+                            <option value="">{{ l('SelectSchoolLevel') }}</option>
+                            <option *ngFor="let item of schoolLevels" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                        </select>
                     </div>
 
                     <div class="form-group">
