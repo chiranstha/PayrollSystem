@@ -24,10 +24,12 @@ export class AppNavigationService {
             new AppMenuItem('Master', '', 'fa-regular fa-house', '', [],
                 [
                     new AppMenuItem('EmployeeLevels', 'Pages.EmployeeLevels', 'fa-regular fa-user-tag', '/app/main/payroll/employeeLevels'),
+                    new AppMenuItem('School Levels', 'Pages.EmployeeLevels', 'fa-regular fa-user-tag', '/app/main/payroll/schoolLevels'),
                     new AppMenuItem('CategorySalary', 'Pages.CategorySalary', 'flaticon-more', '/app/main/payroll/categorySalary'),
                     new AppMenuItem('InternalGradeSetup', 'Pages.InternalGradeSetup', 'flaticon-more', '/app/main/payroll/internalGradeSetup'),
                     new AppMenuItem('SchoolInfos', 'Pages.SchoolInfos', 'flaticon-more', '/app/main/payroll/schoolInfos'),
                     new AppMenuItem('Principal Allowance', 'Pages.PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/tbl_PrincipalAllowanceSettings'),
+                    new AppMenuItem('Monthly Allowance', 'Pages.PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/monthlyAllowance'),
                 ]),
             new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
             new AppMenuItem('Employees', 'Pages.Employees', 'flaticon-more', '/app/main/payroll/employees'),
@@ -35,11 +37,11 @@ export class AppNavigationService {
             new AppMenuItem('GenerateEmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/generateEmployeeSalary'),
             new AppMenuItem('FestivalBonusSettings', 'Pages.FestivalBonusSettings', 'flaticon-more', '/app/main/payroll/festivalBonusSettings'),
             new AppMenuItem('GradeUpgrades', 'Pages.GradeUpgrades', 'flaticon-more', '/app/main/payroll/gradeUpgrades'),
-            new AppMenuItem('Reports', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '',[],[
-                new AppMenuItem('Salary Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/salaryReport'),
-                new AppMenuItem('School Wise Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/schoolWiseReport'),
-                new AppMenuItem('Level Wise Report', 'Pages.GradeUpgrades','fa-regular fa-file-chart-column','/app/main/reports/levelWiseReport'),
-            ] ),
+            new AppMenuItem('Reports', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '', [], [
+                new AppMenuItem('Salary Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/salaryReport'),
+                new AppMenuItem('School Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/schoolWiseReport'),
+                new AppMenuItem('Level Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/levelWiseReport'),
+            ]),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',

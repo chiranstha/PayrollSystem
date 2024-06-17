@@ -1,13 +1,13 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'EmployeeLevels' | localize" [description]="'EmployeeLevelsHeaderInfo' | localize">
+        <sub-header [title]="'MonthlyAllowances' | localize" [description]="'MonthlyAllowancesHeaderInfo' | localize">
 
             <div role="search">
                 <div class="position-relative w-md-400px me-md-2">
                     <i
                         class="fa-duotone fa-magnifying-glass fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6"><span
                             class="path1"></span><span class="path2"></span></i>
-                    <input (keyup)="getEmployeeLevels()" (keyup.enter)="getEmployeeLevels()" [(ngModel)]="filterText"
+                    <input (keyup)="getMonthlyAllowances()" (keyup.enter)="getMonthlyAllowances()" [(ngModel)]="filterText"
                         [ngModelOptions]="{ standalone: true }" class="form-control form-control-solid ps-10"
                         name="search" placeholder="Search" type="text" value="">
                 </div>
@@ -18,8 +18,8 @@
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
-                <button id="btn_create_employeeLevel" *ngIf="isGranted('Pages.EmployeeLevels.Create')"
-                    (click)="createEmployeeLevel()" class="btn btn-primary blue">
+                <button id="btn_create_monthlyAllowance" *ngIf="isGranted('Pages.MonthlyAllowances.Create')"
+                    (click)="createMonthlyAllowance()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
                     {{ l('Create') }}
                 </button>
@@ -68,7 +68,7 @@
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
-                            <p-table #dataTable (onLazyLoad)="getEmployeeLevels($event)"
+                            <p-table #dataTable (onLazyLoad)="getMonthlyAllowances($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false"
                                 [lazy]="true" scrollHeight="400px" styleClass="p-datatable-gridlines"
@@ -78,19 +78,23 @@
                                     <tr>
                                         <th style="width: 130px; padding-left: 25px;" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.EmployeeLevels.Edit',
-                                                    'Pages.EmployeeLevels.Delete'
+                                                    'Pages.MonthlyAllowances.Edit',
+                                                    'Pages.MonthlyAllowances.Delete'
                                                 )
                                             ">
                                             {{ l('Actions') }}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
                                             {{ l('Name') }}
-                                            <p-sortIcon field="employeeLevel.name"></p-sortIcon>
+                                            <p-sortIcon field="monthlyAllowance.name"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
-                                            {{ l('Alias') }}
-                                            <p-sortIcon field="employeeLevel.name"></p-sortIcon>
+                                            {{ l('Category') }}
+                                            <p-sortIcon field="monthlyAllowance.name"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="name">
+                                            {{ l('Amount') }}
+                                            <p-sortIcon field="monthlyAllowance.name"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -98,8 +102,8 @@
                                     <tr>
                                         <td style="width: 130px" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.EmployeeLevels.Edit',
-                                                    'Pages.EmployeeLevels.Delete'
+                                                    'Pages.MonthlyAllowances.Edit',
+                                                    'Pages.MonthlyAllowances.Delete'
                                                 )
                                             ">
                                             <div class="btn-group dropdown" dropdown container="body">
@@ -111,15 +115,15 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a href="javascript:;" class="dropdown-item"
-                                                            (click)="viewEmployeeLevelModal.show(record)">
+                                                            (click)="viewMonthlyAllowanceModal.show(record)">
                                                             {{ l('View') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.EmployeeLevels.Edit')"
+                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowances.Edit')"
                                                             class="dropdown-item" (click)="
-                                                                createOrEditEmployeeLevelModal.show(
+                                                                createOrEditMonthlyAllowanceModal.show(
                                                                     record.id
                                                                 )
                                                             ">
@@ -128,8 +132,8 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.EmployeeLevels.Delete')"
-                                                            (click)="deleteEmployeeLevel(record.employeeLevel)">
+                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowances.Delete')"
+                                                            (click)="deleteMonthlyAllowance(record.monthlyAllowance)">
                                                             {{ l('Delete') }}
                                                         </a>
                                                     </li>
@@ -142,7 +146,11 @@
                                         </td>
                                         <td style="width: 150px">
                                             <span class="p-column-title">{{ l('Alias') }}</span>
-                                            {{ record.alias }}
+                                            {{ record.employeeCategory }}
+                                        </td>
+                                        <td style="width: 150px">
+                                            <span class="p-column-title">{{ l('Alias') }}</span>
+                                            {{ record.amount }}
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -152,7 +160,7 @@
                             </div>
                             <div class="primeng-paging-container">
                                 <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                    (onPageChange)="getEmployeeLevels($event)"
+                                    (onPageChange)="getMonthlyAllowances($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                     [showCurrentPageReport]="true" [currentPageReportTemplate]="
@@ -165,8 +173,8 @@
                 </div>
             </div>
         </div>
-        <createOrEditEmployeeLevelModal #createOrEditEmployeeLevelModal (modalSave)="getEmployeeLevels()">
-        </createOrEditEmployeeLevelModal>
-        <viewEmployeeLevelModal #viewEmployeeLevelModal></viewEmployeeLevelModal>
+        <createOrEditMonthlyAllowanceModal #createOrEditMonthlyAllowanceModal (modalSave)="getMonthlyAllowances()">
+        </createOrEditMonthlyAllowanceModal>
+        <viewMonthlyAllowanceModal #viewMonthlyAllowanceModal></viewMonthlyAllowanceModal>
     </div>
 </div>

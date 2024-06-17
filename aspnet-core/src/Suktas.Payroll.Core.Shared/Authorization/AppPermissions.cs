@@ -56,6 +56,11 @@
         public const string Pages_EmployeeLevels_Edit = "Pages.EmployeeLevels.Edit";
         public const string Pages_EmployeeLevels_Delete = "Pages.EmployeeLevels.Delete";
 
+        public const string Pages_SchoolLevels = "Pages.SchoolLevels";
+        public const string Pages_SchoolLevels_Create = "Pages.SchoolLevels.Create";
+        public const string Pages_SchoolLevels_Edit = "Pages.SchoolLevels.Edit";
+        public const string Pages_SchoolLevels_Delete = "Pages.SchoolLevels.Delete";
+
         //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
 
         public const string Pages = "Pages";

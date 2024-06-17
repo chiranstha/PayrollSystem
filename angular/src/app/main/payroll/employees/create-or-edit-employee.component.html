@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Employee_ProvidentFund">{{ l('ProvidentFund') }}</label>
+                        <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
                         <input type="text" #Employee_ProvidentFund="ngModel" id="Employee_ProvidentFund"
                             class="form-control" [(ngModel)]="employee.providentFund" name="ProvidentFund" />
                         <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Employee_InsuranceNo">{{ l('InsuranceNo') }}</label>
+                        <label for="Employee_InsuranceNo">{{ l('Insurance No') }}</label>
                         <input type="text" #Employee_InsuranceNo="ngModel" id="Employee_InsuranceNo"
                             class="form-control" [(ngModel)]="employee.insuranceNo" name="InsuranceNo" />
                         <validation-messages [formCtrl]="Employee_InsuranceNo"></validation-messages>

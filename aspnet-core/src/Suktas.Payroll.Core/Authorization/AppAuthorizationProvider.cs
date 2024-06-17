@@ -80,6 +80,12 @@ namespace Suktas.Payroll.Authorization
             employeeLevels.CreateChildPermission(AppPermissions.Pages_EmployeeLevels_Edit, L("EditEmployeeLevel"), multiTenancySides: MultiTenancySides.Tenant);
             employeeLevels.CreateChildPermission(AppPermissions.Pages_EmployeeLevels_Delete, L("DeleteEmployeeLevel"), multiTenancySides: MultiTenancySides.Tenant);
 
+            var schoolLevels = pages.CreateChildPermission(AppPermissions.Pages_SchoolLevels, L("SchoolLevels"), multiTenancySides: MultiTenancySides.Tenant);
+            schoolLevels.CreateChildPermission(AppPermissions.Pages_SchoolLevels_Create, L("CreateNewSchoolLevel"), multiTenancySides: MultiTenancySides.Tenant);
+            schoolLevels.CreateChildPermission(AppPermissions.Pages_SchoolLevels_Edit, L("EditSchoolLevel"), multiTenancySides: MultiTenancySides.Tenant);
+            schoolLevels.CreateChildPermission(AppPermissions.Pages_SchoolLevels_Delete, L("DeleteSchoolLevel"), multiTenancySides: MultiTenancySides.Tenant);
+
+
             pages.CreateChildPermission(AppPermissions.Pages_DemoUiComponents, L("DemoUiComponents"));
 
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));

@@ -1,13 +1,13 @@
 ﻿<div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'EmployeeLevels' | localize" [description]="'EmployeeLevelsHeaderInfo' | localize">
+        <sub-header [title]="'SchoolLevels' | localize" [description]="'SchoolLevelsHeaderInfo' | localize">
 
             <div role="search">
                 <div class="position-relative w-md-400px me-md-2">
                     <i
                         class="fa-duotone fa-magnifying-glass fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6"><span
                             class="path1"></span><span class="path2"></span></i>
-                    <input (keyup)="getEmployeeLevels()" (keyup.enter)="getEmployeeLevels()" [(ngModel)]="filterText"
+                    <input (keyup)="getSchoolLevels()" (keyup.enter)="getSchoolLevels()" [(ngModel)]="filterText"
                         [ngModelOptions]="{ standalone: true }" class="form-control form-control-solid ps-10"
                         name="search" placeholder="Search" type="text" value="">
                 </div>
@@ -18,8 +18,8 @@
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
-                <button id="btn_create_employeeLevel" *ngIf="isGranted('Pages.EmployeeLevels.Create')"
-                    (click)="createEmployeeLevel()" class="btn btn-primary blue">
+                <button id="btn_create_schoolLevel" *ngIf="isGranted('Pages.SchoolLevels.Create')"
+                    (click)="createSchoolLevel()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
                     {{ l('Create') }}
                 </button>
@@ -68,7 +68,7 @@
                     <div class="row align-items-center">
                         <!--<Primeng-Datatable-Start>-->
                         <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
-                            <p-table #dataTable (onLazyLoad)="getEmployeeLevels($event)"
+                            <p-table #dataTable (onLazyLoad)="getSchoolLevels($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}" [paginator]="false"
                                 [lazy]="true" scrollHeight="400px" styleClass="p-datatable-gridlines"
@@ -78,19 +78,19 @@
                                     <tr>
                                         <th style="width: 130px; padding-left: 25px;" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.EmployeeLevels.Edit',
-                                                    'Pages.EmployeeLevels.Delete'
+                                                    'Pages.SchoolLevels.Edit',
+                                                    'Pages.SchoolLevels.Delete'
                                                 )
                                             ">
                                             {{ l('Actions') }}
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
                                             {{ l('Name') }}
-                                            <p-sortIcon field="employeeLevel.name"></p-sortIcon>
+                                            <p-sortIcon field="schoolLevel.name"></p-sortIcon>
                                         </th>
                                         <th style="width: 150px" pSortableColumn="name">
                                             {{ l('Alias') }}
-                                            <p-sortIcon field="employeeLevel.name"></p-sortIcon>
+                                            <p-sortIcon field="schoolLevel.name"></p-sortIcon>
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -98,8 +98,8 @@
                                     <tr>
                                         <td style="width: 130px" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.EmployeeLevels.Edit',
-                                                    'Pages.EmployeeLevels.Delete'
+                                                    'Pages.SchoolLevels.Edit',
+                                                    'Pages.SchoolLevels.Delete'
                                                 )
                                             ">
                                             <div class="btn-group dropdown" dropdown container="body">
@@ -111,15 +111,15 @@
                                                 <ul class="dropdown-menu" *dropdownMenu>
                                                     <li>
                                                         <a href="javascript:;" class="dropdown-item"
-                                                            (click)="viewEmployeeLevelModal.show(record)">
+                                                            (click)="viewSchoolLevelModal.show(record)">
                                                             {{ l('View') }}
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.EmployeeLevels.Edit')"
+                                                            *ngIf="permission.isGranted('Pages.SchoolLevels.Edit')"
                                                             class="dropdown-item" (click)="
-                                                                createOrEditEmployeeLevelModal.show(
+                                                                createOrEditSchoolLevelModal.show(
                                                                     record.id
                                                                 )
                                                             ">
@@ -128,8 +128,8 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.EmployeeLevels.Delete')"
-                                                            (click)="deleteEmployeeLevel(record.employeeLevel)">
+                                                            *ngIf="permission.isGranted('Pages.SchoolLevels.Delete')"
+                                                            (click)="deleteSchoolLevel(record.schoolLevel)">
                                                             {{ l('Delete') }}
                                                         </a>
                                                     </li>
@@ -152,7 +152,7 @@
                             </div>
                             <div class="primeng-paging-container">
                                 <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                    (onPageChange)="getEmployeeLevels($event)"
+                                    (onPageChange)="getSchoolLevels($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                     [showCurrentPageReport]="true" [currentPageReportTemplate]="
@@ -165,8 +165,8 @@
                 </div>
             </div>
         </div>
-        <createOrEditEmployeeLevelModal #createOrEditEmployeeLevelModal (modalSave)="getEmployeeLevels()">
-        </createOrEditEmployeeLevelModal>
-        <viewEmployeeLevelModal #viewEmployeeLevelModal></viewEmployeeLevelModal>
+        <createOrEditSchoolLevelModal #createOrEditSchoolLevelModal (modalSave)="getSchoolLevels()">
+        </createOrEditSchoolLevelModal>
+        <viewSchoolLevelModal #viewSchoolLevelModal></viewSchoolLevelModal>
     </div>
 </div>

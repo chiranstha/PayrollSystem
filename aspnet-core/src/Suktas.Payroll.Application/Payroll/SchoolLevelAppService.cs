@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.Runtime.Session;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using Suktas.Payroll.Authorization;
 using Suktas.Payroll.Payroll.Dtos;
 using System;
 using System.Collections.Generic;
@@ -80,7 +82,7 @@ namespace Suktas.Payroll.Payroll
             return output;
         }
 
-        //   [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Edit)]
         public virtual async Task<GetSchoolLevelForEdit> GetSchoolLevelForEdit(EntityDto<Guid> input)
         {
             var SchoolLevel = await _SchoolLevelRepository.GetAll().AsNoTracking()
@@ -111,7 +113,7 @@ namespace Suktas.Payroll.Payroll
             }
         }
 
-        //    [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Create)]
+        [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Create)]
         protected virtual async Task Create(CreateOrEditSchoolLevelDto input)
         {
             var SchoolLevel = new SchoolLevel
@@ -126,7 +128,7 @@ namespace Suktas.Payroll.Payroll
 
         }
 
-        //    [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Edit)]
+        [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Edit)]
         protected virtual async Task Update(CreateOrEditSchoolLevelDto input)
         {
             var SchoolLevel = await _SchoolLevelRepository.GetAll()
@@ -141,7 +143,7 @@ namespace Suktas.Payroll.Payroll
 
         }
 
-        //     [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Delete)]
+        [AbpAuthorize(AppPermissions.Pages_SchoolLevels_Delete)]
         public virtual async Task Delete(EntityDto<Guid> input)
         {
             var SchoolLevel = await _SchoolLevelRepository.GetAll()

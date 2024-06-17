@@ -36,144 +36,145 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="overflow-x-auto">
+                    <table class="table table-row-dashed table-row-gray-300 table-striped">
+                        <thead>
+                            <tr class=" bg-tableHead text-center">
+                                <th><b>SN.</b></th>
+                                <th><b>Ward No</b></th>
+                                <th><b>School Level</b></th>
+                                <th><b>School Name</b></th>
+                                <th><b>Employee Type</b></th>
+                                <th><b>Employee Level</b></th>
+                                <th><b>Employee Name</b></th>
+                                <th><b>Basic Salary</b></th>
+                                <th><b>Grade</b></th>
+                                <th><b>Grade Rate</b></th>
+                                <th><b>Grade Amount</b></th>
+                                <th><b>Technical Grade Amount</b></th>
+                                <th><b>Total Grade Amount</b></th>
+                                <th><b>Total</b></th>
+                                <th><b>EPF Amount</b></th>
+                                <th><b>Insurance Amount</b></th>
+                                <th><b>Total Salary</b></th>
+                                <th><b>Inflation Allowance</b></th>
+                                <th><b>Principal Allowance</b></th>
+                                <th><b>Total Salary Amount</b></th>
+                                <th><b>Month</b></th>
+                                <th><b>Month Name</b></th>
+                                <th><b>Total For All Months</b></th>
+                                <th><b>Festival Allowance</b></th>
+                                <th><b>Total With Allowance for all months</b></th>
+                                <th><b>Internal Amount</b></th>
+                                <th><b>TotalPaidAmount</b></th>
+                                <th><b>Remarks</b></th>
+                                <th><b>Remove</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of data; let i = index" class="text-center">
+                                <td>
+                                    <p>{{i+1}}</p>
+                                </td>
+                                <td>
+                                    <p>{{ row.wardNo }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ row.schoolLevel }}</p>
+                                </td>
+                                <td>
+                                    {{ row.schoolName }}
+                                </td>
+                                <td>
+                                    {{ row.employeeType }}
+                                </td>
+                                <td>
+                                    {{ row.employeeLevel }}
+                                </td>
+                                <td>
+                                    {{ row.employeeName }}
+                                </td>
+                                <td>
+                                    {{ row.basicSalary | number }}
+                                </td>
+                                <td>
+                                    {{ row.grade }}
+                                </td>
+                                <td>
+                                    {{ row.gradeRate }}
+                                </td>
+                                <td>
+                                    {{ row.gradeAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.technicalGradeAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.totalGradeAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.total | number }}
+                                </td>
+                                <td>
+                                    {{ row.epfAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.insuranceAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.totalSalary | number }}
+                                </td>
+                                <td>
+                                    {{ row.inflationAllowance | number }}
+                                </td>
+                                <td>
+                                    {{ row.principalAllowance | number }}
+                                </td>
+                                <td>
+                                    {{ row.totalSalaryAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.month | number }}
+                                </td>
+                                <td>
+                                    {{ row.monthNames }}
+                                </td>
+                                <td>
+                                    {{ row.totalForAllMonths | number }}
+                                </td>
+                                <td>
+                                    {{ row.festivalAllowance | number }}
+                                </td>
+                                <td>
+                                    {{ row.totalWithAllowanceForAllMonths | number }}
+                                </td>
+                                <td>
+                                    {{ row.internalAmount | number }}
+                                </td>
+                                <td>
+                                    {{ row.totalPaidAmount | number }}
+                                </td>
+                                <td>
+                                    <input type="text" value="" formControlName="row.remarks">
+                                    {{ row.remarks }}
+                                </td>
+                                <td>
+                                    <button (click)="Remove(i)" class="btn btn-danger red">
+                                        <span>{{ l('Remove') }}</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!data || !data.length">
+                                <td>No Results Found!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{this.data | json}}
+                </div>
                 {{ form.value | json }}
             </form>
-
-            <!-- stock report show  -->
-            <div class="overflow-x-auto">
-                <table class="table table-row-dashed table-row-gray-300 table-striped">
-                    <thead>
-                        <tr class=" bg-tableHead text-center">
-                            <th><b>SN.</b></th>
-                            <th><b>Ward No</b></th>
-                            <th><b>School Level</b></th>
-                            <th><b>School Name</b></th>
-                            <th><b>Employee Type</b></th>
-                            <th><b>Employee Level</b></th>
-                            <th><b>Employee Name</b></th>
-                            <th><b>Basic Salary</b></th>
-                            <th><b>Grade</b></th>
-                            <th><b>Grade Rate</b></th>
-                            <th><b>Grade Amount</b></th>
-                            <th><b>Technical Grade Amount</b></th>
-                            <th><b>Total Grade Amount</b></th>
-                            <th><b>Total</b></th>
-                            <th><b>EPF Amount</b></th>
-                            <th><b>Insurance Amount</b></th>
-                            <th><b>Total Salary</b></th>
-                            <th><b>Inflation Allowance</b></th>
-                            <th><b>Principal Allowance</b></th>
-                            <th><b>Total Salary Amount</b></th>
-                            <th><b>Month</b></th>
-                            <th><b>Month Name</b></th>
-                            <th><b>Total For All Months</b></th>
-                            <th><b>Festival Allowance</b></th>
-                            <th><b>Total With Allowance for all months</b></th>
-                            <th><b>Internal Amount</b></th>
-                            <th><b>TotalPaidAmount</b></th>
-                            <th><b>Remarks</b></th>
-                            <th><b>Remove</b></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of data; let i = index" class="text-center">
-                            <td>
-                                <p>{{i+1}}</p>
-                            </td>
-                            <td>
-                                <p>{{ row.wardNo }}</p>
-                            </td>
-                            <td>
-                                <p>{{ row.schoolLevel }}</p>
-                            </td>
-                            <td>
-                                {{ row.schoolName }}
-                            </td>
-                            <td>
-                                {{ row.employeeType }}
-                            </td>
-                            <td>
-                                {{ row.employeeLevel }}
-                            </td>
-                            <td>
-                                {{ row.employeeName }}
-                            </td>
-                            <td>
-                                {{ row.basicSalary | number }}
-                            </td>
-                            <td>
-                                {{ row.grade }}
-                            </td>
-                            <td>
-                                {{ row.gradeRate }}
-                            </td>
-                            <td>
-                                {{ row.gradeAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.technicalGradeAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.totalGradeAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.total | number }}
-                            </td>
-                            <td>
-                                {{ row.epfAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.insuranceAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.totalSalary | number }}
-                            </td>
-                            <td>
-                                {{ row.inflationAllowance | number }}
-                            </td>
-                            <td>
-                                {{ row.principalAllowance | number }}
-                            </td>
-                            <td>
-                                {{ row.totalSalaryAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.month | number }}
-                            </td>
-                            <td>
-                                {{ row.monthNames }}
-                            </td>
-                            <td>
-                                {{ row.totalForAllMonths | number }}
-                            </td>
-                            <td>
-                                {{ row.festivalAllowance | number }}
-                            </td>
-                            <td>
-                                {{ row.totalWithAllowanceForAllMonths | number }}
-                            </td>
-                            <td>
-                                {{ row.internalAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.totalPaidAmount | number }}
-                            </td>
-                            <td>
-                                {{ row.remarks }}
-                            </td>
-                            <td>
-                                <button (click)="Remove(i)" class="btn btn-danger red">
-                                    <span>{{ l('Remove') }}</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!data || !data.length">
-                            <td>No Results Found!</td>
-                        </tr>
-                    </tbody>                    
-                </table>
-                {{this.data | json}}
-            </div>
         </div>
     </div>
 </div>

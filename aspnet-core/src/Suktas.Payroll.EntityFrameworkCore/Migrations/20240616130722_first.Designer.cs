@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suktas.Payroll.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using Suktas.Payroll.EntityFrameworkCore;
 namespace Suktas.Payroll.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    partial class PayrollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240616130722_first")]
+    partial class first
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2530,29 +2533,6 @@ namespace Suktas.Payroll.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("tbl_InternalGradeSetup");
-                });
-
-            modelBuilder.Entity("Suktas.Payroll.Payroll.MonthlyAllowances", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EmployeeCategory")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_MonthlyAllowances");
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.PrincipalAllowanceSetting", b =>

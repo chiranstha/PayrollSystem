@@ -34,12 +34,14 @@ namespace Suktas.Payroll.Payroll
         private readonly IRepository<FestivalBonusSetting, Guid> _festivalBonusSettingRepository;
         private readonly IRepository<PrincipalAllowanceSetting, Guid> _principalAllowanceSettingRepository;
         private readonly IRepository<EmployeeSalaryDetailNew, Guid> _employeeSalaryDetailNewRepository;
+        private readonly IRepository<MonthlyAllowances, Guid> _monthlyAllowancesRepository;
         public EmployeeSalaryAppService(IRepository<EmployeeSalary, Guid> employeeSalaryRepository,
             IEmployeeSalaryExcelExporter employeeSalaryExcelExporter,
             IRepository<FestivalBonusSetting, Guid> festivalBonusSettingRepository,
             IRepository<EmployeeSalaryMasterNew, Guid> employeeSalaryMasterNew,
             IRepository<GradeUpgrade, Guid> gradeUpgradeRepository,
             IRepository<EmployeeSalaryDetailNew, Guid> employeeSalaryDetailNewRepository,
+            IRepository<MonthlyAllowances, Guid> monthlyAllowancesRepository,
             IRepository<EmployeeSalaryMasterMonthNew, Guid> employeeSalaryMasterMonthNew,
             IRepository<EmployeeSalaryMasterSchoolNew, Guid> employeeSalaryMasterSchoolNew,
             IRepository<PrincipalAllowanceSetting, Guid> principalAllowanceSettingRepository,
@@ -57,6 +59,7 @@ namespace Suktas.Payroll.Payroll
             _categorySalaryRepository = categorySalaryRepository;
             _employeeSalaryMasterSchoolNew = employeeSalaryMasterSchoolNew;
             _lookupEmployeeRepository = lookupEmployeeRepository;
+            _monthlyAllowancesRepository = monthlyAllowancesRepository;
             _employeeSalaryMasterMonthNew = employeeSalaryMasterMonthNew;
             _employeeSalaryMasterNew = employeeSalaryMasterNew;
             _gradeUpgradeRepository = gradeUpgradeRepository;
@@ -364,9 +367,11 @@ namespace Suktas.Payroll.Payroll
             var gradeUpgrades = await _gradeUpgradeRepository.GetAll().ToListAsync();
             var principalAllowanceSettins = await _principalAllowanceSettingRepository.GetAll().ToListAsync();
             var festivalAllowance = await _festivalBonusSettingRepository.GetAll().Where(x => input.Months.Contains(x.MonthId)).ToListAsync();
+            var monthlyAllowances = await _monthlyAllowancesRepository.GetAll().ToListAsync();
             int sn = 1;
             foreach (var employee in employees)
             {
+                var monthlyAllowance = monthlyAllowances.Where(x => x.EmployeeCategory == employee.Category).ToList();
                 var data = new CreateEmployeeSalaryNewDto
                 {
                     SN = sn++,
@@ -382,7 +387,7 @@ namespace Suktas.Payroll.Payroll
                     Grade = (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).Grade + (int)gradeUpgrades.FirstOrDefault(x => x.EmployeeId == employee.Id && x.IsActive).TechnicalGrade,
                     TechnicalGradeAmount = employee.IsTechnical ? categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category) == null ? 0 : categorySalaries.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId && x.Category == employee.Category).TechnicalAmount : 0,
                     InsuranceAmount = employee.InsuranceAmount,
-                    InflationAllowance = 2000,
+                    InflationAllowance = monthlyAllowance.Count > 0 ? monthlyAllowance.Sum(x => x.Amount) : 0,
                     PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
                     Month = input.Months.Count,
                     MonthNames = string.Join(',', input.Months.Select(x => x.ToString())),

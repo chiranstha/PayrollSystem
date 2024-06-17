@@ -47,7 +47,7 @@ namespace Suktas.Payroll.Payroll
             var employeeLevels = from o in pagedAndFilteredEmployeeLevels
                                  select new
                                  {
-
+                                     o.AliasName,
                                      o.Name,
                                      o.Id
                                  };
@@ -63,6 +63,7 @@ namespace Suktas.Payroll.Payroll
                 {
                         Name = o.Name,
                         Id = o.Id,
+                        Alias = o.AliasName
                 };
 
                 results.Add(res);

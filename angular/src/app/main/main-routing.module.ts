@@ -63,6 +63,16 @@ import { RouterModule } from '@angular/router';
                         data: { permission: 'Pages.EmployeeLevels' }
                     },
                     {
+                        path: 'payroll/schoolLevels',
+                        loadChildren: () => import('./payroll/schoolLevels/schoolLevel.module').then(m => m.SchoolLevelModule),
+                        data: { permission: 'Pages.EmployeeLevels' }
+                    },
+                    {
+                        path: 'payroll/monthlyAllowance',
+                        loadChildren: () => import('./payroll/monthlyAllowance/monthlyAllowance.module').then(m => m.MonthlyAllowanceModule),
+                        data: { permission: 'Pages.EmployeeLevels' }
+                    },
+                    {
                         path: 'dashboard',
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
                         data: { permission: 'Pages.Tenant.Dashboard' },
