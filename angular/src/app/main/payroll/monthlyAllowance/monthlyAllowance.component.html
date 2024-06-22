@@ -18,7 +18,7 @@
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
                 </button>
-                <button id="btn_create_monthlyAllowance" *ngIf="isGranted('Pages.MonthlyAllowances.Create')"
+                <button id="btn_create_monthlyAllowance" *ngIf="isGranted('Pages.MonthlyAllowance.Create')"
                     (click)="createMonthlyAllowance()" class="btn btn-primary blue">
                     <i class="fa fa-plus"></i>
                     {{ l('Create') }}
@@ -78,8 +78,8 @@
                                     <tr>
                                         <th style="width: 130px; padding-left: 25px;" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.MonthlyAllowances.Edit',
-                                                    'Pages.MonthlyAllowances.Delete'
+                                                    'Pages.MonthlyAllowance.Edit',
+                                                    'Pages.MonthlyAllowance.Delete'
                                                 )
                                             ">
                                             {{ l('Actions') }}
@@ -102,8 +102,8 @@
                                     <tr>
                                         <td style="width: 130px" [hidden]="
                                                 !isGrantedAny(
-                                                    'Pages.MonthlyAllowances.Edit',
-                                                    'Pages.MonthlyAllowances.Delete'
+                                                    'Pages.MonthlyAllowance.Edit',
+                                                    'Pages.MonthlyAllowance.Delete'
                                                 )
                                             ">
                                             <div class="btn-group dropdown" dropdown container="body">
@@ -121,7 +121,7 @@
                                                     </li>
                                                     <li>
                                                         <a href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowances.Edit')"
+                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowance.Edit')"
                                                             class="dropdown-item" (click)="
                                                                 createOrEditMonthlyAllowanceModal.show(
                                                                     record.id
@@ -132,7 +132,7 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowances.Delete')"
+                                                            *ngIf="permission.isGranted('Pages.MonthlyAllowance.Delete')"
                                                             (click)="deleteMonthlyAllowance(record.monthlyAllowance)">
                                                             {{ l('Delete') }}
                                                         </a>

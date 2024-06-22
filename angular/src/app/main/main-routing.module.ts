@@ -65,13 +65,18 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'payroll/schoolLevels',
                         loadChildren: () => import('./payroll/schoolLevels/schoolLevel.module').then(m => m.SchoolLevelModule),
-                        data: { permission: 'Pages.EmployeeLevels' }
+                        data: { permission: 'Pages.SchoolLevels' }
                     },
                     {
                         path: 'payroll/monthlyAllowance',
                         loadChildren: () => import('./payroll/monthlyAllowance/monthlyAllowance.module').then(m => m.MonthlyAllowanceModule),
-                        data: { permission: 'Pages.EmployeeLevels' }
+                        data: { permission: 'Pages.MonthlyAllowance' }
                     },
+                    // {
+                    //     path: 'payroll/monthlyAllowance',
+                    //     loadChildren: () => import('./payroll/monthlyAllowance/monthlyAllowance.module').then(m => m.MonthlyAllowanceModule),
+                    //     data: { permission: 'Pages.EmployeeLevels' }
+                    // },
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),

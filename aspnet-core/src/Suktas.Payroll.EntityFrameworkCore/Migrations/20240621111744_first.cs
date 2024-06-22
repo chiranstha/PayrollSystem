@@ -650,6 +650,21 @@ namespace Suktas.Payroll.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_MonthlyAllowances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EmployeeCategory = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_MonthlyAllowances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_SchoolLevel",
                 columns: table => new
                 {
@@ -2123,6 +2138,9 @@ namespace Suktas.Payroll.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_InternalGradeSetup");
+
+            migrationBuilder.DropTable(
+                name: "tbl_MonthlyAllowances");
 
             migrationBuilder.DropTable(
                 name: "tbl_PrincipalAllowanceSettings");

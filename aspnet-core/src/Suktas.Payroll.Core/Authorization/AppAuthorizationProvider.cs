@@ -45,6 +45,12 @@ namespace Suktas.Payroll.Authorization
             tbl_PrincipalAllowanceSettings.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings_Edit, L("EditPrincipalAllowanceSetting"));
             tbl_PrincipalAllowanceSettings.CreateChildPermission(AppPermissions.Pages_PrincipalAllowanceSettings_Delete, L("DeletePrincipalAllowanceSetting"));
 
+            var monthlyAllowance = pages.CreateChildPermission(AppPermissions.Pages_MonthlyAllowance, L("MonthlyAllowance"));
+            monthlyAllowance.CreateChildPermission(AppPermissions.Pages_MonthlyAllowance_Create, L("CreateMonthlyAllowance"));
+            monthlyAllowance.CreateChildPermission(AppPermissions.Pages_MonthlyAllowance_Edit, L("EditMonthlyAllowance"));
+            monthlyAllowance.CreateChildPermission(AppPermissions.Pages_MonthlyAllowance_Delete, L("DeleteMonthlyAllowance"));
+
+
             var employeeSalary = pages.CreateChildPermission(AppPermissions.Pages_EmployeeSalary, L("EmployeeSalary"));
             employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Create, L("CreateNewEmployeeSalary"));
             employeeSalary.CreateChildPermission(AppPermissions.Pages_EmployeeSalary_Edit, L("EditEmployeeSalary"));

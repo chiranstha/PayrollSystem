@@ -8,6 +8,6 @@ namespace Suktas.Payroll.Payroll.Dtos
     {
         public string Name { get; set; }
         public decimal Amount { get; set; }
-        public string EmployeeCategory { get; set; }
+        public EmployeeCategory EmployeeCategory { get; set; }
     }
 }

@@ -13,6 +13,7 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     form: FormGroup;
     schools: EmployeeSalarySchoolInfoLookupTableDto[];
     data: CreateEmployeeSalaryNewDto[] = [];
+    total: CreateEmployeeSalaryNewDto = new CreateEmployeeSalaryNewDto;
     createData: CreateSalaryNewDto;
     input: CreateGenerateSalaryNewDto;
 
@@ -66,7 +67,8 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
         this.input.year = year;
         this.input.schoolIds = schoolIds;
         this.employeeSalaryServiceProxy.generateSalaryNew(this.input).subscribe((res) => {
-            this.data = res;
+            this.data = res.details;
+            this.total = res.total;
         })
     }
 

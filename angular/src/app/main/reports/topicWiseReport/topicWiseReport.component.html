@@ -1,11 +1,11 @@
 <div>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'School Wise Report' | localize">
+        <sub-header [title]="'Topic Wise Report' | localize">
             <div role="actions">
-                <button (click)="Excel()" class="btn btn-outline btn-outline-success btn-active-light-success me-1">
+                <!-- <button (click)="Excel()" class="btn btn-outline btn-outline-success btn-active-light-success me-1">
                     <i class="fa fa-file-excel"></i>
                     {{ l('ExportToExcel') }}
-                </button>
+                </button> -->
             </div>
         </sub-header>
 
@@ -22,6 +22,11 @@
                                 <label class="form-label" for="schoolId">School</label>
                                 <ng-select (change)="GetReport()" [items]="schools" bindLabel="displayName" bindValue="id"
                                     formControlName="schoolId" id="schoolId"></ng-select>
+                            </div>
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                                <label class="form-label" for="category">Category</label>
+                                <ng-select (change)="GetReport()" [items]="CategoryEnum" bindLabel="displayName" bindValue="id"
+                                    formControlName="category" id="category"></ng-select>
                             </div>
                             <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                                 <button (click)="GetReport()" class="btn btn-outline btn-active-success mt-8"><i

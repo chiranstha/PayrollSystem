@@ -6805,7 +6805,7 @@ export class EmployeeSalaryServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    generateSalaryNew(body: CreateGenerateSalaryNewDto | undefined): Observable<CreateEmployeeSalaryNewDto[]> {
+    generateSalaryNew(body: CreateGenerateSalaryNewDto | undefined): Observable<CreateEmployeeSalaryNewMasterDto> {
         let url_ = this.baseUrl + "/api/services/app/EmployeeSalary/GenerateSalaryNew";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6828,14 +6828,14 @@ export class EmployeeSalaryServiceProxy {
                 try {
                     return this.processGenerateSalaryNew(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<CreateEmployeeSalaryNewDto[]>;
+                    return _observableThrow(e) as any as Observable<CreateEmployeeSalaryNewMasterDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<CreateEmployeeSalaryNewDto[]>;
+                return _observableThrow(response_) as any as Observable<CreateEmployeeSalaryNewMasterDto>;
         }));
     }
 
-    protected processGenerateSalaryNew(response: HttpResponseBase): Observable<CreateEmployeeSalaryNewDto[]> {
+    protected processGenerateSalaryNew(response: HttpResponseBase): Observable<CreateEmployeeSalaryNewMasterDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -6846,14 +6846,7 @@ export class EmployeeSalaryServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(CreateEmployeeSalaryNewDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = CreateEmployeeSalaryNewMasterDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -7740,7 +7733,7 @@ export class EmployeeSalaryExcelExporterServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    exportToFileSalary(body: CreateEmployeeSalaryNewDto[] | undefined): Observable<FileDto> {
+    exportToFileSalary(body: CreateEmployeeSalaryNewMasterDto | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/EmployeeSalaryExcelExporter/ExportToFileSalary";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15924,6 +15917,136 @@ export class ReportsServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param year (optional) 
+     * @param schoolId (optional) 
+     * @return Success
+     */
+    getCategoryWiseReport(year: number | undefined, schoolId: string | undefined, category: Category): Observable<SchoolWiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/GetCategoryWiseReport?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        if (schoolId === null)
+            throw new Error("The parameter 'schoolId' cannot be null.");
+        else if (schoolId !== undefined)
+            url_ += "schoolId=" + encodeURIComponent("" + schoolId) + "&";
+        if (category === undefined || category === null)
+            throw new Error("The parameter 'category' must be defined and cannot be null.");
+        else
+            url_ += "category=" + encodeURIComponent("" + category) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCategoryWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCategoryWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SchoolWiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SchoolWiseReportDto[]>;
+        }));
+    }
+
+    protected processGetCategoryWiseReport(response: HttpResponseBase): Observable<SchoolWiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SchoolWiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllSchoolInfoForTableDropdown(): Observable<EmployeeSalarySchoolInfoLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/GetAllSchoolInfoForTableDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllSchoolInfoForTableDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSchoolInfoForTableDropdown(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EmployeeSalarySchoolInfoLookupTableDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EmployeeSalarySchoolInfoLookupTableDto[]>;
+        }));
+    }
+
+    protected processGetAllSchoolInfoForTableDropdown(response: HttpResponseBase): Observable<EmployeeSalarySchoolInfoLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EmployeeSalarySchoolInfoLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -22999,6 +23122,18 @@ export interface ICancelPaymentDto {
     gateway: SubscriptionPaymentGatewayType;
 }
 
+export enum CategoryEnum {
+    BasicSalry = 1,
+    GradeAmount = 3,
+    TechnicalGradeAmount = 4,
+    EPFAmount = 5,
+    InsuranceAmount = 6,
+    TotalSalry = 7,
+    InflationAmount = 8,
+    PrincipalAllowance = 9,
+    FestivalAllowance = 10,
+}
+
 export class CategorySalaryEmployeeLevelLookupTableDto implements ICategorySalaryEmployeeLevelLookupTableDto {
     id!: string;
     displayName!: string | undefined;
@@ -23533,6 +23668,54 @@ export interface ICreateEmployeeSalaryNewDto {
     totalPaidAmount: number;
     remarks: string | undefined;
     id: string | undefined;
+}
+
+export class CreateEmployeeSalaryNewMasterDto implements ICreateEmployeeSalaryNewMasterDto {
+    total!: CreateEmployeeSalaryNewDto;
+    details!: CreateEmployeeSalaryNewDto[] | undefined;
+
+    constructor(data?: ICreateEmployeeSalaryNewMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.total = _data["total"] ? CreateEmployeeSalaryNewDto.fromJS(_data["total"]) : <any>undefined;
+            if (Array.isArray(_data["details"])) {
+                this.details = [] as any;
+                for (let item of _data["details"])
+                    this.details!.push(CreateEmployeeSalaryNewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateEmployeeSalaryNewMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEmployeeSalaryNewMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["total"] = this.total ? this.total.toJSON() : <any>undefined;
+        if (Array.isArray(this.details)) {
+            data["details"] = [];
+            for (let item of this.details)
+                data["details"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ICreateEmployeeSalaryNewMasterDto {
+    total: CreateEmployeeSalaryNewDto;
+    details: CreateEmployeeSalaryNewDto[] | undefined;
 }
 
 export class CreateFriendshipForCurrentTenantInput implements ICreateFriendshipForCurrentTenantInput {
@@ -24366,7 +24549,7 @@ export interface ICreateOrEditInternalGradeSetupDto {
 export class CreateOrEditMontlyAllowanceDto implements ICreateOrEditMontlyAllowanceDto {
     name!: string | undefined;
     amount!: number;
-    employeeCategory!: string | undefined;
+    employeeCategory!: EmployeeCategory;
     id!: string;
 
     constructor(data?: ICreateOrEditMontlyAllowanceDto) {
@@ -24407,7 +24590,7 @@ export class CreateOrEditMontlyAllowanceDto implements ICreateOrEditMontlyAllowa
 export interface ICreateOrEditMontlyAllowanceDto {
     name: string | undefined;
     amount: number;
-    employeeCategory: string | undefined;
+    employeeCategory: EmployeeCategory;
     id: string;
 }
 
@@ -30358,6 +30541,7 @@ export interface IGetSchoolLevelForEdit {
 
 export class GetSchoolLevelForView implements IGetSchoolLevelForView {
     name!: string | undefined;
+    aliasName!: string | undefined;
     id!: string;
 
     constructor(data?: IGetSchoolLevelForView) {
@@ -30372,6 +30556,7 @@ export class GetSchoolLevelForView implements IGetSchoolLevelForView {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
+            this.aliasName = _data["aliasName"];
             this.id = _data["id"];
         }
     }
@@ -30386,6 +30571,7 @@ export class GetSchoolLevelForView implements IGetSchoolLevelForView {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
+        data["aliasName"] = this.aliasName;
         data["id"] = this.id;
         return data;
     }
@@ -30393,6 +30579,7 @@ export class GetSchoolLevelForView implements IGetSchoolLevelForView {
 
 export interface IGetSchoolLevelForView {
     name: string | undefined;
+    aliasName: string | undefined;
     id: string;
 }
 
@@ -40097,6 +40284,18 @@ export interface IWsFederationExternalLoginProviderSettings {
     metaDataAddress: string | undefined;
     wtrealm: string | undefined;
     authority: string | undefined;
+}
+
+export enum Category {
+    BasicSalry = 1,
+    GradeAmount = 3,
+    TechnicalGradeAmount = 4,
+    EPFAmount = 5,
+    InsuranceAmount = 6,
+    TotalSalry = 7,
+    InflationAmount = 8,
+    PrincipalAllowance = 9,
+    FestivalAllowance = 10,
 }
 
 export class ApiException extends Error {

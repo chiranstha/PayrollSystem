@@ -87,48 +87,46 @@ namespace Suktas.Payroll.Payroll.Exporting
 
         }
 
-        public FileDto ExportToFileSalary(List<CreateEmployeeSalaryNewDto> data)
+        public FileDto ExportToFileSalary(CreateEmployeeSalaryNewMasterDto data)
         {
             return CreateExcelPackage(
                     "EmployeeSalary.xlsx",
                     excelPackage =>
                     {
-
                         var sheet = excelPackage.CreateSheet("EmployeeSalary");
-
                         AddHeader(
                             sheet,
-                        "S.N.",
-                        "Ward No",
+                        "सि नं",
+                        "वडा नं",
                         "School Level",
-                        "School Name",
+                        "विद्यालयको नाम",
                         "Employee Type",
-                        "Employee Level",
-                        "Employee Name",
-                        "Basic Salary",
+                        "दर्जा",
+                        "नाम, थर",
+                        "तलव स्केल",
                         "Grade",
-                        "Grade Rate",
-                        "Grade Amount",
-                        "Technical Grade Amount",
-                        "Total Grade Amount",
-                        "Total",
+                        "ग्रेड दर",
+                        "ग्रेड रकम",
+                        "प्राविधिक ग्रेड रकम",
+                        "जम्मा ग्रेड रकम",
+                        "जम्मा",
                         "EPF Amount",
-                        "Insurance Amount",
-                        "TotalSalary",
+                        "विमा",
+                        "जम्मा तलव",
                         "Inflation Allowance",
                         "Principal Allowance",
                         "Total Salary Amount",
-                        "Month",
-                        "Month Names",
-                        "Total For All Months",
-                        "Festival Allowance",
-                        "Total With Allowance For All Months",
-                        "Internal Amount",
-                        "Total Paid Amount",
-                        "Remarks");
+                        "महिना",
+                        "महिनाको नाम",
+                        "जम्मा",
+                        "चाडपर्व/पोसाक भत्ता",
+                        "जम्मा",
+                        "आन्तरिक श्रोत",
+                        "खुद भुक्तानी रकम",
+                        "कैफियत");
 
                         AddObjects(
-                            sheet, data, d => d.SN,
+                            sheet, data.Details, d => d.SN,
                         d => d.WardNo,
                         d => d.SchoolLevel,
                         d => d.SchoolName,
@@ -158,7 +156,6 @@ namespace Suktas.Payroll.Payroll.Exporting
                         d => d.Remarks
                             );
                         ColumnResize(sheet, 28);
-
                     });
         }
 

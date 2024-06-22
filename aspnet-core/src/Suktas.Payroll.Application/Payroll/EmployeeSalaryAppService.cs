@@ -357,7 +357,7 @@ namespace Suktas.Payroll.Payroll
             return result;
         }
 
-        public async Task<List<CreateEmployeeSalaryNewDto>> GenerateSalaryNew(CreateGenerateSalaryNewDto input)
+        public async Task<CreateEmployeeSalaryNewMasterDto> GenerateSalaryNew(CreateGenerateSalaryNewDto input)
         {
             var result = new List<CreateEmployeeSalaryNewDto>();
             var schools = await _lookupSchoolInfoRepository.GetAll().Where(x => input.SchoolIds.Contains(x.Id)).ToListAsync();
@@ -407,7 +407,31 @@ namespace Suktas.Payroll.Payroll
                 data.TotalPaidAmount = data.TotalWithAllowanceForAllMonths + data.InternalAmount;
                 result.Add(data);
             }
-            return result;
+            var total = new CreateEmployeeSalaryNewDto
+            {
+                BasicSalary = result.Sum(x => x.BasicSalary),
+                GradeAmount = result.Sum(x => x.GradeAmount),
+                TechnicalGradeAmount = result.Sum(x => x.TechnicalGradeAmount),
+                TotalGradeAmount = result.Sum(x => x.TotalGradeAmount),
+                Total = result.Sum(x => x.Total),
+                EPFAmount = result.Sum(x => x.EPFAmount),
+                InsuranceAmount = result.Sum(x => x.InsuranceAmount),
+                TotalSalary = result.Sum(x => x.TotalSalary),
+                InflationAllowance = result.Sum(x => x.InflationAllowance),
+                PrincipalAllowance = result.Sum(x => x.PrincipalAllowance),
+                TotalSalaryAmount = result.Sum(x => x.TotalSalaryAmount),
+                TotalForAllMonths = result.Sum(x => x.TotalForAllMonths),
+                FestivalAllowance = result.Sum(x => x.FestivalAllowance),
+                TotalWithAllowanceForAllMonths = result.Sum(x => x.TotalWithAllowanceForAllMonths),
+                InternalAmount = result.Sum(x => x.InternalAmount),
+                TotalPaidAmount = result.Sum(x => x.TotalPaidAmount)
+            };
+            var masterResult = new CreateEmployeeSalaryNewMasterDto
+            {
+                Total = total,
+                Details = result
+            };
+            return masterResult;
         }
 
         public async Task<List<MonthwiseReportDto>> GetAllSalaries(int year)

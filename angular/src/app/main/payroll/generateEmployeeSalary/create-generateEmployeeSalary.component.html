@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                             <label class="form-label" for="Year">Year</label>
-                            <input type="number" class="form-control" formControlName="year" name="year" />
+                            <input (change)="GetData()" type="number" class="form-control" formControlName="year" name="year" />
                         </div>
                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
                             <label class="form-label" for="Months">Months</label>
@@ -157,7 +157,7 @@
                                     {{ row.totalPaidAmount | number }}
                                 </td>
                                 <td>
-                                    <input type="text" value="" formControlName="row.remarks">
+                                    <!-- <input type="text" value="" formControlName="row.remarks"> -->
                                     {{ row.remarks }}
                                 </td>
                                 <td>
@@ -166,14 +166,80 @@
                                     </button>
                                 </td>
                             </tr>
+                            <tr class="text-center">
+                                <td></td>
+                                <td colspan="6">
+                                    <b> Total </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.basicSalary | number }} </b>
+                                </td>
+                                <td>
+                                    {{ total.grade }}
+                                </td>
+                                <td>
+                                    {{ total.gradeRate }}
+                                </td>
+                                <td>
+                                  <b>  {{ total.gradeAmount | number }} </b>
+                                </td>
+                                <td>
+                                    <b> {{ total.technicalGradeAmount | number }}</b>
+                                </td>
+                                <td>
+                                    <b> {{ total.totalGradeAmount | number }}</b>
+                                </td>
+                                <td>
+                                   <b> {{ total.total | number }}</b>
+                                </td>
+                                <td>
+                                   <b> {{ total.epfAmount | number }}</b>
+                                </td>
+                                <td>
+                                   <b> {{ total.insuranceAmount | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.totalSalary | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.inflationAllowance | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.principalAllowance | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.totalSalaryAmount | number }} </b>
+                                </td>
+                                <td>
+                                    {{ total.month | number }}
+                                </td>
+                                <td>
+                                    {{ total.monthNames }}
+                                </td>
+                                <td>
+                                   <b> {{ total.totalForAllMonths | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.festivalAllowance | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.totalWithAllowanceForAllMonths | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.internalAmount | number }} </b>
+                                </td>
+                                <td>
+                                   <b> {{ total.totalPaidAmount | number }} </b>
+                                </td>
+                            </tr>
                             <tr *ngIf="!data || !data.length">
                                 <td>No Results Found!</td>
                             </tr>
                         </tbody>
                     </table>
-                    {{this.data | json}}
+                    <!-- {{this.data | json}} -->
                 </div>
-                {{ form.value | json }}
+                <!-- {{ form.value | json }} -->
             </form>
         </div>
     </div>

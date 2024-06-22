@@ -67,7 +67,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpEditions");
+                    b.ToTable("AbpEditions", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Edition");
 
@@ -107,7 +107,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable("AbpFeatures", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
 
@@ -187,7 +187,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpAuditLogs");
+                    b.ToTable("AbpAuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.PermissionSetting", b =>
@@ -223,7 +223,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable("AbpPermissions", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
 
@@ -263,7 +263,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable("AbpRoleClaims");
+                    b.ToTable("AbpRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserAccount", b =>
@@ -324,7 +324,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserName");
 
-                    b.ToTable("AbpUserAccounts");
+                    b.ToTable("AbpUserAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
@@ -360,7 +360,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "ClaimType");
 
-                    b.ToTable("AbpUserClaims");
+                    b.ToTable("AbpUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
@@ -399,7 +399,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "LoginProvider", "ProviderKey");
 
-                    b.ToTable("AbpUserLogins");
+                    b.ToTable("AbpUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLoginAttempt", b =>
@@ -448,7 +448,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenancyName", "UserNameOrEmailAddress", "Result");
 
-                    b.ToTable("AbpUserLoginAttempts");
+                    b.ToTable("AbpUserLoginAttempts", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
@@ -485,7 +485,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserOrganizationUnits");
+                    b.ToTable("AbpUserOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
@@ -519,7 +519,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserRoles");
+                    b.ToTable("AbpUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
@@ -557,7 +557,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpUserTokens");
+                    b.ToTable("AbpUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Abp.BackgroundJobs.BackgroundJobInfo", b =>
@@ -603,7 +603,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("IsAbandoned", "NextTryTime");
 
-                    b.ToTable("AbpBackgroundJobs");
+                    b.ToTable("AbpBackgroundJobs", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
@@ -647,7 +647,7 @@ namespace Suktas.Payroll.Migrations
                     b.HasIndex("TenantId", "Name", "UserId")
                         .IsUnique();
 
-                    b.ToTable("AbpSettings");
+                    b.ToTable("AbpSettings", (string)null);
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityProperty", b =>
@@ -676,7 +676,7 @@ namespace Suktas.Payroll.Migrations
                         .IsUnique()
                         .HasFilter("[EntityFullName] IS NOT NULL AND [TenantId] IS NOT NULL");
 
-                    b.ToTable("AbpDynamicEntityProperties");
+                    b.ToTable("AbpDynamicEntityProperties", (string)null);
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicEntityPropertyValue", b =>
@@ -704,7 +704,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("DynamicEntityPropertyId");
 
-                    b.ToTable("AbpDynamicEntityPropertyValues");
+                    b.ToTable("AbpDynamicEntityPropertyValues", (string)null);
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicProperty", b =>
@@ -737,7 +737,7 @@ namespace Suktas.Payroll.Migrations
                         .IsUnique()
                         .HasFilter("[PropertyName] IS NOT NULL AND [TenantId] IS NOT NULL");
 
-                    b.ToTable("AbpDynamicProperties");
+                    b.ToTable("AbpDynamicProperties", (string)null);
                 });
 
             modelBuilder.Entity("Abp.DynamicEntityProperties.DynamicPropertyValue", b =>
@@ -762,7 +762,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("DynamicPropertyId");
 
-                    b.ToTable("AbpDynamicPropertyValues");
+                    b.ToTable("AbpDynamicPropertyValues", (string)null);
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
@@ -799,7 +799,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges");
+                    b.ToTable("AbpEntityChanges", (string)null);
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
@@ -852,7 +852,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpEntityChangeSets");
+                    b.ToTable("AbpEntityChangeSets", (string)null);
                 });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
@@ -895,7 +895,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges");
+                    b.ToTable("AbpEntityPropertyChanges", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguage", b =>
@@ -951,7 +951,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpLanguages");
+                    b.ToTable("AbpLanguages", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguageText", b =>
@@ -1001,7 +1001,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "Source", "LanguageName", "Key");
 
-                    b.ToTable("AbpLanguageTexts");
+                    b.ToTable("AbpLanguageTexts", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationInfo", b =>
@@ -1062,7 +1062,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpNotifications");
+                    b.ToTable("AbpNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Notifications.NotificationSubscriptionInfo", b =>
@@ -1105,7 +1105,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId");
 
-                    b.ToTable("AbpNotificationSubscriptions");
+                    b.ToTable("AbpNotificationSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Notifications.TenantNotificationInfo", b =>
@@ -1155,7 +1155,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("AbpTenantNotifications");
+                    b.ToTable("AbpTenantNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Notifications.UserNotificationInfo", b =>
@@ -1187,7 +1187,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("UserId", "State", "CreationTime");
 
-                    b.ToTable("AbpUserNotifications");
+                    b.ToTable("AbpUserNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
@@ -1241,7 +1241,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "Code");
 
-                    b.ToTable("AbpOrganizationUnits");
+                    b.ToTable("AbpOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnitRole", b =>
@@ -1276,7 +1276,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "RoleId");
 
-                    b.ToTable("AbpOrganizationUnitRoles");
+                    b.ToTable("AbpOrganizationUnitRoles", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookEvent", b =>
@@ -1306,7 +1306,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpWebhookEvents");
+                    b.ToTable("AbpWebhookEvents", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSendAttempt", b =>
@@ -1340,7 +1340,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("WebhookEventId");
 
-                    b.ToTable("AbpWebhookSendAttempts");
+                    b.ToTable("AbpWebhookSendAttempts", (string)null);
                 });
 
             modelBuilder.Entity("Abp.Webhooks.WebhookSubscriptionInfo", b =>
@@ -1377,7 +1377,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpWebhookSubscriptions");
+                    b.ToTable("AbpWebhookSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Authorization.Delegation.UserDelegation", b =>
@@ -1430,7 +1430,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "TargetUserId");
 
-                    b.ToTable("AppUserDelegations");
+                    b.ToTable("AppUserDelegations", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Authorization.Roles.Role", b =>
@@ -1501,7 +1501,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "NormalizedName");
 
-                    b.ToTable("AbpRoles");
+                    b.ToTable("AbpRoles", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Authorization.Users.RecentPassword", b =>
@@ -1528,7 +1528,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRecentPasswords");
+                    b.ToTable("AppRecentPasswords", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Authorization.Users.User", b =>
@@ -1674,7 +1674,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "NormalizedUserName");
 
-                    b.ToTable("AbpUsers");
+                    b.ToTable("AbpUsers", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Chat.ChatMessage", b =>
@@ -1727,7 +1727,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ReadState");
 
-                    b.ToTable("AppChatMessages");
+                    b.ToTable("AppChatMessages", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Friendships.Friendship", b =>
@@ -1777,7 +1777,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AppFriendships");
+                    b.ToTable("AppFriendships", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Master.FinancialYear", b =>
@@ -1809,7 +1809,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_FinancialYear");
+                    b.ToTable("tbl_FinancialYear", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.MultiTenancy.Accounting.Invoice", b =>
@@ -1837,7 +1837,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppInvoices");
+                    b.ToTable("AppInvoices", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.MultiTenancy.Payments.SubscriptionPayment", b =>
@@ -1919,7 +1919,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("Status", "CreationTime");
 
-                    b.ToTable("AppSubscriptionPayments");
+                    b.ToTable("AppSubscriptionPayments", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.MultiTenancy.Payments.SubscriptionPaymentExtensionData", b =>
@@ -1948,7 +1948,7 @@ namespace Suktas.Payroll.Migrations
                         .IsUnique()
                         .HasFilter("[IsDeleted] = 0");
 
-                    b.ToTable("AppSubscriptionPaymentsExtensionData");
+                    b.ToTable("AppSubscriptionPaymentsExtensionData", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.MultiTenancy.Tenant", b =>
@@ -2042,7 +2042,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenancyName");
 
-                    b.ToTable("AbpTenants");
+                    b.ToTable("AbpTenants", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.CategorySalary", b =>
@@ -2075,7 +2075,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_CategorySalary");
+                    b.ToTable("tbl_CategorySalary", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.Employee", b =>
@@ -2147,7 +2147,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("SchoolInfoId");
 
-                    b.ToTable("tbl_Employee");
+                    b.ToTable("tbl_Employee", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeLevel", b =>
@@ -2170,7 +2170,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_EmployeeLevel");
+                    b.ToTable("tbl_EmployeeLevel", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalary", b =>
@@ -2255,7 +2255,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_EmployeeSalary");
+                    b.ToTable("tbl_EmployeeSalary", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryDetailNew", b =>
@@ -2371,7 +2371,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("SchoolInfoId");
 
-                    b.ToTable("tbl_EmployeeSalaryDetailNew");
+                    b.ToTable("tbl_EmployeeSalaryDetailNew", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryMasterMonthNew", b =>
@@ -2393,7 +2393,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("EmployeeSalaryMasterNewId");
 
-                    b.ToTable("tbl_EmployeeSalaryMasterMonthNew");
+                    b.ToTable("tbl_EmployeeSalaryMasterMonthNew", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryMasterNew", b =>
@@ -2413,7 +2413,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_EmployeeSalaryMasterNew");
+                    b.ToTable("tbl_EmployeeSalaryMasterNew", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.EmployeeSalaryMasterSchoolNew", b =>
@@ -2437,7 +2437,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("SchoolInfoId");
 
-                    b.ToTable("tbl_EmployeeSalaryMasterSchoolNew");
+                    b.ToTable("tbl_EmployeeSalaryMasterSchoolNew", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.FestivalBonusSetting", b =>
@@ -2465,7 +2465,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_FestivalBonusSettings");
+                    b.ToTable("tbl_FestivalBonusSettings", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.GradeUpgrade", b =>
@@ -2501,7 +2501,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_GradeUpgrades");
+                    b.ToTable("tbl_GradeUpgrades", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.InternalGradeSetup", b =>
@@ -2529,7 +2529,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_InternalGradeSetup");
+                    b.ToTable("tbl_InternalGradeSetup", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.MonthlyAllowances", b =>
@@ -2552,7 +2552,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_MonthlyAllowances");
+                    b.ToTable("tbl_MonthlyAllowances", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.PrincipalAllowanceSetting", b =>
@@ -2576,7 +2576,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_PrincipalAllowanceSettings");
+                    b.ToTable("tbl_PrincipalAllowanceSettings", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.SchoolInfo", b =>
@@ -2619,7 +2619,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_SchoolInfo");
+                    b.ToTable("tbl_SchoolInfo", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Payroll.SchoolLevel", b =>
@@ -2642,7 +2642,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("tbl_SchoolLevel");
+                    b.ToTable("tbl_SchoolLevel", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Storage.BinaryObject", b =>
@@ -2666,7 +2666,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("AppBinaryObjects");
+                    b.ToTable("AppBinaryObjects", (string)null);
                 });
 
             modelBuilder.Entity("Suktas.Payroll.Editions.SubscribableEdition", b =>
@@ -2694,7 +2694,7 @@ namespace Suktas.Payroll.Migrations
                     b.Property<decimal?>("WeeklyPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("AbpEditions");
+                    b.ToTable("AbpEditions", (string)null);
 
                     b.HasDiscriminator().HasValue("SubscribableEdition");
                 });
@@ -2708,7 +2708,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("EditionId", "Name");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable("AbpFeatures", (string)null);
 
                     b.HasDiscriminator().HasValue("EditionFeatureSetting");
                 });
@@ -2719,7 +2719,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("TenantId", "Name");
 
-                    b.ToTable("AbpFeatures");
+                    b.ToTable("AbpFeatures", (string)null);
 
                     b.HasDiscriminator().HasValue("TenantFeatureSetting");
                 });
@@ -2733,7 +2733,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable("AbpPermissions", (string)null);
 
                     b.HasDiscriminator().HasValue("RolePermissionSetting");
                 });
@@ -2747,7 +2747,7 @@ namespace Suktas.Payroll.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AbpPermissions");
+                    b.ToTable("AbpPermissions", (string)null);
 
                     b.HasDiscriminator().HasValue("UserPermissionSetting");
                 });

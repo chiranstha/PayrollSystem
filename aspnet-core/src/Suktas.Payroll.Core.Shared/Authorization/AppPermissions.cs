@@ -21,6 +21,11 @@
         public const string Pages_PrincipalAllowanceSettings_Edit = "Pages.PrincipalAllowanceSettings.Edit";
         public const string Pages_PrincipalAllowanceSettings_Delete = "Pages.PrincipalAllowanceSettings.Delete";
 
+        public const string Pages_MonthlyAllowance = "Pages.MonthlyAllowance";
+        public const string Pages_MonthlyAllowance_Create = "Pages.MonthlyAllowance.Create";
+        public const string Pages_MonthlyAllowance_Edit = "Pages.MonthlyAllowance.Edit";
+        public const string Pages_MonthlyAllowance_Delete = "Pages.MonthlyAllowance.Delete";
+
         public const string Pages_EmployeeSalary = "Pages.EmployeeSalary";
         public const string Pages_EmployeeSalary_Create = "Pages.EmployeeSalary.Create";
         public const string Pages_EmployeeSalary_Edit = "Pages.EmployeeSalary.Edit";

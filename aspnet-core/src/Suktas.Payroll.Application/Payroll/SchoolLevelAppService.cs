@@ -37,7 +37,7 @@ namespace Suktas.Payroll.Payroll
             var SchoolLevels = from o in pagedAndFilteredSchoolLevels
                                select new
                                {
-
+                                   o.AliasName,
                                    o.Name,
                                    o.Id
                                };
@@ -51,6 +51,7 @@ namespace Suktas.Payroll.Payroll
             {
                 var res = new GetSchoolLevelForView
                 {
+                    AliasName = o.AliasName,
                     Name = o.Name,
                     Id = o.Id,
                 };
