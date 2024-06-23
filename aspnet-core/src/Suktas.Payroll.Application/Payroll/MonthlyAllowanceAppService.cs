@@ -44,7 +44,7 @@ namespace Suktas.Payroll.Payroll
         [AbpAuthorize(AppPermissions.Pages_MonthlyAllowance_Create)]
         public async Task CreateOrEdit(CreateOrEditMontlyAllowanceDto input)
         {
-            if (input.Id == Guid.Empty)
+            if (input.Id == Guid.Empty|| input.Id==null)
                 await Create(input);
             else
                 await Update(input);

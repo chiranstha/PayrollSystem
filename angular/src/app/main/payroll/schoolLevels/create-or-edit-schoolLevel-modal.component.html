@@ -2,11 +2,11 @@
     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #schoolLevelForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" [formGroup]="form" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="schoolLevel.id">{{ l('EditSchoolLevel') }}</span>
-                        <span *ngIf="!schoolLevel.id">{{ l('CreateNewSchoolLevel') }}</span>
+                        <span *ngIf="id">{{ l('EditSchoolLevel') }}</span>
+                        <span *ngIf="!id">{{ l('CreateNewSchoolLevel') }}</span>
                     </h4>
 
                     <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -16,16 +16,16 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="SchoolLevel_Name">{{ l('Name') }} *</label>
-                        <input type="text" #SchoolLevel_Name="ngModel" id="SchoolLevel_Name" class="form-control"
-                            [(ngModel)]="schoolLevel.name" name="Name" required />
+                        <input type="text" #SchoolLevel_Name id="SchoolLevel_Name" class="form-control"
+                            formControlName="name" name="Name" required />
                         <validation-messages [formCtrl]="SchoolLevel_Name"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="SchoolLevel_AliasName">{{ l('Alias Name') }} *</label>
-                        <input type="text" #SchoolLevel_AliasName="ngModel" id="SchoolLevel_AliasName" class="form-control"
-                            [(ngModel)]="schoolLevel.aliasName" name="Name" required />
+                        <input type="text" #SchoolLevel_AliasName id="SchoolLevel_AliasName" class="form-control"
+                            formControlName="aliasName" name="Name" required />
                         <validation-messages [formCtrl]="SchoolLevel_AliasName"></validation-messages>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}
                     </button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!schoolLevelForm.form.valid"
-                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
+                        [buttonBusy]="saving" (click)="save()" [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>

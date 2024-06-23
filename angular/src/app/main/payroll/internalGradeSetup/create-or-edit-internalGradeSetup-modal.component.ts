@@ -9,6 +9,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditInternalGradeSetupModal',
@@ -21,25 +22,36 @@ export class CreateOrEditInternalGradeSetupModalComponent extends AppComponentBa
 
     active = false;
     saving = false;
-
-    internalGradeSetup: CreateOrEditInternalGradeSetupDto = new CreateOrEditInternalGradeSetupDto();
+    form: FormGroup;
+    id: string;
+    
 
     constructor(
         injector: Injector,
         private _internalGradeSetupServiceProxy: InternalGradeSetupServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+          
+            category: [item.category || ''],
+            grade: [item.grade || ''],
+            isPercent: [item.isPercent || false],
+            value: [item.value || 0],
+            id: [item.id || null]
 
+            
+        });
+    }
     show(internalGradeSetupId?: string): void {
-        if (!internalGradeSetupId) {
-            this.internalGradeSetup = new CreateOrEditInternalGradeSetupDto();
-            this.internalGradeSetup.id = internalGradeSetupId;
+        if (internalGradeSetupId) {
+           
+            this.id = internalGradeSetupId;
 
-            this.active = true;
-            this.modal.show();
-        } else {
+          
             this._internalGradeSetupServiceProxy
                 .getInternalGradeSetupForEdit(internalGradeSetupId)
                 .subscribe((result) => {
@@ -47,13 +59,15 @@ export class CreateOrEditInternalGradeSetupModalComponent extends AppComponentBa
                     this.modal.show();
                 });
         }
+        this.active = true;
+        this.modal.show();
     }
 
     save(): void {
         this.saving = true;
 
         this._internalGradeSetupServiceProxy
-            .createOrEdit(this.internalGradeSetup)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -71,5 +85,7 @@ export class CreateOrEditInternalGradeSetupModalComponent extends AppComponentBa
         this.modal.hide();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.createForm();
+    }
 }

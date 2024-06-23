@@ -2,11 +2,11 @@
     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #employeeLevelForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active"[formGroup]="form"  autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="employeeLevel.id">{{ l('EditEmployeeLevel') }}</span>
-                        <span *ngIf="!employeeLevel.id">{{ l('CreateNewEmployeeLevel') }}</span>
+                        <span *ngIf="id">{{ l('EditEmployeeLevel') }}</span>
+                        <span *ngIf="!id">{{ l('CreateNewEmployeeLevel') }}</span>
                     </h4>
 
                     <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -16,16 +16,16 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="EmployeeLevel_Name">{{ l('Name') }} *</label>
-                        <input type="text" #EmployeeLevel_Name="ngModel" id="EmployeeLevel_Name" class="form-control"
-                            [(ngModel)]="employeeLevel.name" name="Name" required />
+                        <input type="text" #EmployeeLevel_Name id="EmployeeLevel_Name" class="form-control"
+                           formControlName="name" name="Name" required />
                         <validation-messages [formCtrl]="EmployeeLevel_Name"></validation-messages>
                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="EmployeeLevel_AliasName">{{ l('Alias Name') }} *</label>
-                        <input type="text" #EmployeeLevel_AliasName="ngModel" id="EmployeeLevel_AliasName" class="form-control"
-                            [(ngModel)]="employeeLevel.aliasName" name="Name" required />
+                        <input type="text" #EmployeeLevel_AliasName id="EmployeeLevel_AliasName" class="form-control"
+                           formControlName="aliasName" name="Name" required />
                         <validation-messages [formCtrl]="EmployeeLevel_AliasName"></validation-messages>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}
                     </button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!employeeLevelForm.form.valid"
-                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
+                        [buttonBusy]="saving" (click)="save()" [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>

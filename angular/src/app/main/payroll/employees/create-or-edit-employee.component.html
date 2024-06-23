@@ -4,11 +4,12 @@
             [breadcrumbs]="breadcrumbs"></sub-header>
 
         <div [class]="containerClass">
+            <form  [formGroup]="form"  autocomplete="off">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
                     <div class="form-group m-form__group">
                         <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
-                        <select name="employee.employeeLevelId" [(ngModel)]="employee.employeeLevelId"
+                        <select name="employeeLevelId" formControlName="employeeLevelId"
                             class="form-select" required>
                             <option value="">{{ l('SelectAEmployeeLevel') }}</option>
                             <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
@@ -19,7 +20,7 @@
 
                     <div class="form-group m-form__group">
                         <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
-                        <select name="employee.schoolInfoId" [(ngModel)]="employee.schoolInfoId" class="form-select">
+                        <select name="schoolInfoId" formControlName="schoolInfoId" class="form-select">
                             <option value="">{{ l('SelectASchoolInfo') }}</option>
                             <option *ngFor="let item of allSchoolInfos" value="{{ item.id }}">
                                 {{ item.displayName }}
@@ -29,8 +30,8 @@
 
                     <div class="form-group">
                         <label for="Employee_Category">{{ l('Category') }}</label>
-                        <select #Employee_Category="ngModel" class="form-select" name="Category" id="Employee_Category"
-                            [(ngModel)]="employee.category">
+                        <select #Employee_Category class="form-select" name="Category" id="Employee_Category"
+                            formControlName="category">
                             <option value="0">{{ l('Permanent') }}</option>
 
                             <option value="1">{{ l('Temporary') }}</option>
@@ -48,8 +49,8 @@
 
                     <div class="form-group">
                         <label for="Employee_Grade">{{ l('Grade') }}</label>
-                        <select #Employee_Category="ngModel" class="form-select" name="Grade" id="Employee_Grade"
-                            [(ngModel)]="employee.grade">
+                        <select #Employee_Category class="form-select" name="Grade" id="Employee_Grade"
+                            formControlName="grade">
                             <option value="1">{{ l('One') }}</option>
                             <option value="2">{{ l('Two') }}</option>
 
@@ -69,8 +70,8 @@
 
                     <div class="form-group">
                         <label for="Technical_Grade">{{ l('Technical Grade') }}</label>
-                        <select #Employee_Category="ngModel" class="form-select" name="Technical_Grade" id="Technical_Grade"
-                            [(ngModel)]="employee.technicalGrade">
+                        <select #Employee_Category class="form-select" name="Technical_Grade" id="Technical_Grade"
+                            formControlName="technicalGrade">
                             <option value="0">{{ l('Zero') }}</option>
 
                             <option value="1">{{ l('One') }}</option>
@@ -82,72 +83,72 @@
 
                     <div class="form-group">
                         <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
-                        <input type="text" #Employee_ProvidentFund="ngModel" id="Employee_ProvidentFund"
-                            class="form-control" [(ngModel)]="employee.providentFund" name="ProvidentFund" />
+                        <input type="text" #Employee_ProvidentFund id="Employee_ProvidentFund"
+                            class="form-control" formControlName="providentFund" name="ProvidentFund" />
                         <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_PanNo">{{ l('PAN') }}</label>
-                        <input type="text" #Employee_PanNo="ngModel" id="Employee_PanNo" class="form-control"
-                            [(ngModel)]="employee.panNo" name="PanNo" />
+                        <input type="text" #Employee_PanNo id="Employee_PanNo" class="form-control"
+                            formControlName="panNo" name="PanNo" />
                         <validation-messages [formCtrl]="Employee_PanNo"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_InsuranceNo">{{ l('Insurance No') }}</label>
-                        <input type="text" #Employee_InsuranceNo="ngModel" id="Employee_InsuranceNo"
-                            class="form-control" [(ngModel)]="employee.insuranceNo" name="InsuranceNo" />
+                        <input type="text" #Employee_InsuranceNo id="Employee_InsuranceNo"
+                            class="form-control" formControlName="insuranceNo" name="InsuranceNo" />
                         <validation-messages [formCtrl]="Employee_InsuranceNo"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_InsuranceAmount">{{ l('Insurance Amount') }}</label>
-                        <input type="number" #Employee_InsuranceAmount="ngModel" id="Employee_InsuranceAmount"
-                            class="form-control" [(ngModel)]="employee.insuranceAmount" name="InsuranceAmount" />
+                        <input type="number" #Employee_InsuranceAmount id="Employee_InsuranceAmount"
+                            class="form-control" formControlName="insuranceAmount" name="InsuranceAmount" />
                         <validation-messages [formCtrl]="Employee_InsuranceAmount"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_Name">{{ l('Name') }}</label>
-                        <input type="text" #Employee_Name="ngModel" id="Employee_Name" class="form-control"
-                            [(ngModel)]="employee.name" name="Name" />
+                        <input type="text" #Employee_Name id="Employee_Name" class="form-control"
+                            formControlName="name" name="Name" />
                         <validation-messages [formCtrl]="Employee_Name"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_BankName">{{ l('BankName') }}</label>
-                        <input type="text" #Employee_BankName="ngModel" id="Employee_BankName" class="form-control"
-                            [(ngModel)]="employee.bankName" name="BankName" />
+                        <input type="text" #Employee_BankName id="Employee_BankName" class="form-control"
+                            formControlName="bankName" name="BankName" />
                         <validation-messages [formCtrl]="Employee_BankName"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_BankAccountNo">{{ l('BankAccountNo') }}</label>
-                        <input type="text" #Employee_BankAccountNo="ngModel" id="Employee_BankAccountNo"
-                            class="form-control" [(ngModel)]="employee.bankAccountNo" name="BankAccountNo" />
+                        <input type="text" #Employee_BankAccountNo id="Employee_BankAccountNo"
+                            class="form-control" formControlName="bankAccountNo" name="BankAccountNo" />
                         <validation-messages [formCtrl]="Employee_BankAccountNo"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_PansionMiti">{{ l('PansionMiti') }}</label>
-                        <input type="text" #Employee_PansionMiti="ngModel" id="Employee_PansionMiti"
-                            class="form-control" [(ngModel)]="employee.pansionMiti" name="PansionMiti" />
+                        <input type="text" #Employee_PansionMiti id="Employee_PansionMiti"
+                            class="form-control" formControlName="pansionMiti" name="PansionMiti" />
                         <validation-messages [formCtrl]="Employee_PansionMiti"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Employee_DateOfJoinMiti">{{ l('DateOfJoinMiti') }}</label>
-                        <input type="text" #Employee_DateOfJoinMiti="ngModel" id="Employee_DateOfJoinMiti"
-                            class="form-control" [(ngModel)]="employee.dateOfJoinMiti" name="DateOfJoinMiti" />
+                        <input type="text" #Employee_DateOfJoinMiti id="Employee_DateOfJoinMiti"
+                            class="form-control" formControlName="dateOfJoinMiti" name="DateOfJoinMiti" />
                         <validation-messages [formCtrl]="Employee_DateOfJoinMiti"></validation-messages>
                     </div>
 
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsDearnessAllowance" class="kt-checkbox">
-                            <input #Employee_IsDearnessAllowance="ngModel" id="Employee_IsDearnessAllowance"
-                                type="checkbox" name="IsDearnessAllowance" [(ngModel)]="employee.isDearnessAllowance" />
+                            <input #Employee_IsDearnessAllowance id="Employee_IsDearnessAllowance"
+                                type="checkbox" name="IsDearnessAllowance" formControlName="isDearnessAllowance" />
                             {{ l('IsDearnessAllowance') }}
                             <span></span>
                         </label>
@@ -157,8 +158,8 @@
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_AddEPF" class="kt-checkbox">
-                            <input #Employee_AddEPF="ngModel" id="Employee_AddEPF" type="checkbox" name="AddEPF"
-                                [(ngModel)]="employee.addEPF" />
+                            <input #Employee_AddEPF id="Employee_AddEPF" type="checkbox" name="AddEPF"
+                                formControlName="addEPF" />
                             {{ l('Add EPF') }}
                             <span></span>
                         </label>
@@ -168,8 +169,8 @@
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsPrincipal" class="kt-checkbox">
-                            <input #Employee_IsPrincipal="ngModel" id="Employee_IsPrincipal" type="checkbox"
-                                name="IsPrincipal" [(ngModel)]="employee.isPrincipal" />
+                            <input #Employee_IsPrincipal id="Employee_IsPrincipal" type="checkbox"
+                                name="IsPrincipal" formControlName="isPrincipal" />
                             {{ l('IsPrincipal') }}
                             <span></span>
                         </label>
@@ -179,8 +180,8 @@
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsGovernment" class="kt-checkbox">
-                            <input #Employee_IsGovernment="ngModel" id="Employee_IsGovernment" type="checkbox"
-                                name="IsGovernment" [(ngModel)]="employee.isGovernment" />
+                            <input #Employee_IsGovernment id="Employee_IsGovernment" type="checkbox"
+                                name="IsGovernment" formControlName="isGovernment" />
                             {{ l('IsGovernment') }}
                             <span></span>
                         </label>
@@ -190,8 +191,8 @@
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsInternal" class="kt-checkbox">
-                            <input #Employee_IsInternal="ngModel" id="Employee_IsInternal" type="checkbox"
-                                name="IsInternal" [(ngModel)]="employee.isInternal" />
+                            <input #Employee_IsInternal id="Employee_IsInternal" type="checkbox"
+                                name="IsInternal" formControlName="isInternal" />
                             {{ l('IsInternal') }}
                             <span></span>
                         </label>
@@ -200,8 +201,8 @@
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsTechnical" class="kt-checkbox">
-                            <input #Employee_IsTechnical="ngModel" id="Employee_IsTechnical" type="checkbox"
-                                name="IsTechnical" [(ngModel)]="employee.isTechnical" />
+                            <input #Employee_IsTechnical id="Employee_IsTechnical" type="checkbox"
+                                name="IsTechnical" formControlName="isTechnical" />
                             {{ l('IsTechnical') }}
                             <span></span>
                         </label>
@@ -215,7 +216,7 @@
                             <i class="fa fa-save"></i>
                             <span>{{ l('Save') }}</span>
                         </button>
-                        <button *ngIf="!this.employee.id" (click)="saveAndNew()"
+                        <button *ngIf="!this.id" (click)="saveAndNew()"
                             class="btn btn-primary blue float-right" [buttonBusy]="saving"
                             [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
@@ -224,6 +225,8 @@
                     </div>
                 </div>
             </div>
+            </form>
         </div>
+        {{this.form.value|json}}
     </div>
 </div>

@@ -6,6 +6,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditSchoolLevelModal',
@@ -18,38 +19,45 @@ export class CreateOrEditSchoolLevelModalComponent extends AppComponentBase impl
 
     active = false;
     saving = false;
-
-    schoolLevel: CreateOrEditSchoolLevelDto = new CreateOrEditSchoolLevelDto();
+    form: FormGroup;
+    id: string;
+    
 
     constructor(
         injector: Injector,
         private _schoolLevelsServiceProxy: SchoolLevelServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
 
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+            aliasName: [item.aliasName || ''],
+            name: [item.name || ''],
+            id: [item.id || null]            
+        });
+    }
+
     show(schoolLevelId?: string): void {
         if (!schoolLevelId) {
-            this.schoolLevel = new CreateOrEditSchoolLevelDto();
-            this.schoolLevel.id = schoolLevelId;
-
-            this.active = true;
-            this.modal.show();
-        } else {
+           
+            this.id = schoolLevelId;
             this._schoolLevelsServiceProxy.getSchoolLevelForEdit(schoolLevelId).subscribe((result) => {
-
-                this.active = true;
-                this.modal.show();
+             this.createForm(result);
+               
             });
         }
+        this.active = true;
+        this.modal.show();
     }
 
     save(): void {
         this.saving = true;
 
         this._schoolLevelsServiceProxy
-            .createOrEdit(this.schoolLevel)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -67,5 +75,7 @@ export class CreateOrEditSchoolLevelModalComponent extends AppComponentBase impl
         this.modal.hide();
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+        this.createForm();
+    }
 }

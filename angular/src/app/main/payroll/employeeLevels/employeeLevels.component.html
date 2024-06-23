@@ -129,7 +129,7 @@
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.EmployeeLevels.Delete')"
-                                                            (click)="deleteEmployeeLevel(record.employeeLevel)">
+                                                            (click)="deleteEmployeeLevel(record.id)">
                                                             {{ l('Delete') }}
                                                         </a>
                                                     </li>

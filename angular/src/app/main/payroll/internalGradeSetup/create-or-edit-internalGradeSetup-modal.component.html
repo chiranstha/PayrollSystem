@@ -10,11 +10,11 @@
 >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #internalGradeSetupForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" [formGroup]="form"  autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="internalGradeSetup.id">{{ l('EditInternalGradeSetup') }}</span>
-                        <span *ngIf="!internalGradeSetup.id">{{ l('CreateNewInternalGradeSetup') }}</span>
+                        <span *ngIf="id">{{ l('EditInternalGradeSetup') }}</span>
+                        <span *ngIf="!id">{{ l('CreateNewInternalGradeSetup') }}</span>
                     </h4>
 
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -26,10 +26,10 @@
                         <label for="InternalGradeSetup_Category">{{ l('Category') }}</label>
                         <select
                             class="form-select"
-                            #InternalGradeSetup_Category="ngModel"
+                            #InternalGradeSetup_Category
                             name="Category"
                             id="InternalGradeSetup_Category"
-                            [(ngModel)]="internalGradeSetup.category"
+                           formControlName="category"
                         >
                             <option value="0">{{ l('Permanent') }}</option>
 
@@ -50,10 +50,10 @@
                         <label for="InternalGradeSetup_Grade">{{ l('Grade') }}</label>
                         <select
                             class="form-select"
-                            #InternalGradeSetup_Grade="ngModel"
+                            #InternalGradeSetup_Grade
                             name="Grade"
                             id="InternalGradeSetup_Grade"
-                            [(ngModel)]="internalGradeSetup.grade"
+                           formControlName="grade"
                         >
                             <option value="1">{{ l('One') }}</option>
 
@@ -79,10 +79,10 @@
                         <label for="InternalGradeSetup_IsPercent" class="kt-checkbox">
                             <input
                                 id="InternalGradeSetup_IsPercent"
-                                #InternalGradeSetup_IsPercent="ngModel"
+                                #InternalGradeSetup_IsPercent
                                 type="checkbox"
                                 name="IsPercent"
-                                [(ngModel)]="internalGradeSetup.isPercent"
+                               formControlName="isPercent"
                             />
                             {{ l('IsPercent') }}
                             <span></span>
@@ -94,10 +94,10 @@
                         <label for="InternalGradeSetup_Value">{{ l('Value') }}</label>
                         <input
                             type="number"
-                            #InternalGradeSetup_Value="ngModel"
+                            #InternalGradeSetup_Value
                             id="InternalGradeSetup_Value"
                             class="form-control"
-                            [(ngModel)]="internalGradeSetup.value"
+                           formControlName="value"
                             name="Value"
                         />
                         <validation-messages [formCtrl]="InternalGradeSetup_Value"></validation-messages>
@@ -110,8 +110,9 @@
                     <button
                         type="submit"
                         class="btn btn-primary blue"
-                        [disabled]="!internalGradeSetupForm.form.valid"
+                        [disabled]="!form.valid"
                         [buttonBusy]="saving"
+                        (click)="save()"
                         [busyText]="l('SavingWithThreeDot')"
                     >
                         <i class="fa fa-save"></i>

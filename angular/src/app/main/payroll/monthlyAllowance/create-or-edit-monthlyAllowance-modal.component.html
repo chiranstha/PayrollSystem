@@ -2,11 +2,11 @@
     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #monthlyAllowanceForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" [formGroup]="form"  autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="monthlyAllowance.id">{{ l('EditMonthlyAllowance') }}</span>
-                        <span *ngIf="!monthlyAllowance.id">{{ l('CreateNewMonthlyAllowance') }}</span>
+                        <span *ngIf="id">{{ l('EditMonthlyAllowance') }}</span>
+                        <span *ngIf="!id">{{ l('CreateNewMonthlyAllowance') }}</span>
                     </h4>
 
                     <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -16,15 +16,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="MonthlyAllowance_Name">{{ l('Name') }} *</label>
-                        <input type="text" #MonthlyAllowance_Name="ngModel" id="MonthlyAllowance_Name" class="form-control"
-                            [(ngModel)]="monthlyAllowance.name" name="Name" required />
+                        <input type="text" #MonthlyAllowance_Name id="MonthlyAllowance_Name" class="form-control"
+                            formControlName="name" name="Name" required />
                         <validation-messages [formCtrl]="MonthlyAllowance_Name"></validation-messages>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="EmployeeCategory">{{ l('Category') }}</label>
-                    <select class="form-select" #CategorySalary_Category="ngModel" name="EmployeeCategory"
-                        id="EmployeeCategory" [(ngModel)]="monthlyAllowance.employeeCategory">
+                    <select class="form-select" #CategorySalary_Category name="EmployeeCategory"
+                        id="EmployeeCategory" formControlName="employeeCategory">
                         <option value="0">{{ l('Permanent') }}</option>
 
                         <option value="1">{{ l('Temporary') }}</option>
@@ -41,17 +41,17 @@
                 </div>
                 <div class="form-group">
                     <label for="Amount">{{ l('Amount') }}</label>
-                    <input type="number" #CategorySalary_TechnicalAmount="ngModel"
+                    <input type="number" #CategorySalary_TechnicalAmount
                         id="Amount" class="form-control"
-                        [(ngModel)]="monthlyAllowance.amount" name="Amount" />
+                        formControlName="amount" name="Amount" />
                     <!-- <validation-messages [formCtrl]="Amount"></validation-messages> -->
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}
                     </button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!monthlyAllowanceForm.form.valid"
-                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
+                        [buttonBusy]="saving" (click)="save()" [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>

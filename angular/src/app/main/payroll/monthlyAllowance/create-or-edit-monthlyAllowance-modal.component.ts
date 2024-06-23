@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 import { CreateOrEditMontlyAllowanceDto, MonthlyAllowanceServiceProxy } from '@shared/service-proxies/service-proxies';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditMonthlyAllowanceModal',
@@ -18,38 +19,49 @@ export class CreateOrEditMonthlyAllowanceModalComponent extends AppComponentBase
 
     active = false;
     saving = false;
-
-    monthlyAllowance: CreateOrEditMontlyAllowanceDto = new CreateOrEditMontlyAllowanceDto();
+    form: FormGroup;
+    id: string;
 
     constructor(
         injector: Injector,
         private _monthlyAllowancesServiceProxy: MonthlyAllowanceServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
 
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+          
+            name: [item.name || ''],
+            amount: [item.amount || 0],
+            employeeCategory: [item.employeeCategory || null],
+            id: [item.id || null]
+
+            
+        });
+    }
+
     show(monthlyAllowanceId?: string): void {
-        if (!monthlyAllowanceId) {
-            this.monthlyAllowance = new CreateOrEditMontlyAllowanceDto();
-            this.monthlyAllowance.id = monthlyAllowanceId;
-
-            this.active = true;
-            this.modal.show();
-        } else {
+        if (monthlyAllowanceId) {
+           
+            this.id = monthlyAllowanceId;           
             this._monthlyAllowancesServiceProxy.getMonthlyAllowanceForEdit(monthlyAllowanceId).subscribe((result) => {
-
+                this.createForm(result);
                 this.active = true;
                 this.modal.show();
             });
         }
+        this.active = true;
+        this.modal.show();
     }
 
     save(): void {
         this.saving = true;
 
         this._monthlyAllowancesServiceProxy
-            .createOrEdit(this.monthlyAllowance)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -67,5 +79,7 @@ export class CreateOrEditMonthlyAllowanceModalComponent extends AppComponentBase
         this.modal.hide();
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.createForm();
+     }
 }

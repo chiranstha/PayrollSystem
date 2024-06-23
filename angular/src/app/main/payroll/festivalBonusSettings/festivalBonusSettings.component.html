@@ -152,12 +152,12 @@
                                                         <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.FestivalBonusSettings.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="createOrEditFestivalBonusSettingModal.show(record.festivalBonusSetting.id)">{{l('Edit')}}</a>
+                                                            (click)="createOrEditFestivalBonusSettingModal.show(record.id)">{{l('Edit')}}</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.FestivalBonusSettings.Delete')"
-                                                            (click)="deleteFestivalBonusSetting(record.festivalBonusSetting)">{{l('Delete')}}</a>
+                                                            (click)="deleteFestivalBonusSetting(record.id)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>

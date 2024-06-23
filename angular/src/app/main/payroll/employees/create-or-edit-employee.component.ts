@@ -15,6 +15,7 @@ import { Observable } from '@node_modules/rxjs';
 import { BreadcrumbItem } from '@app/shared/common/sub-header/sub-header.component';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     templateUrl: './create-or-edit-employee.component.html',
@@ -23,11 +24,9 @@ import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 export class CreateOrEditEmployeeComponent extends AppComponentBase implements OnInit {
     active = false;
     saving = false;
-
-    employee: CreateOrEditEmployeeDto = new CreateOrEditEmployeeDto();
-
-    employeeLevelName = '';
-    schoolInfoName = '';
+    form: FormGroup;
+   
+    
 
     allEmployeeLevels: EmployeeEmployeeLevelLookupTableDto[];
     allSchoolInfos: EmployeeSchoolInfoLookupTableDto[];
@@ -36,49 +35,93 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
         new BreadcrumbItem(this.l('Employee'), '/app/main/payroll/employees'),
         new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
     ];
+    id: string;
 
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _employeesServiceProxy: EmployeesServiceProxy,
         private _router: Router,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
+        this.getAllEmployeeLevelDropdown();
+        this.getAllSchoolInfoForTableDropdown();
+        this.createForm();
+    }
+
+
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+          
+            category: [item.category??""],
+            providentFund: [item.providentFund??""],
+            panNo: [item.panNo??""],
+            insuranceNo: [item.insuranceNo??""],
+            name: [item.name??""],
+            bankName: [item.bankName??""],
+            bankAccountNo: [item.bankAccountNo??""],
+            pansionMiti: [item.pansionMiti],
+            dateOfJoinMiti: [item.dateOfJoinMiti],
+            insuranceAmount: [item.insuranceAmount??0],
+            isDearnessAllowance: [item.isDearnessAllowance??false],
+            addEPF: [item.addEPF??false],
+            isPrincipal: [item.isPrincipal??false],
+            isGovernment: [item.isGovernment??false],
+            isInternal: [item.isInternal??false],
+            isTechnical: [item.isTechnical??false],
+            grade: [item.grade],
+            technicalGrade: [item.technicalGrade],
+            employeeLevelId: [item.employeeLevelId],
+            schoolInfoId: [item.schoolInfoId],
+            id: [item.id]
+
+
+
+
+        
+            
+        });
     }
 
     show(employeeId?: string): void {
-        if (!employeeId) {
-            this.employee = new CreateOrEditEmployeeDto();
-            this.employee.id = employeeId;
-            this.employeeLevelName = '';
-            this.schoolInfoName = '';
+        if (employeeId) {
+           this.id=employeeId;
+           
 
-            this.active = true;
-        } else {
+       
             this._employeesServiceProxy.getEmployeeForEdit(employeeId).subscribe((result) => {
-                this.employee = result;
+                this.createForm(result);
 
                 this.active = true;
             });
         }
+       
+       
+    }
+
+    getAllEmployeeLevelDropdown()
+    {
         this._employeesServiceProxy.getAllEmployeeLevelForTableDropdown().subscribe((result) => {
             this.allEmployeeLevels = result;
         });
-        this._employeesServiceProxy.getAllSchoolInfoForTableDropdown().subscribe((result) => {
-            this.allSchoolInfos = result;
-        });
     }
+
+    getAllSchoolInfoForTableDropdown()
+    { this._employeesServiceProxy.getAllSchoolInfoForTableDropdown().subscribe((result) => {
+        this.allSchoolInfos = result;
+    });}
 
     save(): void {
         this.saving = true;
 
         this._employeesServiceProxy
-            .createOrEdit(this.employee)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -95,7 +138,7 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
         this.saving = true;
 
         this._employeesServiceProxy
-            .createOrEdit(this.employee)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -104,7 +147,7 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
             .subscribe((x) => {
                 this.saving = false;
                 this.notify.info(this.l('SavedSuccessfully'));
-                this.employee = new CreateOrEditEmployeeDto();
+                this.form.reset();
             });
     }
 }

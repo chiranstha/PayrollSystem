@@ -6,6 +6,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditEmployeeLevelModal',
@@ -18,38 +19,45 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
 
     active = false;
     saving = false;
-
-    employeeLevel: CreateOrEditEmployeeLevelDto = new CreateOrEditEmployeeLevelDto();
+    id:string
+    form: FormGroup;
 
     constructor(
         injector: Injector,
         private _employeeLevelsServiceProxy: EmployeeLevelsServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        
+    private fb: FormBuilder,
+    
     ) {
         super(injector);
     }
 
-    show(employeeLevelId?: string): void {
-        if (!employeeLevelId) {
-            this.employeeLevel = new CreateOrEditEmployeeLevelDto();
-            this.employeeLevel.id = employeeLevelId;
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+            aliasName: [item.aliasName || ''],
+            name: [item.name || '',Validators.required],
+            id: [item.id || null],
+        });
+    }
 
-            this.active = true;
-            this.modal.show();
-        } else {
+    show(employeeLevelId?: string): void {
+        if (employeeLevelId) {
+            this.id=employeeLevelId;
             this._employeeLevelsServiceProxy.getEmployeeLevelForEdit(employeeLevelId).subscribe((result) => {
 
-                this.active = true;
-                this.modal.show();
+              this.createForm(result);
             });
         }
+        this.active = true;
+        this.modal.show();
     }
 
     save(): void {
         this.saving = true;
 
         this._employeeLevelsServiceProxy
-            .createOrEdit(this.employeeLevel)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -67,5 +75,7 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
         this.modal.hide();
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+        this.createForm();
+    }
 }

@@ -1,12 +1,14 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef} from '@angular/core';
+﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import { PrincipalAllowanceSettingsServiceProxy, CreateOrEditPrincipalAllowanceSettingDto ,PrincipalAllowanceSettingEmployeeLevelLookupTableDto
-					} from '@shared/service-proxies/service-proxies';
+import {
+    PrincipalAllowanceSettingsServiceProxy, CreateOrEditPrincipalAllowanceSettingDto, PrincipalAllowanceSettingEmployeeLevelLookupTableDto
+} from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 
@@ -14,71 +16,79 @@ import { DateTime } from 'luxon';
     selector: 'createOrEditPrincipalAllowanceSettingModal',
     templateUrl: './create-or-edit-PrincipalAllowanceSetting-modal.component.html'
 })
-export class CreateOrEditPrincipalAllowanceSettingModalComponent extends AppComponentBase implements OnInit{
-   
+export class CreateOrEditPrincipalAllowanceSettingModalComponent extends AppComponentBase implements OnInit {
+
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
     saving = false;
+    form: FormGroup;
 
-    PrincipalAllowanceSetting: CreateOrEditPrincipalAllowanceSettingDto = new CreateOrEditPrincipalAllowanceSettingDto();
 
-    employeeLevelName = '';
 
-	allEmployeeLevels: PrincipalAllowanceSettingEmployeeLevelLookupTableDto[];
-					
+
+    allEmployeeLevels: PrincipalAllowanceSettingEmployeeLevelLookupTableDto[];
+    id: string;
+
 
     constructor(
         injector: Injector,
         private _PrincipalAllowanceSettingsServiceProxy: PrincipalAllowanceSettingsServiceProxy,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
-    
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+            amount: [item.amount || 0],
+            employeeLevelId: [item.employeeLevelId || null],
+            id: [item.id || null]
+        });
+    }
     show(PrincipalAllowanceSettingId?: string): void {
-    
-
-        if (!PrincipalAllowanceSettingId) {
-            this.PrincipalAllowanceSetting = new CreateOrEditPrincipalAllowanceSettingDto();
-            this.PrincipalAllowanceSetting.id = PrincipalAllowanceSettingId;
-            this.employeeLevelName = '';
 
 
-            this.active = true;
-            this.modal.show();
-        } else {
+        if (PrincipalAllowanceSettingId) {
+          
+            this.id = PrincipalAllowanceSettingId;
+           
             this._PrincipalAllowanceSettingsServiceProxy.getPrincipalAllowanceSettingForEdit(PrincipalAllowanceSettingId).subscribe(result => {
-                this.PrincipalAllowanceSetting = result;
-
-                this.employeeLevelName = result.employeeLevelName;
+               this.createForm(result);
 
 
-                this.active = true;
-                this.modal.show();
+              
             });
         }
-        this._PrincipalAllowanceSettingsServiceProxy.getAllEmployeeLevelForTableDropdown().subscribe(result => {						
-						this.allEmployeeLevels = result;
-					});
-					
-        
+
+        this.active = true;
+        this.modal.show();
+       
+
+
+    }
+
+    getAllEmployeeLevelForTableDropdown()
+    {
+        this._PrincipalAllowanceSettingsServiceProxy.getAllEmployeeLevelForTableDropdown().subscribe(result => {
+            this.allEmployeeLevels = result;
+        });
     }
 
     save(): void {
-            this.saving = true;
-            
-			
-			
-            this._PrincipalAllowanceSettingsServiceProxy.createOrEdit(this.PrincipalAllowanceSetting)
-             .pipe(finalize(() => { this.saving = false;}))
-             .subscribe(() => {
+        this.saving = true;
+
+
+
+        this._PrincipalAllowanceSettingsServiceProxy.createOrEdit(this.form.getRawValue())
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
-             });
+            });
     }
 
 
@@ -97,8 +107,9 @@ export class CreateOrEditPrincipalAllowanceSettingModalComponent extends AppComp
         this.active = false;
         this.modal.hide();
     }
-    
-     ngOnInit(): void {
-        
-     }    
+
+    ngOnInit(): void {
+        this.getAllEmployeeLevelForTableDropdown();
+        this.createForm();
+    }
 }

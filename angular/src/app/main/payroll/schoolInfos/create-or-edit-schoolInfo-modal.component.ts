@@ -10,6 +10,7 @@ import { FileUploader, FileUploaderOptions } from '@node_modules/ng2-file-upload
 import { AppConsts } from '@shared/AppConsts';
 
 import { HttpClient } from '@angular/common/http';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditSchoolInfoModal',
@@ -22,58 +23,75 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
 
     active = false;
     saving = false;
+    form: FormGroup;
 
-    schoolInfo: CreateOrEditSchoolInfoDto = new CreateOrEditSchoolInfoDto();
+
     schoolLevels: UniversalDropdownDto[];
     imageFileUploader: FileUploader;
     imageFileToken: string;
     imageFileName: string;
     imageFileAcceptedTypes = '';
+    id: string;
 
     constructor(
         injector: Injector,
         private _schoolInfosServiceProxy: SchoolInfosServiceProxy,
         private _dateTimeService: DateTimeService,
-        private _http: HttpClient
+        private _http: HttpClient,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
 
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+            name: [item.name || ''],
+            address: [item.address || ''],
+            phoneNo: [item.phoneNo || ''],
+            email: [item.email || ''],
+            wardNo: [item.wardNo || 0],
+            description: [item.description || ''],
+            schooolLevelId: [item.schooolLevelId || ''],
+            image: [item.image || ''],
+            imageToken: [item.imageToken || ''],
+            id: [item.id || null]
+        });
+    }
+
     show(schoolInfoId?: string): void {
-        if (!schoolInfoId) {
-            this.schoolInfo = new CreateOrEditSchoolInfoDto();
-            this.schoolInfo.id = schoolInfoId;
+        if (schoolInfoId) {
 
-            this.imageFileName = null;
-
-            this.active = true;
-            this.modal.show();
-        } else {
+            this.id = schoolInfoId;
             this._schoolInfosServiceProxy.getSchoolInfoForEdit(schoolInfoId).subscribe((result) => {
-
-
-
+                this.createForm(result);
                 this.active = true;
                 this.modal.show();
             });
         }
-        this._schoolInfosServiceProxy.getAllSchoolLevels().subscribe((res) => {
-            this.schoolLevels = res;
-        })
+
 
         this.imageFileUploader = this.initializeUploader(
             AppConsts.remoteServiceBaseUrl + '/SchoolInfos/UploadimageFile',
             (fileToken) => (this.imageFileToken = fileToken)
         );
+
+        this.active = true;
+        this.modal.show();
+    }
+
+    getAllSchoolLevels() {
+        this._schoolInfosServiceProxy.getAllSchoolLevels().subscribe((res) => {
+            this.schoolLevels = res;
+        })
     }
 
     save(): void {
         this.saving = true;
 
-        this.schoolInfo.imageToken = this.imageFileToken;
+        this.form.get('imageToken').setValue(this.imageFileToken);
 
         this._schoolInfosServiceProxy
-            .createOrEdit(this.schoolInfo)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -97,7 +115,7 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
     removeImageFile(): void {
         this.message.confirm(this.l('DoYouWantToRemoveTheFile'), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._schoolInfosServiceProxy.removeImageFile(this.schoolInfo.id).subscribe(() => {
+                this._schoolInfosServiceProxy.removeImageFile(this.id).subscribe(() => {
                     abp.notify.success(this.l('SuccessfullyDeleted'));
                     this.imageFileName = null;
                 });
@@ -140,6 +158,8 @@ export class CreateOrEditSchoolInfoModalComponent extends AppComponentBase imple
     }
 
     ngOnInit(): void {
+        this.getAllSchoolLevels();
+        this.createForm();
         this._http
             .get(AppConsts.remoteServiceBaseUrl + '/schoolInfos/GetImageFileAllowedTypes')
             .subscribe((data: any) => {

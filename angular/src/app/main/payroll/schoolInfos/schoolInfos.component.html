@@ -123,7 +123,7 @@
                                                         <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.SchoolInfos.Edit')"
                                                             class="dropdown-item" (click)="
-                                                                createOrEditSchoolInfoModal.show(record.schoolInfo.id)
+                                                                createOrEditSchoolInfoModal.show(record.id)
                                                             ">
                                                             {{ l('Edit') }}
                                                         </a>
@@ -131,7 +131,7 @@
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.SchoolInfos.Delete')"
-                                                            (click)="deleteSchoolInfo(record.schoolInfo)">
+                                                            (click)="deleteSchoolInfo(record.id)">
                                                             {{ l('Delete') }}
                                                         </a>
                                                     </li>

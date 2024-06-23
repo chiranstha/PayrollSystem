@@ -6,6 +6,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditGradeUpgradeModal',
@@ -19,49 +20,56 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
 
     active = false;
     saving = false;
+    form: FormGroup;
 
-    gradeUpgrade: CreateOrEditGradeUpgradeDto = new CreateOrEditGradeUpgradeDto();
 
-    employeeName = '';
-
+    
     allEmployees: GradeUpgradeEmployeeLookupTableDto[];
+    id: string;
 
 
     constructor(
         injector: Injector,
         private _gradeUpgradesServiceProxy: GradeUpgradesServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
+    }
+
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+
+            dateMiti: [item.dateMiti || ''],
+            grade: [item.grade || ''],
+            remarks: [item.remarks || ''],
+            employeeId: [item.employeeId || null],
+            id: [item.id || null]
+        });
     }
 
     show(gradeUpgradeId?: string): void {
 
 
-        if (!gradeUpgradeId) {
-            this.gradeUpgrade = new CreateOrEditGradeUpgradeDto();
-            this.gradeUpgrade.id = gradeUpgradeId;
-            this.employeeName = '';
+        if (gradeUpgradeId) {
 
+            this.id = gradeUpgradeId;
 
-            this.active = true;
-            this.modal.show();
-        } else {
             this._gradeUpgradesServiceProxy.getGradeUpgradeForEdit(gradeUpgradeId).subscribe(result => {
-                this.gradeUpgrade = result;
 
-                this.employeeName = result.employeeName;
-
-
-                this.active = true;
-                this.modal.show();
+                this.createForm(result)
             });
         }
+
+        this.active = true;
+        this.modal.show();
+
+    }
+
+    getAllEmployeeForTableDropdown() {
         this._gradeUpgradesServiceProxy.getAllEmployeeForTableDropdown().subscribe(result => {
             this.allEmployees = result;
         });
-
-
     }
 
     save(): void {
@@ -69,7 +77,7 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
 
 
 
-        this._gradeUpgradesServiceProxy.createOrEdit(this.gradeUpgrade)
+        this._gradeUpgradesServiceProxy.createOrEdit(this.form.getRawValue())
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
@@ -96,6 +104,7 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
     }
 
     ngOnInit(): void {
-
+        this.getAllEmployeeForTableDropdown();
+        this.createForm();
     }
 }

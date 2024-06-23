@@ -4,7 +4,7 @@ using System;
 
 namespace Suktas.Payroll.Payroll.Dtos
 {
-    public class CreateOrEditMontlyAllowanceDto : Entity<Guid>
+    public class CreateOrEditMontlyAllowanceDto : Entity<Guid?>
     {
         public string Name { get; set; }
         public decimal Amount { get; set; }

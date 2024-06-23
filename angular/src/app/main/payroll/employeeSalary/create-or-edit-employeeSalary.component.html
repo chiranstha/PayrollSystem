@@ -6,13 +6,14 @@
         ></sub-header>
 
         <div [class]="containerClass">
+            <form *ngIf="active" [formGroup]="form"  autocomplete="off">
             <div class="card card-custom gutter-b">
                 <div class="card-body">
                     <div class="form-group m-form__group">
                         <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
                         <select
-                            name="employeeSalary.schoolInfoId"
-                            [(ngModel)]="employeeSalary.schoolInfoId"
+                            name="schoolInfoId"
+                           formControlName="schoolInfoId"
                             class="form-select"
                             required
                         >
@@ -26,8 +27,8 @@
                     <div class="form-group m-form__group">
                         <label for="EmployeeName">{{ l('Employee') }}</label>
                         <select
-                            name="employeeSalary.employeeId"
-                            [(ngModel)]="employeeSalary.employeeId"
+                            name="employeeId"
+                           formControlName="employeeId"
                             class="form-select"
                             required
                         >
@@ -41,8 +42,8 @@
                     <div class="form-group m-form__group">
                         <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
                         <select
-                            name="employeeSalary.employeeLevelId"
-                            [(ngModel)]="employeeSalary.employeeLevelId"
+                            name="employeeLevelId"
+                           formControlName="employeeLevelId"
                             class="form-select"
                             required
                         >
@@ -56,11 +57,11 @@
                     <div class="form-group">
                         <label for="EmployeeSalary_Month">{{ l('Month') }}</label>
                         <select
-                            #EmployeeSalary_Month="ngModel"
+                            #EmployeeSalary_Month
                             class="form-select"
                             name="Month"
                             id="EmployeeSalary_Month"
-                            [(ngModel)]="employeeSalary.month"
+                           formControlName="month"
                         >
                             <option value="1">{{ l('Baishakh') }}</option>
 
@@ -93,10 +94,10 @@
                         <label for="EmployeeSalary_DateMiti">{{ l('DateMiti') }}</label>
                         <input
                             type="text"
-                            #EmployeeSalary_DateMiti="ngModel"
+                            #EmployeeSalary_DateMiti
                             id="EmployeeSalary_DateMiti"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.dateMiti"
+                           formControlName="dateMiti"
                             name="DateMiti"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_DateMiti"></validation-messages>
@@ -106,10 +107,10 @@
                         <label for="EmployeeSalary_BasicSalary">{{ l('BasicSalary') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_BasicSalary="ngModel"
+                            #EmployeeSalary_BasicSalary
                             id="EmployeeSalary_BasicSalary"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.basicSalary"
+                           formControlName="basicSalary"
                             name="BasicSalary"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_BasicSalary"></validation-messages>
@@ -119,10 +120,10 @@
                         <label for="EmployeeSalary_GradeAmount">{{ l('GradeAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_GradeAmount="ngModel"
+                            #EmployeeSalary_GradeAmount
                             id="EmployeeSalary_GradeAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.gradeAmount"
+                           formControlName="gradeAmount"
                             name="GradeAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_GradeAmount"></validation-messages>
@@ -132,10 +133,10 @@
                         <label for="EmployeeSalary_TechnicalAmount">{{ l('TechnicalAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TechnicalAmount="ngModel"
+                            #EmployeeSalary_TechnicalAmount
                             id="EmployeeSalary_TechnicalAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.technicalAmount"
+                           formControlName="technicalAmount"
                             name="TechnicalAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TechnicalAmount"></validation-messages>
@@ -145,10 +146,10 @@
                         <label for="EmployeeSalary_TotalGradeAmount">{{ l('TotalGradeAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalGradeAmount="ngModel"
+                            #EmployeeSalary_TotalGradeAmount
                             id="EmployeeSalary_TotalGradeAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalGradeAmount"
+                           formControlName="totalGradeAmount"
                             name="TotalGradeAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalGradeAmount"></validation-messages>
@@ -158,10 +159,10 @@
                         <label for="EmployeeSalary_TotalBasicSalary">{{ l('TotalBasicSalary') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalBasicSalary="ngModel"
+                            #EmployeeSalary_TotalBasicSalary
                             id="EmployeeSalary_TotalBasicSalary"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalBasicSalary"
+                           formControlName="totalBasicSalary"
                             name="TotalBasicSalary"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalBasicSalary"></validation-messages>
@@ -171,10 +172,10 @@
                         <label for="EmployeeSalary_InsuranceAmount">{{ l('InsuranceAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_InsuranceAmount="ngModel"
+                            #EmployeeSalary_InsuranceAmount
                             id="EmployeeSalary_InsuranceAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.insuranceAmount"
+                           formControlName="insuranceAmount"
                             name="InsuranceAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_InsuranceAmount"></validation-messages>
@@ -184,10 +185,10 @@
                         <label for="EmployeeSalary_TotalSalary">{{ l('TotalSalary') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalSalary="ngModel"
+                            #EmployeeSalary_TotalSalary
                             id="EmployeeSalary_TotalSalary"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalSalary"
+                           formControlName="totalSalary"
                             name="TotalSalary"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalSalary"></validation-messages>
@@ -197,10 +198,10 @@
                         <label for="EmployeeSalary_DearnessAllowance">{{ l('DearnessAllowance') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_DearnessAllowance="ngModel"
+                            #EmployeeSalary_DearnessAllowance
                             id="EmployeeSalary_DearnessAllowance"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.dearnessAllowance"
+                           formControlName="dearnessAllowance"
                             name="DearnessAllowance"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_DearnessAllowance"></validation-messages>
@@ -210,10 +211,10 @@
                         <label for="EmployeeSalary_PrincipalAllowance">{{ l('PrincipalAllowance') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_PrincipalAllowance="ngModel"
+                            #EmployeeSalary_PrincipalAllowance
                             id="EmployeeSalary_PrincipalAllowance"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.principalAllowance"
+                           formControlName="principalAllowance"
                             name="PrincipalAllowance"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_PrincipalAllowance"></validation-messages>
@@ -223,10 +224,10 @@
                         <label for="EmployeeSalary_TotalWithAllowance">{{ l('TotalWithAllowance') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalWithAllowance="ngModel"
+                            #EmployeeSalary_TotalWithAllowance
                             id="EmployeeSalary_TotalWithAllowance"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalWithAllowance"
+                           formControlName="totalWithAllowance"
                             name="TotalWithAllowance"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalWithAllowance"></validation-messages>
@@ -236,10 +237,10 @@
                         <label for="EmployeeSalary_TotalMonth">{{ l('TotalMonth') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalMonth="ngModel"
+                            #EmployeeSalary_TotalMonth
                             id="EmployeeSalary_TotalMonth"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalMonth"
+                           formControlName="totalMonth"
                             name="TotalMonth"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalMonth"></validation-messages>
@@ -249,10 +250,10 @@
                         <label for="EmployeeSalary_TotalSalaryAmount">{{ l('TotalSalaryAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_TotalSalaryAmount="ngModel"
+                            #EmployeeSalary_TotalSalaryAmount
                             id="EmployeeSalary_TotalSalaryAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.totalSalaryAmount"
+                           formControlName="totalSalaryAmount"
                             name="TotalSalaryAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_TotalSalaryAmount"></validation-messages>
@@ -262,10 +263,10 @@
                         <label for="EmployeeSalary_FestiableAllowance">{{ l('FestiableAllowance') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_FestiableAllowance="ngModel"
+                            #EmployeeSalary_FestiableAllowance
                             id="EmployeeSalary_FestiableAllowance"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.festiableAllowance"
+                           formControlName="festiableAllowance"
                             name="FestiableAllowance"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_FestiableAllowance"></validation-messages>
@@ -275,10 +276,10 @@
                         <label for="EmployeeSalary_GovernmentAmount">{{ l('GovernmentAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_GovernmentAmount="ngModel"
+                            #EmployeeSalary_GovernmentAmount
                             id="EmployeeSalary_GovernmentAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.governmentAmount"
+                           formControlName="governmentAmount"
                             name="GovernmentAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_GovernmentAmount"></validation-messages>
@@ -288,10 +289,10 @@
                         <label for="EmployeeSalary_InternalAmount">{{ l('InternalAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_InternalAmount="ngModel"
+                            #EmployeeSalary_InternalAmount
                             id="EmployeeSalary_InternalAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.internalAmount"
+                           formControlName="internalAmount"
                             name="InternalAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_InternalAmount"></validation-messages>
@@ -301,10 +302,10 @@
                         <label for="EmployeeSalary_PaidSalaryAmount">{{ l('PaidSalaryAmount') }}</label>
                         <input
                             type="number"
-                            #EmployeeSalary_PaidSalaryAmount="ngModel"
+                            #EmployeeSalary_PaidSalaryAmount
                             id="EmployeeSalary_PaidSalaryAmount"
                             class="form-control"
-                            [(ngModel)]="employeeSalary.paidSalaryAmount"
+                           formControlName="paidSalaryAmount"
                             name="PaidSalaryAmount"
                         />
                         <validation-messages [formCtrl]="EmployeeSalary_PaidSalaryAmount"></validation-messages>
@@ -322,10 +323,11 @@
                             <span>{{ l('Save') }}</span>
                         </button>
                         <button
-                            *ngIf="!this.employeeSalary.id"
+                            *ngIf="!this.id"
                             (click)="saveAndNew()"
                             class="btn btn-primary blue float-right"
                             [buttonBusy]="saving"
+                            
                             [busyText]="l('SavingWithThreeDot')"
                         >
                             <i class="fa fa-save"></i>
@@ -334,6 +336,7 @@
                     </div>
                 </div>
             </div>
+        </form>
         </div>
     </div>
 </div>

@@ -10,6 +10,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { DateTime } from 'luxon';
 
 import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'createOrEditCategorySalaryModal',
@@ -19,39 +20,54 @@ export class CreateOrEditCategorySalaryModalComponent extends AppComponentBase i
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-
+    form: FormGroup;
     active = false;
     saving = false;
+    id:string;
 
-    categorySalary: CreateOrEditCategorySalaryDto = new CreateOrEditCategorySalaryDto();
-
-    employeeLevelName = '';
-
+   
     allEmployeeLevels: CategorySalaryEmployeeLevelLookupTableDto[];
 
     constructor(
         injector: Injector,
         private _categorySalaryServiceProxy: CategorySalaryServiceProxy,
-        private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService,
+        private fb: FormBuilder,
     ) {
         super(injector);
     }
 
-    show(categorySalaryId?: string): void {
-        if (!categorySalaryId) {
-            this.categorySalary = new CreateOrEditCategorySalaryDto();
-            this.categorySalary.id = categorySalaryId;
-            this.employeeLevelName = '';
 
-            this.active = true;
-            this.modal.show();
-        } else {
+    createForm(item: any = {}) {
+        this.form = this.fb.group({
+          
+            salary: [item.salary || '', Validators.required],
+            category: [item.category || '', Validators.required],
+            technicalAmount: [item.technicalAmount || '', Validators.required],
+            employeeLevelId: [item.employeeLevelId || '', Validators.required],
+            id: [item.id || null],
+            
+        });
+    }
+
+    
+
+    show(categorySalaryId?: string): void {
+        if (categorySalaryId) {
+            this.id=categorySalaryId;
             this._categorySalaryServiceProxy.getCategorySalaryForEdit(categorySalaryId).subscribe((result) => {
 
-                this.active = true;
-                this.modal.show();
+                this.createForm(result);
             });
         }
+
+        this.active = true;
+        this.modal.show();
+      
+    }
+
+    getAllEmployeeLevel()
+    {
         this._categorySalaryServiceProxy.getAllEmployeeLevelForTableDropdown().subscribe((result) => {
             this.allEmployeeLevels = result;
         });
@@ -61,7 +77,7 @@ export class CreateOrEditCategorySalaryModalComponent extends AppComponentBase i
         this.saving = true;
 
         this._categorySalaryServiceProxy
-            .createOrEdit(this.categorySalary)
+            .createOrEdit(this.form.getRawValue())
             .pipe(
                 finalize(() => {
                     this.saving = false;
@@ -79,5 +95,9 @@ export class CreateOrEditCategorySalaryModalComponent extends AppComponentBase i
         this.modal.hide();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.getAllEmployeeLevel();
+        this.createForm();
+        
+    }
 }

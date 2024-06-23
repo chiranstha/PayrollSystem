@@ -2,11 +2,11 @@
 	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<form *ngIf="active" #festivalBonusSettingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+			<form *ngIf="active" [formGroup]="form"  autocomplete="off">
 				<div class="modal-header">
 					<h4 class="modal-title">
-						<span *ngIf="festivalBonusSetting.id">{{l("EditFestivalBonusSetting")}}</span>
-						<span *ngIf="!festivalBonusSetting.id">{{l("CreateNewFestivalBonusSetting")}}</span>
+						<span *ngIf="id">{{l("EditFestivalBonusSetting")}}</span>
+						<span *ngIf="!id">{{l("CreateNewFestivalBonusSetting")}}</span>
 					</h4>
 
 					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -16,8 +16,8 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="FestivalBonusSetting_MonthId">{{l("Month")}}</label>
-						<select class="form-select" #FestivalBonusSetting_MonthId="ngModel" name="MonthId"
-							id="FestivalBonusSetting_MonthId" [(ngModel)]="festivalBonusSetting.monthId">
+						<select class="form-select" #FestivalBonusSetting_MonthId name="MonthId"
+							id="FestivalBonusSetting_MonthId"formControlName="monthId">
 							<option value="1">{{l('Baishakh')}}</option>
 
 							<option value="2">{{l('Jestha')}}</option>
@@ -47,9 +47,9 @@
 
 					<div class="form-group">
 						<label for="FestivalBonusSetting_PercentOrAmount">{{l("Percent Or Amount")}}</label>
-						<select class="form-select" #FestivalBonusSetting_PercentOrAmount="ngModel"
+						<select class="form-select" #FestivalBonusSetting_PercentOrAmount
 							name="PercentOrAmount" id="FestivalBonusSetting_PercentOrAmount"
-							[(ngModel)]="festivalBonusSetting.percentOrAmount">
+							formControlName="percentOrAmount">
 							<option value="0">{{l('Percent')}}</option>
 							<option value="1">{{l('Amount')}}</option>
 						</select>
@@ -58,15 +58,15 @@
 
 					<div class="form-group">
 						<label for="FestivalBonusSetting_Value">{{ l('Value') }}</label>
-						<input type="number" #FestivalBonusSetting_Value="ngModel" id="FestivalBonusSetting_value"
-							class="form-control" [(ngModel)]="festivalBonusSetting.value" name="Value" />
+						<input type="number" #FestivalBonusSetting_Value id="FestivalBonusSetting_value"
+							class="form-control"formControlName="value" name="Value" />
 						<validation-messages [formCtrl]="FestivalBonusSetting_Value"></validation-messages>
 					</div>
 
 					<div class="form-group">
 						<label for="FestivalBonusSetting_Remarks">{{l("Remarks")}}</label>
-						<input type="text" #FestivalBonusSetting_Remarks="ngModel" id="FestivalBonusSetting_Remarks"
-							class="form-control" [(ngModel)]="festivalBonusSetting.remarks" name="Remarks" />
+						<input type="text" #FestivalBonusSetting_Remarks id="FestivalBonusSetting_Remarks"
+							class="form-control"formControlName="remarks" name="Remarks" />
 						<validation-messages [formCtrl]="FestivalBonusSetting_Remarks"></validation-messages>
 					</div>
 
@@ -76,8 +76,8 @@
 				<div class="modal-footer">
 					<button [disabled]="saving" type="button" class="btn btn-default"
 						(click)="close()">{{l("Cancel")}}</button>
-					<button type="submit" class="btn btn-primary blue" [disabled]="!festivalBonusSettingForm.form.valid"
-						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
+						[buttonBusy]="saving" (click)="save()" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
 						<span>{{l("Save")}}</span></button>
 				</div>
 			</form>

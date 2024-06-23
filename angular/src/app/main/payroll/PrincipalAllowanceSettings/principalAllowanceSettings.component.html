@@ -129,12 +129,12 @@
                                                         <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.PrincipalAllowanceSettings.Edit')"
                                                             class="dropdown-item"
-                                                            (click)="createOrEditPrincipalAllowanceSettingModal.show(record.tbl_PrincipalAllowanceSetting.id)">{{l('Edit')}}</a>
+                                                            (click)="createOrEditPrincipalAllowanceSettingModal.show(record.id)">{{l('Edit')}}</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.Tbl_PrincipalAllowanceSettings.Delete')"
-                                                            (click)="deleteTbl_PrincipalAllowanceSetting(record.tbl_PrincipalAllowanceSetting)">{{l('Delete')}}</a>
+                                                            (click)="deleteTbl_PrincipalAllowanceSetting(record.id)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>

@@ -2,11 +2,11 @@
     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #categorySalaryForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+            <form *ngIf="active" [formGroup]="form" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="categorySalary.id">{{ l('EditCategorySalary') }}</span>
-                        <span *ngIf="!categorySalary.id">{{ l('CreateNewCategorySalary') }}</span>
+                        <span *ngIf="id">{{ l('EditCategorySalary') }}</span>
+                        <span *ngIf="!id">{{ l('CreateNewCategorySalary') }}</span>
                     </h4>
 
                     <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -16,7 +16,7 @@
                 <div class="modal-body">
                     <div class="form-group m-form__group">
                         <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
-                        <select name="categorySalary.employeeLevelId" [(ngModel)]="categorySalary.employeeLevelId"
+                        <select name="employeeLevelId" formControlName="employeeLevelId"
                             class="form-select" required>
                             <option value="">{{ l('SelectAEmployeeLevel') }}</option>
                             <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
@@ -27,15 +27,15 @@
 
                     <div class="form-group">
                         <label for="CategorySalary_Salary">{{ l('Salary') }}</label>
-                        <input type="number" #CategorySalary_Salary="ngModel" id="CategorySalary_Salary"
-                            class="form-control" [(ngModel)]="categorySalary.salary" name="Salary" />
+                        <input type="number" #CategorySalary_Salary id="CategorySalary_Salary"
+                            class="form-control" formControlName="salary" name="Salary" />
                         <validation-messages [formCtrl]="CategorySalary_Salary"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="CategorySalary_Category">{{ l('Category') }}</label>
-                        <select class="form-select" #CategorySalary_Category="ngModel" name="Category"
-                            id="CategorySalary_Category" [(ngModel)]="categorySalary.category">
+                        <select class="form-select" #CategorySalary_Category name="Category"
+                            id="CategorySalary_Category" formControlName="category">
                             <option value="0">{{ l('Permanent') }}</option>
 
                             <option value="1">{{ l('Temporary') }}</option>
@@ -53,9 +53,9 @@
 
                     <div class="form-group">
                         <label for="CategorySalary_TechnicalAmount">{{ l('TechnicalAmount') }}</label>
-                        <input type="number" #CategorySalary_TechnicalAmount="ngModel"
+                        <input type="number" #CategorySalary_TechnicalAmount
                             id="CategorySalary_TechnicalAmount" class="form-control"
-                            [(ngModel)]="categorySalary.technicalAmount" name="TechnicalAmount" />
+                            formControlName="technicalAmount" name="TechnicalAmount" />
                         <validation-messages [formCtrl]="CategorySalary_TechnicalAmount"></validation-messages>
                     </div>
                 </div>
@@ -63,8 +63,8 @@
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}
                     </button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!categorySalaryForm.form.valid"
-                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>
