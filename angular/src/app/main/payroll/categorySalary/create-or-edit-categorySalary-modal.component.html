@@ -36,7 +36,11 @@
                         <label for="CategorySalary_Category">{{ l('Category') }}</label>
                         <select class="form-select" #CategorySalary_Category name="Category"
                             id="CategorySalary_Category" formControlName="category">
-                            <option value="0">{{ l('Permanent') }}</option>
+
+                            <option *ngFor="let item of allCategories" value="{{ item.id }}">
+                                {{ item.displayName }}
+                            </option>
+                            <!-- <option value="0">{{ l('Permanent') }}</option>
 
                             <option value="1">{{ l('Temporary') }}</option>
 
@@ -46,7 +50,7 @@
 
                             <option value="4">{{ l('Helper') }}</option>
 
-                            <option value="5">{{ l('Contract') }}</option>
+                            <option value="5">{{ l('Contract') }}</option> -->
                         </select>
                         <validation-messages [formCtrl]="CategorySalary_Category"></validation-messages>
                     </div>

@@ -41,8 +41,7 @@ export class CreateOrEditSchoolLevelModalComponent extends AppComponentBase impl
     }
 
     show(schoolLevelId?: string): void {
-        if (!schoolLevelId) {
-           
+        if (schoolLevelId) {           
             this.id = schoolLevelId;
             this._schoolLevelsServiceProxy.getSchoolLevelForEdit(schoolLevelId).subscribe((result) => {
              this.createForm(result);

@@ -19,16 +19,16 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
 
     active = false;
     saving = false;
-    id:string
+    id: string
     form: FormGroup;
 
     constructor(
         injector: Injector,
         private _employeeLevelsServiceProxy: EmployeeLevelsServiceProxy,
         private _dateTimeService: DateTimeService,
-        
-    private fb: FormBuilder,
-    
+
+        private fb: FormBuilder,
+
     ) {
         super(injector);
     }
@@ -36,17 +36,17 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
     createForm(item: any = {}) {
         this.form = this.fb.group({
             aliasName: [item.aliasName || ''],
-            name: [item.name || '',Validators.required],
+            name: [item.name || '', Validators.required],
             id: [item.id || null],
         });
     }
 
     show(employeeLevelId?: string): void {
         if (employeeLevelId) {
-            this.id=employeeLevelId;
+            this.id = employeeLevelId;
             this._employeeLevelsServiceProxy.getEmployeeLevelForEdit(employeeLevelId).subscribe((result) => {
 
-              this.createForm(result);
+                this.createForm(result);
             });
         }
         this.active = true;
@@ -75,7 +75,7 @@ export class CreateOrEditEmployeeLevelModalComponent extends AppComponentBase im
         this.modal.hide();
     }
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
         this.createForm();
     }
 }
