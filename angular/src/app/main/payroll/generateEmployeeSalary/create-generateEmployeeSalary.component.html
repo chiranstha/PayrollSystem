@@ -12,7 +12,8 @@
                         </div>
                         <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                             <label class="form-label" for="Year">Year</label>
-                            <input (change)="GetData()" type="number" class="form-control" formControlName="year" name="year" />
+                            <input (change)="GetData()" type="number" class="form-control" formControlName="year"
+                                name="year" />
                         </div>
                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
                             <label class="form-label" for="Months">Months</label>
@@ -28,16 +29,12 @@
                             <button (click)="GetExcel()" class="btn btn-primary blue">
                                 <span>{{ l('Excel') }}</span>
                             </button>
-                            <!-- </div>
-                        <div *ngIf="data.length >= 1" class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-8"> -->
                             <button (click)="Create()" class="btn btn-primary blue">
                                 <span>{{ l('Payment') }}</span>
                             </button>
                         </div>
                     </div>
                 </div>
-
-
                 <div class="overflow-x-auto">
                     <table class="table table-row-dashed table-row-gray-300 table-striped">
                         <thead>
@@ -172,7 +169,7 @@
                                     <b> Total </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.basicSalary | number }} </b>
+                                    <b> {{ total.basicSalary | number }} </b>
                                 </td>
                                 <td>
                                     {{ total.grade }}
@@ -181,7 +178,7 @@
                                     {{ total.gradeRate }}
                                 </td>
                                 <td>
-                                  <b>  {{ total.gradeAmount | number }} </b>
+                                    <b> {{ total.gradeAmount | number }} </b>
                                 </td>
                                 <td>
                                     <b> {{ total.technicalGradeAmount | number }}</b>
@@ -190,25 +187,25 @@
                                     <b> {{ total.totalGradeAmount | number }}</b>
                                 </td>
                                 <td>
-                                   <b> {{ total.total | number }}</b>
+                                    <b> {{ total.total | number }}</b>
                                 </td>
                                 <td>
-                                   <b> {{ total.epfAmount | number }}</b>
+                                    <b> {{ total.epfAmount | number }}</b>
                                 </td>
                                 <td>
-                                   <b> {{ total.insuranceAmount | number }} </b>
+                                    <b> {{ total.insuranceAmount | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.totalSalary | number }} </b>
+                                    <b> {{ total.totalSalary | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.inflationAllowance | number }} </b>
+                                    <b> {{ total.inflationAllowance | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.principalAllowance | number }} </b>
+                                    <b> {{ total.principalAllowance | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.totalSalaryAmount | number }} </b>
+                                    <b> {{ total.totalSalaryAmount | number }} </b>
                                 </td>
                                 <td>
                                     {{ total.month | number }}
@@ -217,19 +214,19 @@
                                     {{ total.monthNames }}
                                 </td>
                                 <td>
-                                   <b> {{ total.totalForAllMonths | number }} </b>
+                                    <b> {{ total.totalForAllMonths | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.festivalAllowance | number }} </b>
+                                    <b> {{ total.festivalAllowance | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.totalWithAllowanceForAllMonths | number }} </b>
+                                    <b> {{ total.totalWithAllowanceForAllMonths | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.internalAmount | number }} </b>
+                                    <b> {{ total.internalAmount | number }} </b>
                                 </td>
                                 <td>
-                                   <b> {{ total.totalPaidAmount | number }} </b>
+                                    <b> {{ total.totalPaidAmount | number }} </b>
                                 </td>
                             </tr>
                             <tr *ngIf="!data || !data.length">
@@ -237,9 +234,31 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- {{this.data | json}} -->
                 </div>
-                <!-- {{ form.value | json }} -->
+                <div *ngIf="data.length >= 1">
+                    <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                            <label class="form-label">Total Payable Amount</label>
+                            <input type="number"  formControlName="totalAmount" class="form-control" min="0" readonly />
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                            <label class="form-label">Due Amount</label>
+                            <input (keyup)="finalChange()" type="number" formControlName="dueAmount" class="form-control" min="0" />
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                            <label class="form-label">Extra Amount</label>
+                            <input (keyup)="finalChange()" type="number" formControlName="extraAmount" class="form-control" min="0" />
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                            <label class="form-label">Final Amount</label>
+                            <input type="number" formControlName="finalAmount" class="form-control" min="0" />
+                        </div>
+                        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <label class="form-label">Remarks</label>
+                            <input type="text" formControlName="remarks" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

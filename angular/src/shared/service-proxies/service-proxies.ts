@@ -25021,6 +25021,11 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
     months!: Months[] | undefined;
     data!: CreateEmployeeSalaryNewDto[] | undefined;
     year!: number;
+    totalAmount!: number;
+    dueAmount!: number;
+    extraAmount!: number;
+    finalAmount!: number;
+    remarks!: string | undefined;
 
     constructor(data?: ICreateSalaryNewDto) {
         if (data) {
@@ -25044,6 +25049,11 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
                     this.data!.push(CreateEmployeeSalaryNewDto.fromJS(item));
             }
             this.year = _data["year"];
+            this.totalAmount = _data["totalAmount"];
+            this.dueAmount = _data["dueAmount"];
+            this.extraAmount = _data["extraAmount"];
+            this.finalAmount = _data["finalAmount"];
+            this.remarks = _data["remarks"];
         }
     }
 
@@ -25067,6 +25077,11 @@ export class CreateSalaryNewDto implements ICreateSalaryNewDto {
                 data["data"].push(item.toJSON());
         }
         data["year"] = this.year;
+        data["totalAmount"] = this.totalAmount;
+        data["dueAmount"] = this.dueAmount;
+        data["extraAmount"] = this.extraAmount;
+        data["finalAmount"] = this.finalAmount;
+        data["remarks"] = this.remarks;
         return data;
     }
 }
@@ -25075,6 +25090,11 @@ export interface ICreateSalaryNewDto {
     months: Months[] | undefined;
     data: CreateEmployeeSalaryNewDto[] | undefined;
     year: number;
+    totalAmount: number;
+    dueAmount: number;
+    extraAmount: number;
+    finalAmount: number;
+    remarks: string | undefined;
 }
 
 export class CreateTenantInput implements ICreateTenantInput {

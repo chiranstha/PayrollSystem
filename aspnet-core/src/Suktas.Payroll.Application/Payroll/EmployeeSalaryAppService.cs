@@ -521,6 +521,11 @@ namespace Suktas.Payroll.Payroll
             {
                 Year = data.Year,
                 Months = string.Join(",", data.months.Select(x => x.ToString())),
+                TotalAmount = data.TotalAmount,
+                DueAmount = data.DueAmount,
+                FinalAmount = data.FinalAmount,
+                ExtraAmount = data.ExtraAmount,
+                Remarks = data.Remarks,
                 TenantId = AbpSession.TenantId
             };
             var masterId = await _employeeSalaryMasterNew.InsertAndGetIdAsync(employeeSalaryMaster);

@@ -13,6 +13,11 @@ namespace Suktas.Payroll.Payroll
     {
         public virtual int Year { get; set; }
         public virtual string Months { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal DueAmount { get; set; }
+        public decimal ExtraAmount { get; set; }
+        public decimal FinalAmount { get; set; }
+        public string Remarks { get; set; }
         public int? TenantId { get; set; }
 
     }

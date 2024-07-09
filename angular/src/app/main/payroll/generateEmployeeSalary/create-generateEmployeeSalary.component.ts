@@ -47,8 +47,13 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
     CreateForm(item: any = {}) {
         this.form = this.fb.group({
             schoolIds: [item.schoolIds ? item.schoolIds : ''],
+            remarks: [item.remarks ? item.remarks : ''],
             year: [item.year ? item.year : 2081],
-            months: []
+            months: [],
+            totalAmount: [item.totalAmount ? item.totalAmount : 0],
+            dueAmount: [item.dueAmount ? item.dueAmount : 0],
+            extraAmount: [item.extraAmount ? item.extraAmount : 0],
+            finalAmount: [item.finalAmount ? item.finalAmount : 0]
         })
     }
 
@@ -69,6 +74,8 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
         this.employeeSalaryServiceProxy.generateSalaryNew(this.input).subscribe((res) => {
             this.data = res.details;
             this.total = res.total;
+            this.form.get('totalAmount').setValue(res.total.totalPaidAmount);
+            this.form.get('finalAmount').setValue(res.total.totalPaidAmount);
         })
     }
 
@@ -91,18 +98,88 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
         if (control.length > 1) {
             control.splice(i, 1);
         }
+        this.CalculateTotal();
+    }
+
+    CalculateTotal() {
+        let basicSalary = 0;
+        let epfAmount = 0;
+        let festivalAllowance = 0;
+        let gradeAmount = 0;
+        let inflationAllowance = 0;
+        let insuranceAmount = 0;
+        let internalAmount = 0;
+        let principalAllowance = 0;
+        let technicalGradeAmount = 0;
+        let total = 0;
+        let totalForAllMonths = 0;
+        let totalGradeAmount = 0;
+        let totalPaidAmount = 0;
+        let totalSalary = 0;
+        let totalSalaryAmount = 0;
+        let totalWithAllowanceForAllMonths = 0;
+        for (let i = 0; i < this.data.length; i++) {
+            basicSalary += this.data[i].basicSalary;
+            epfAmount += this.data[i].epfAmount;
+            festivalAllowance += this.data[i].festivalAllowance;
+            gradeAmount += this.data[i].gradeAmount;
+            inflationAllowance += this.data[i].inflationAllowance;
+            insuranceAmount += this.data[i].insuranceAmount;
+            internalAmount += this.data[i].internalAmount;
+            principalAllowance += this.data[i].principalAllowance;
+            technicalGradeAmount += this.data[i].technicalGradeAmount;
+            total += this.data[i].total;
+            totalForAllMonths += this.data[i].totalForAllMonths;
+            totalGradeAmount += this.data[i].totalGradeAmount;
+            totalPaidAmount += this.data[i].totalPaidAmount;
+            totalSalary += this.data[i].totalSalary;
+            totalSalaryAmount += this.data[i].totalSalaryAmount;
+            totalWithAllowanceForAllMonths += this.data[i].totalWithAllowanceForAllMonths;
+        }
+        this.total.basicSalary = basicSalary;
+        this.total.epfAmount = epfAmount;
+        this.total.festivalAllowance = festivalAllowance;
+        this.total.gradeAmount = gradeAmount;
+        this.total.inflationAllowance = inflationAllowance;
+        this.total.insuranceAmount = insuranceAmount;
+        this.total.internalAmount = internalAmount;
+        this.total.principalAllowance =  principalAllowance;
+        this.total.technicalGradeAmount = technicalGradeAmount;
+        this.total.total = total;
+        this.total.totalForAllMonths = totalForAllMonths;
+        this.total.totalGradeAmount = totalGradeAmount;
+        this.total.totalPaidAmount = totalPaidAmount;
+        this.total.totalSalary = totalSalary;
+        this.total.totalSalaryAmount = totalSalaryAmount;
+        this.total.totalWithAllowanceForAllMonths = totalWithAllowanceForAllMonths;        
+        this.form.get('totalAmount').setValue(totalPaidAmount);
+        this.finalChange();
     }
 
     Create() {
-        //    var schoolI = this.form.get('schoolIds').value;
         var month = this.form.get('months').value;
         this.createData = new CreateSalaryNewDto();
         this.createData.data = this.data;
         this.createData.months = month;
         this.createData.year = 2081;
-        //  this.createData.schoolIds = schoolI;
+        var totalAmount = this.form.get('totalAmount').value;
+        var dueAmount = this.form.get('dueAmount').value;
+        var extraAmount = this.form.get('extraAmount').value;
+        var finalAmount = this.form.get('finalAmount').value;
+        var remarks = this.form.get('remarks').value;
+        this.createData.totalAmount = totalAmount;
+        this.createData.dueAmount = dueAmount;
+        this.createData.extraAmount = extraAmount;
+        this.createData.finalAmount = finalAmount;
+        this.createData.remarks = remarks;
         this.employeeSalaryServiceProxy.createSalaryNew(this.createData).subscribe();
         this.CreateForm();
         this.data = [];
+    }
+
+    finalChange() {
+        var finalAmount = this.form.get('totalAmount').value - this.form.get('dueAmount').value + this.form.get('extraAmount').value;
+        const abc = finalAmount.toFixed(2);
+        this.form.get('finalAmount').setValue(abc);
     }
 }

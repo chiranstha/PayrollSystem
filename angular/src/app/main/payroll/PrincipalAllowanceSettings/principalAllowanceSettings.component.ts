@@ -97,7 +97,7 @@ export class PrincipalAllowanceSettingsComponent extends AppComponentBase {
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    this._tbl_PrincipalAllowanceSettingsServiceProxy.delete(tbl_PrincipalAllowanceSetting.id)
+                    this._tbl_PrincipalAllowanceSettingsServiceProxy.delete(tbl_PrincipalAllowanceSetting)
                         .subscribe(() => {
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));
