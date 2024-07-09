@@ -17,7 +17,8 @@ import { UiCustomizationSettingsDto } from '@shared/service-proxies/service-prox
 import '@shared/service-proxies/tenant-login-info-dto-extensions';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerTextService } from '@app/shared/ngx-spinner-text.service';
-import { NpDatePickerService } from '@app/shared/common/npx-np-datepicker/np-datepicker.service';
+import { NepaliDatepickerService } from '@app/shared/common/nepalidatepicke/services/nepali-datepicker-angular.service';
+import { NepaliDatepickerAngularPrivateService } from '@app/shared/common/nepalidatepicke/services/nepali-datepicker-angular-private.service';
 
 interface AbpEventSubscription {
     eventName: string;
@@ -46,7 +47,7 @@ export abstract class AppComponentBase implements OnDestroy {
     eventSubscriptions: AbpEventSubscription[] = [];
 
     private ngxSpinnerTextService: NgxSpinnerTextService;
-    private nepaliDateService: NpDatePickerService;
+    private nepaliDateService: NepaliDatepickerAngularPrivateService;
     
 
     constructor(injector: Injector) {
@@ -64,7 +65,7 @@ export abstract class AppComponentBase implements OnDestroy {
         this.primengTableHelper = new PrimengTableHelper();
         this.spinnerService = injector.get(NgxSpinnerService);
         this.ngxSpinnerTextService = injector.get(NgxSpinnerTextService);
-        this.nepaliDateService = injector.get(NpDatePickerService);
+        this.nepaliDateService = injector.get(NepaliDatepickerAngularPrivateService);
     }
 
     get currentTheme(): UiCustomizationSettingsDto {
@@ -158,7 +159,7 @@ export abstract class AppComponentBase implements OnDestroy {
     }
 
      todayDate() {
-       return  this.nepaliDateService.getCurrentNepaliDate();
+       return  this.nepaliDateService.setCurrentNepaliDate();
     }
 
     protected subscribeToEvent(eventName: string, callback: (...args: any[]) => void): void {

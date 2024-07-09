@@ -29,7 +29,7 @@ import { AppBsModalModule } from '@shared/common/appBsModal/app-bs-modal.module'
 import { FileUploadModule } from 'ng2-file-upload';
 import { FileUploadModule as PrimeNgFileUploadModule } from 'primeng/fileupload';
 import { SubheaderModule } from '@app/shared/common/sub-header/subheader.module';
-import { NepaliDatepickerModule } from '@app/shared/common/npx-np-datepicker/np-datepicker.module';
+import { NepaliDatepickerModule } from '@app/shared/common/nepalidatepicke/nepali-datepicker-angular.module';
 
 @NgModule({
     declarations: [

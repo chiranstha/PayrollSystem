@@ -30,7 +30,7 @@
 
 					<div class="form-group">
 						<label for="GradeUpgrade_DateMiti">{{l("DateMiti")}}</label>
-						<npdual-datepicker [formControl]="form.controls['dateMiti']" id="dateMiti"></npdual-datepicker>
+						<ne-datepicker [formControl]="form.controls['dateMiti']" language="en" id="dateMiti"></ne-datepicker>
 
 						<div *ngIf="
                       this.form.get('dateMiti').invalid &&
@@ -85,6 +85,7 @@
 						<span>{{l("Save")}}</span></button>
 				</div>
 			</form>
+			{{this.form.value|json}}
 		</div>
 	</div>
 
