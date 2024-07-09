@@ -40,7 +40,7 @@ export class CreateOrEditGradeUpgradeModalComponent extends AppComponentBase imp
     createForm(item: any = {}) {
         this.form = this.fb.group({
 
-            dateMiti: [item.dateMiti || ''],
+            dateMiti: [item.dateMiti || this.todayDate()],
             grade: [item.grade || ''],
             remarks: [item.remarks || ''],
             employeeId: [item.employeeId || null],
