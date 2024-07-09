@@ -11285,7 +11285,7 @@ export class MonthlyAllowanceServiceProxy {
     /**
      * @return Success
      */
-    getAll(): Observable<CreateOrEditMontlyAllowanceDto[]> {
+    getAll(): Observable<GetMontlyAllowanceForViewDto[]> {
         let url_ = this.baseUrl + "/api/services/app/MonthlyAllowance/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11304,14 +11304,14 @@ export class MonthlyAllowanceServiceProxy {
                 try {
                     return this.processGetAll(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<CreateOrEditMontlyAllowanceDto[]>;
+                    return _observableThrow(e) as any as Observable<GetMontlyAllowanceForViewDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<CreateOrEditMontlyAllowanceDto[]>;
+                return _observableThrow(response_) as any as Observable<GetMontlyAllowanceForViewDto[]>;
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<CreateOrEditMontlyAllowanceDto[]> {
+    protected processGetAll(response: HttpResponseBase): Observable<GetMontlyAllowanceForViewDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11325,7 +11325,7 @@ export class MonthlyAllowanceServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(CreateOrEditMontlyAllowanceDto.fromJS(item));
+                    result200!.push(GetMontlyAllowanceForViewDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -24550,7 +24550,7 @@ export class CreateOrEditMontlyAllowanceDto implements ICreateOrEditMontlyAllowa
     name!: string | undefined;
     amount!: number;
     employeeCategory!: EmployeeCategory;
-    id!: string;
+    id!: string | undefined;
 
     constructor(data?: ICreateOrEditMontlyAllowanceDto) {
         if (data) {
@@ -24591,7 +24591,7 @@ export interface ICreateOrEditMontlyAllowanceDto {
     name: string | undefined;
     amount: number;
     employeeCategory: EmployeeCategory;
-    id: string;
+    id: string | undefined;
 }
 
 export class CreateOrEditPrincipalAllowanceSettingDto implements ICreateOrEditPrincipalAllowanceSettingDto {
@@ -29685,6 +29685,54 @@ export interface IGetMonthlyAllowanceForEdit {
     amount: number;
     employeeCategory: EmployeeCategory;
     id: string;
+}
+
+export class GetMontlyAllowanceForViewDto implements IGetMontlyAllowanceForViewDto {
+    name!: string | undefined;
+    amount!: number;
+    employeeCategory!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IGetMontlyAllowanceForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.amount = _data["amount"];
+            this.employeeCategory = _data["employeeCategory"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): GetMontlyAllowanceForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetMontlyAllowanceForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["amount"] = this.amount;
+        data["employeeCategory"] = this.employeeCategory;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IGetMontlyAllowanceForViewDto {
+    name: string | undefined;
+    amount: number;
+    employeeCategory: string | undefined;
+    id: string | undefined;
 }
 
 export class GetNotificationSettingsOutput implements IGetNotificationSettingsOutput {

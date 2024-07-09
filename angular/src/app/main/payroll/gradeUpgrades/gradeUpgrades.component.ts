@@ -1,6 +1,6 @@
-﻿import {AppConsts} from '@shared/AppConsts';
+﻿import { AppConsts } from '@shared/AppConsts';
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GradeUpgradesServiceProxy, EmployeeGrade } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -16,7 +16,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { filter as _filter } from 'lodash-es';
 import { DateTime } from 'luxon';
 
-             import { DateTimeService } from '@app/shared/common/timing/date-time.service';
+import { DateTimeService } from '@app/shared/common/timing/date-time.service';
 
 @Component({
     templateUrl: './gradeUpgrades.component.html',
@@ -24,11 +24,11 @@ import { DateTime } from 'luxon';
     animations: [appModuleAnimation()]
 })
 export class GradeUpgradesComponent extends AppComponentBase {
-    
-    
+
+
     @ViewChild('createOrEditGradeUpgradeModal', { static: true }) createOrEditGradeUpgradeModal: CreateOrEditGradeUpgradeModalComponent;
-    @ViewChild('viewGradeUpgradeModal', { static: true }) viewGradeUpgradeModal: ViewGradeUpgradeModalComponent;   
-    
+    @ViewChild('viewGradeUpgradeModal', { static: true }) viewGradeUpgradeModal: ViewGradeUpgradeModalComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -37,14 +37,8 @@ export class GradeUpgradesComponent extends AppComponentBase {
     dateMitiFilter = '';
     gradeFilter = -1;
     remarksFilter = '';
-        employeeNameFilter = '';
-
+    employeeNameFilter = '';
     employeeGrade = EmployeeGrade;
-
-
-
-
-
     constructor(
         injector: Injector,
         private _gradeUpgradesServiceProxy: GradeUpgradesServiceProxy,
@@ -52,7 +46,7 @@ export class GradeUpgradesComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-             private _dateTimeService: DateTimeService
+        private _dateTimeService: DateTimeService
     ) {
         super(injector);
     }
@@ -89,7 +83,7 @@ export class GradeUpgradesComponent extends AppComponentBase {
     }
 
     createGradeUpgrade(): void {
-        this.createOrEditGradeUpgradeModal.show();        
+        this.createOrEditGradeUpgradeModal.show();
     }
 
 
@@ -99,7 +93,7 @@ export class GradeUpgradesComponent extends AppComponentBase {
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    this._gradeUpgradesServiceProxy.delete(gradeUpgrade.id)
+                    this._gradeUpgradesServiceProxy.delete(gradeUpgrade)
                         .subscribe(() => {
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));
@@ -111,29 +105,23 @@ export class GradeUpgradesComponent extends AppComponentBase {
 
     exportToExcel(): void {
         this._gradeUpgradesServiceProxy.getGradeUpgradesToExcel(
-        this.filterText,
+            this.filterText,
             this.dateMitiFilter,
             this.gradeFilter,
             this.remarksFilter,
             this.employeeNameFilter,
         )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
     }
-    
-    
-    
-    
-    
 
     resetFilters(): void {
         this.filterText = '';
-            this.dateMitiFilter = '';
-    this.gradeFilter = -1;
-    this.remarksFilter = '';
-		this.employeeNameFilter = '';
-					
+        this.dateMitiFilter = '';
+        this.gradeFilter = -1;
+        this.remarksFilter = '';
+        this.employeeNameFilter = '';
         this.getGradeUpgrades();
     }
 }

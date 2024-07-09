@@ -41,7 +41,6 @@ export class CreateOrEditCategorySalaryModalComponent extends AppComponentBase i
 
     createForm(item: any = {}) {
         this.form = this.fb.group({
-
             salary: [item.salary || '', Validators.required],
             category: [item.category || '', Validators.required],
             technicalAmount: [item.technicalAmount || '', Validators.required],

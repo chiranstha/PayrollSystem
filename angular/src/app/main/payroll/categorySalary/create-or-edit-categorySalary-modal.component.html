@@ -16,8 +16,7 @@
                 <div class="modal-body">
                     <div class="form-group m-form__group">
                         <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
-                        <select name="employeeLevelId" formControlName="employeeLevelId"
-                            class="form-select" required>
+                        <select name="employeeLevelId" formControlName="employeeLevelId" class="form-select" required>
                             <option value="">{{ l('SelectAEmployeeLevel') }}</option>
                             <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
                                 {{ item.displayName }}
@@ -27,8 +26,8 @@
 
                     <div class="form-group">
                         <label for="CategorySalary_Salary">{{ l('Salary') }}</label>
-                        <input type="number" #CategorySalary_Salary id="CategorySalary_Salary"
-                            class="form-control" formControlName="salary" name="Salary" />
+                        <input type="number" #CategorySalary_Salary id="CategorySalary_Salary" class="form-control"
+                            formControlName="salary" name="Salary" />
                         <validation-messages [formCtrl]="CategorySalary_Salary"></validation-messages>
                     </div>
 
@@ -36,30 +35,17 @@
                         <label for="CategorySalary_Category">{{ l('Category') }}</label>
                         <select class="form-select" #CategorySalary_Category name="Category"
                             id="CategorySalary_Category" formControlName="category">
-
                             <option *ngFor="let item of allCategories" value="{{ item.id }}">
                                 {{ item.displayName }}
                             </option>
-                            <!-- <option value="0">{{ l('Permanent') }}</option>
-
-                            <option value="1">{{ l('Temporary') }}</option>
-
-                            <option value="2">{{ l('ChildDevelopment') }}</option>
-
-                            <option value="3">{{ l('Donation') }}</option>
-
-                            <option value="4">{{ l('Helper') }}</option>
-
-                            <option value="5">{{ l('Contract') }}</option> -->
                         </select>
                         <validation-messages [formCtrl]="CategorySalary_Category"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="CategorySalary_TechnicalAmount">{{ l('TechnicalAmount') }}</label>
-                        <input type="number" #CategorySalary_TechnicalAmount
-                            id="CategorySalary_TechnicalAmount" class="form-control"
-                            formControlName="technicalAmount" name="TechnicalAmount" />
+                        <input type="number" #CategorySalary_TechnicalAmount id="CategorySalary_TechnicalAmount"
+                            class="form-control" formControlName="technicalAmount" name="TechnicalAmount" />
                         <validation-messages [formCtrl]="CategorySalary_TechnicalAmount"></validation-messages>
                     </div>
                 </div>
@@ -67,8 +53,8 @@
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
                         {{ l('Cancel') }}
                     </button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid"
-                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()">
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!form.valid" [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')" (click)="save()">
                         <i class="fa fa-save"></i>
                         <span>{{ l('Save') }}</span>
                     </button>

@@ -11,7 +11,7 @@
                 <button id="btn_create_tbl_PrincipalAllowanceSetting"
                     *ngIf="isGranted('Pages.PrincipalAllowanceSettings.Create')"
                     (click)="createTbl_PrincipalAllowanceSetting()" class="btn btn-primary blue"><i
-                        class="fa fa-plus"></i> {{l("CreateNewPrincipalAllowanceSetting")}}</button>
+                        class="fa fa-plus"></i> {{l("Create")}}</button>
             </div>
         </sub-header>
 
@@ -35,8 +35,6 @@
                                             </span>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                             <div class="row" [hidden]="!advancedFiltersAreShown">
@@ -98,7 +96,7 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Tbl_PrincipalAllowanceSettings.Edit', 'Pages.Tbl_PrincipalAllowanceSettings.Delete')">
+                                            [hidden]="!isGrantedAny('Pages.PrincipalAllowanceSettings.Edit', 'Pages.PrincipalAllowanceSettings.Delete')">
                                             {{l('Actions')}}</th>
                                         <th style="width: 150px" pSortableColumn="employeeLevelFk.name">
                                             {{l('Name')}}
@@ -114,7 +112,7 @@
                                 <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
                                     <tr>
                                         <td style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Tbl_PrincipalAllowanceSettings.Edit', 'Pages.Tbl_PrincipalAllowanceSettings.Delete')">
+                                            [hidden]="!isGrantedAny('Pages.PrincipalAllowanceSettings.Edit', 'Pages.PrincipalAllowanceSettings.Delete')">
                                             <div class="btn-group dropdown" dropdown container="body">
                                                 <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                     <i class="fa fa-cog"></i><span class="caret"></span>
@@ -133,7 +131,7 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Tbl_PrincipalAllowanceSettings.Delete')"
+                                                            *ngIf="permission.isGranted('Pages.PrincipalAllowanceSettings.Delete')"
                                                             (click)="deleteTbl_PrincipalAllowanceSetting(record.id)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>

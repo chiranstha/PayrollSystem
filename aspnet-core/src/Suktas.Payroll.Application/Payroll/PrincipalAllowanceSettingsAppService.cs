@@ -106,6 +106,7 @@ namespace Suktas.Payroll.Payroll
 
             var output = new GetPrincipalAllowanceSettingForEditOutput
             {
+                Id = PrincipalAllowanceSetting?.Id,
                 Amount = PrincipalAllowanceSetting.Amount,
                 EmployeeLevelId = PrincipalAllowanceSetting.EmployeeLevelId
             };

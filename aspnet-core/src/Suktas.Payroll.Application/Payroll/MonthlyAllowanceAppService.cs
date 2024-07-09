@@ -24,18 +24,18 @@ namespace Suktas.Payroll.Payroll
             _monthlyAllowancesRepository = monthlyAllowancesRepository;
         }
 
-        public async Task<List<CreateOrEditMontlyAllowanceDto>> GetAll()
+        public async Task<List<GetMontlyAllowanceForViewDto>> GetAll()
         {
-            var result = new List<CreateOrEditMontlyAllowanceDto>();
+            var result = new List<GetMontlyAllowanceForViewDto>();
             var data = await _monthlyAllowancesRepository.GetAll().ToListAsync();
             foreach (var item in data)
             {
-                result.Add(new CreateOrEditMontlyAllowanceDto
+                result.Add(new GetMontlyAllowanceForViewDto
                 {
                     Id = item.Id,
                     Name = item.Name,
                     Amount = item.Amount,
-                    EmployeeCategory = item.EmployeeCategory
+                    EmployeeCategory = item.EmployeeCategory.ToString()
                 });
             }
             return result;

@@ -137,7 +137,7 @@ namespace Suktas.Payroll.Payroll
 
         public virtual async Task CreateOrEdit(CreateOrEditGradeUpgradeDto input)
         {
-            if (input.Id == null)
+            if (input.Id == null || input.Id == Guid.Empty)
             {
                 await Create(input);
             }
@@ -180,7 +180,6 @@ namespace Suktas.Payroll.Payroll
                 gradeUpgrade.EmployeeId = input.EmployeeId;
                 gradeUpgrade.IsActive = false;
                 await _gradeUpgradeRepository.UpdateAsync(gradeUpgrade);
-                await Create(input);
             }
         }
 
