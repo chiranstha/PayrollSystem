@@ -8,7 +8,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class NepaliDatepickerAngularPrivateService {
+export class NepaliDatepickerPrivateService {
   englishMonths = englishMonths;
   englishLeapMonths = englishLeapMonths;
   nepaliMonths = nepaliMonths;
@@ -32,7 +32,7 @@ export class NepaliDatepickerAngularPrivateService {
       today.getFullYear()
     );
 
-    return nepdate.year + "/" + nepdate.month + "/" + nepdate.day;
+    return nepdate;
   }
 
 

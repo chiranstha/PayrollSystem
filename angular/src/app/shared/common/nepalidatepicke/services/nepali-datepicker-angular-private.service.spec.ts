@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NepaliDatepickerAngularPrivateService } from './nepali-datepicker-angular-private.service';
+import { NepaliDatepickerPrivateService } from './nepali-datepicker-angular-private.service';
 
-describe('NepaliDatepickerAngularPrivateService', () => {
-  let service: NepaliDatepickerAngularPrivateService;
+describe('NepaliDatepickerPrivateService', () => {
+  let service: NepaliDatepickerPrivateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(NepaliDatepickerAngularPrivateService);
+    service = TestBed.inject(NepaliDatepickerPrivateService);
   });
 
   it('should be created', () => {

@@ -27,7 +27,7 @@ import {
   monthsMapping,
   englishMonthMapping,
 } from './constants/mapping';
-import { NepaliDatepickerAngularPrivateService } from './services/nepali-datepicker-angular-private.service';
+import { NepaliDatepickerPrivateService } from './services/nepali-datepicker-angular-private.service';
 import { DatePipe } from '@angular/common';
 import { englishLeapMonths, englishMonths } from './constants/data';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -42,15 +42,14 @@ type DateIn = 'AD' | 'BS';
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => NepaliDatepickerComponent),
-        multi: true,
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NepaliDatepickerComponent),
+      multi: true,
     },
-],
+  ],
 })
 export class NepaliDatepickerComponent
-  implements OnInit, OnChanges, AfterViewInit,ControlValueAccessor
-{
+  implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
   @ViewChild('nepaliDatePicker') nepaliDatePicker!: ElementRef<HTMLDivElement>;
   @Input()
   primaryColor!: string;
@@ -119,7 +118,7 @@ export class NepaliDatepickerComponent
   }
 
   constructor(
-    public _nepaliDate: NepaliDatepickerAngularPrivateService,
+    public _nepaliDate: NepaliDatepickerPrivateService,
     private eRef: ElementRef,
     private _datePipe: DatePipe,
     @Optional() @Inject('config') config: ConfigType
@@ -149,62 +148,84 @@ export class NepaliDatepickerComponent
   propagateTouch = (_: any) => {
   };
   writeValue(value: any) {
-   
+
     this.propagateChange(this.selectedDate);
     if (value) {
-        let minDateArray = value.split('/');
-        let data = {
-            day: parseInt(minDateArray[2]),
-            month: parseInt(minDateArray[1]) - 1,
-            year: parseInt(minDateArray[0]),
-        };
-        this.selectedDate = data;
-        this.currentNepaliDate = data;
-        
+      let minDateArray = value.split('/');
+      let data = {
+        day: parseInt(minDateArray[2]),
+        month: parseInt(minDateArray[1]) - 1,
+        year: parseInt(minDateArray[0]),
+      };
+      this.selectedDate = data;
+      this.currentNepaliDate = data;
 
-        if (this.calendarView == 'BS') {
-          this.selectedDate = { ...this.currentNepaliDate };
-          const en = this._nepaliDate.nepToEngDate(
-            this.selectedDate.day,
-            this.selectedDate.month,
-            this.selectedDate.year
-          );
-          this.englishSelectedDate = {
-            day: en.getDate(),
-            month: en.getMonth(),
-            year: en.getFullYear(),
-          };
-    
-          this.selectedMonthIndex = this.currentNepaliDate.month;
-          this.selectedYear = this.currentNepaliDate.year;
-          this.setNepaliCurrentDate();
-        } else {
-          this.englishSelectedDate = { ...this.englishCurrentDate };
-          this.selectedDate = this._nepaliDate.engToNepDate(
-            this.englishSelectedDate.day,
-            this.englishSelectedDate.month,
-            this.englishSelectedDate.year
-          );
-          this.selectedMonthIndex = this.currentDate.getMonth();
-          this.selectedYear = this.currentDate.getFullYear();
-          this.setNepaliCurrentDate();
-        }
-        this.formatValue();
-        this.emitDateInAD();
-        this.emitDateInBS();
-        this.propagateChange(this.formattedDate);
+
+      if (this.calendarView == 'BS') {
+        this.selectedDate = { ...this.currentNepaliDate };
+        const en = this._nepaliDate.nepToEngDate(
+          this.selectedDate.day,
+          this.selectedDate.month,
+          this.selectedDate.year
+        );
+        this.englishSelectedDate = {
+          day: en.getDate(),
+          month: en.getMonth(),
+          year: en.getFullYear(),
+        };
+
+        this.selectedMonthIndex = this.currentNepaliDate.month;
+        this.selectedYear = this.currentNepaliDate.year;
+        this.setNepaliCurrentDate();
+      } else {
+        this.englishSelectedDate = { ...this.englishCurrentDate };
+        this.selectedDate = this._nepaliDate.engToNepDate(
+          this.englishSelectedDate.day,
+          this.englishSelectedDate.month,
+          this.englishSelectedDate.year
+        );
+        this.selectedMonthIndex = this.currentDate.getMonth();
+        this.selectedYear = this.currentDate.getFullYear();
+        this.setNepaliCurrentDate();
+      }
+      this.formatValue();
+      this.emitDateInAD();
+      this.emitDateInBS();
+      this.propagateChange(this.formattedDate);
     } else {
-        this.setCurrentDate();
+
+
+      this.selectedDate = this._nepaliDate.setCurrentNepaliDate();
+      this.currentNepaliDate = this._nepaliDate.setCurrentNepaliDate();
+      this.selectedDate = { ...this.currentNepaliDate };
+      const en = this._nepaliDate.nepToEngDate(
+        this.selectedDate.day,
+        this.selectedDate.month,
+        this.selectedDate.year
+      );
+      this.englishSelectedDate = {
+        day: en.getDate(),
+        month: en.getMonth(),
+        year: en.getFullYear(),
+      };
+
+      this.selectedMonthIndex = this.currentNepaliDate.month;
+      this.selectedYear = this.currentNepaliDate.year;
+      this.formattedDate = this.selectedDate.year + "/" + this.selectedDate.month + "/" + this.selectedDate.day;
+      this.setNepaliCurrentDate();
+      this.emitDateInAD();
+      this.emitDateInBS();
+      this.propagateChange(this.formattedDate);
 
     }
-}
-registerOnTouched() {
-}
+  }
+  registerOnTouched() {
+  }
 
-registerOnChange(fn: any) {
+  registerOnChange(fn: any) {
     this.propagateChange = fn;
-}
- 
+  }
+
 
   ngOnInit() {
     this.setCurrentDate();
@@ -471,7 +492,7 @@ registerOnChange(fn: any) {
     this.setMonthDataBefore(day - 1, this.currentNepaliDate.day - 1);
     let currentMonthMaxValue =
       this._nepaliDate.nepaliMonths[this.currentNepaliDate.year - 2000][
-        this.currentNepaliDate.month
+      this.currentNepaliDate.month
       ];
 
     this.setMonthDataAfter(
@@ -483,8 +504,7 @@ registerOnChange(fn: any) {
 
   private fillEnglishCalendar() {
     const day = new Date(
-      `${this.englishCurrentDate.year}/${this.englishCurrentDate.month + 1}/${
-        this.englishCurrentDate.day || 1
+      `${this.englishCurrentDate.year}/${this.englishCurrentDate.month + 1}/${this.englishCurrentDate.day || 1
       }`
     ).getDay();
     const currentEnglishDate = this.englishCurrentDate.day;
@@ -790,27 +810,27 @@ registerOnChange(fn: any) {
   fdDateChanges(e: any) {
 
     this.selectedDate = this._nepaliDate.engToNepDate(
-        e.getDate(),
-        e.getMonth(),
-        e.getFullYear()
+      e.getDate(),
+      e.getMonth(),
+      e.getFullYear()
     );
 
     this.currentNepaliDate = this._nepaliDate.engToNepDate(
-        e.getDate(),
-        e.getMonth(),
-        e.getFullYear()
+      e.getDate(),
+      e.getMonth(),
+      e.getFullYear()
     );
 
 
     this.currentDate = this._nepaliDate.nepToEngDate(
-        this.selectedDate.year,
-        this.selectedDate.month,
-        this.selectedDate.day
+      this.selectedDate.year,
+      this.selectedDate.month,
+      this.selectedDate.day
     );
 
 
     this.formatValue();
     //this.close();
     this.propagateChange(this.formattedDate);
-}
+  }
 }

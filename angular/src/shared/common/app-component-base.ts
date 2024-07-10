@@ -18,7 +18,7 @@ import '@shared/service-proxies/tenant-login-info-dto-extensions';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerTextService } from '@app/shared/ngx-spinner-text.service';
 import { NepaliDatepickerService } from '@app/shared/common/nepalidatepicke/services/nepali-datepicker-angular.service';
-import { NepaliDatepickerAngularPrivateService } from '@app/shared/common/nepalidatepicke/services/nepali-datepicker-angular-private.service';
+import { NepaliDatepickerPrivateService } from '@app/shared/common/nepalidatepicke/services/nepali-datepicker-angular-private.service';
 
 interface AbpEventSubscription {
     eventName: string;
@@ -47,7 +47,7 @@ export abstract class AppComponentBase implements OnDestroy {
     eventSubscriptions: AbpEventSubscription[] = [];
 
     private ngxSpinnerTextService: NgxSpinnerTextService;
-    private nepaliDateService: NepaliDatepickerAngularPrivateService;
+    private nepaliDateService: NepaliDatepickerPrivateService;
     
 
     constructor(injector: Injector) {
@@ -65,7 +65,7 @@ export abstract class AppComponentBase implements OnDestroy {
         this.primengTableHelper = new PrimengTableHelper();
         this.spinnerService = injector.get(NgxSpinnerService);
         this.ngxSpinnerTextService = injector.get(NgxSpinnerTextService);
-        this.nepaliDateService = injector.get(NepaliDatepickerAngularPrivateService);
+        this.nepaliDateService = injector.get(NepaliDatepickerPrivateService);
     }
 
     get currentTheme(): UiCustomizationSettingsDto {
