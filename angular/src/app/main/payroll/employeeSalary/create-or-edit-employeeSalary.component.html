@@ -92,15 +92,17 @@
 
                     <div class="form-group">
                         <label for="EmployeeSalary_DateMiti">{{ l('DateMiti') }}</label>
-                        <input
-                            type="text"
-                            #EmployeeSalary_DateMiti
-                            id="EmployeeSalary_DateMiti"
-                            class="form-control"
-                           formControlName="dateMiti"
-                            name="DateMiti"
-                        />
-                        <validation-messages [formCtrl]="EmployeeSalary_DateMiti"></validation-messages>
+                        <npdual-datepicker [formControl]="form.controls['dateMiti']"
+                                        id="dateMiti"></npdual-datepicker>
+
+                                    <div *ngIf="
+                      this.form.get('dateMiti').invalid &&
+                      (this.form.get('dateMiti').dirty || this.form.get('dateMiti').touched)
+                    ">
+                                        <div class="alert alert-danger alert-height mt-1" role="alert">
+                                            <div class="alert-div">DateMiti is required!</div>
+                                        </div>
+                                    </div>
                     </div>
 
                     <div class="form-group">

@@ -15,7 +15,7 @@ import {ViewGradeUpgradeModalComponent} from './view-gradeUpgrade-modal.componen
         ViewGradeUpgradeModalComponent,
         
     ],
-    imports: [AppSharedModule, GradeUpgradeRoutingModule , AdminSharedModule ],
+    imports: [AppSharedModule, GradeUpgradeRoutingModule , AdminSharedModule, ],
     
 })
 export class GradeUpgradeModule {
