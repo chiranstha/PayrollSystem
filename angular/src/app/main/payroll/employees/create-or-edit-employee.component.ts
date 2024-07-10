@@ -57,8 +57,7 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
 
 
     createForm(item: any = {}) {
-        this.form = this.fb.group({
-          
+        this.form = this.fb.group({          
             category: [item.category??""],
             providentFund: [item.providentFund??""],
             panNo: [item.panNo??""],
@@ -66,8 +65,8 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
             name: [item.name??""],
             bankName: [item.bankName??""],
             bankAccountNo: [item.bankAccountNo??""],
-            pansionMiti: [item.pansionMiti],
-            dateOfJoinMiti: [item.dateOfJoinMiti],
+            pansionMiti: [item.pansionMiti || '2081/3/20'],
+            dateOfJoinMiti: [item.dateOfJoinMiti || '2081/3/20'],
             insuranceAmount: [item.insuranceAmount??0],
             isDearnessAllowance: [item.isDearnessAllowance??false],
             addEPF: [item.addEPF??false],
@@ -79,13 +78,7 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
             technicalGrade: [item.technicalGrade],
             employeeLevelId: [item.employeeLevelId],
             schoolInfoId: [item.schoolInfoId],
-            id: [item.id]
-
-
-
-
-        
-            
+            id: [item.id]            
         });
     }
 

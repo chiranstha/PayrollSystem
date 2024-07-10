@@ -130,20 +130,48 @@
                         <validation-messages [formCtrl]="Employee_BankAccountNo"></validation-messages>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="Employee_PansionMiti">{{ l('PansionMiti') }}</label>
                         <input type="text" #Employee_PansionMiti id="Employee_PansionMiti"
                             class="form-control" formControlName="pansionMiti" name="PansionMiti" />
                         <validation-messages [formCtrl]="Employee_PansionMiti"></validation-messages>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
+						<label for="Employee_PansionMiti">{{l("PansionMiti")}}</label>
+						<ne-datepicker [formControl]="form.controls['pansionMiti']" language="en" id="pansionMiti"></ne-datepicker>
+
+						<div *ngIf="
+                      this.form.get('pansionMiti').invalid &&
+                      (this.form.get('pansionMiti').dirty || this.form.get('pansionMiti').touched)
+                    ">
+							<div class="alert alert-danger alert-height mt-1" role="alert">
+								<div class="alert-div">DateMiti is required!</div>
+							</div>
+						</div>
+					</div>
+
+                    <!-- <div class="form-group">
                         <label for="Employee_DateOfJoinMiti">{{ l('DateOfJoinMiti') }}</label>
                         <input type="text" #Employee_DateOfJoinMiti id="Employee_DateOfJoinMiti"
                             class="form-control" formControlName="dateOfJoinMiti" name="DateOfJoinMiti" />
                         <validation-messages [formCtrl]="Employee_DateOfJoinMiti"></validation-messages>
-                    </div>
+                    </div> -->
 
+
+                    <div class="form-group">
+						<label for="Employee_DateOfJoinMiti">{{l("DateOfJoinMiti")}}</label>
+						<ne-datepicker [formControl]="form.controls['dateOfJoinMiti']" language="en" id="dateOfJoinMiti"></ne-datepicker>
+
+						<div *ngIf="
+                      this.form.get('dateOfJoinMiti').invalid &&
+                      (this.form.get('dateOfJoinMiti').dirty || this.form.get('dateOfJoinMiti').touched)
+                    ">
+							<div class="alert alert-danger alert-height mt-1" role="alert">
+								<div class="alert-div">DateMiti is required!</div>
+							</div>
+						</div>
+					</div>
                     <br />
                     <div class="m-checkbox-list">
                         <label for="Employee_IsDearnessAllowance" class="kt-checkbox">

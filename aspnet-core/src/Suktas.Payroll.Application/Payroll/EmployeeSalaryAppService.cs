@@ -371,6 +371,21 @@ namespace Suktas.Payroll.Payroll
             int sn = 1;
             foreach (var employee in employees)
             {
+                // new added start                
+                var employeeSalaryDetailNew = await _employeeSalaryDetailNewRepository.GetAll().Include(x => x.EmployeeSalaryMasterNewFk)
+                    .Where(x => x.EmployeeId == employee.Id && x.EmployeeSalaryMasterNewFk.Year == input.Year)
+                    .ToListAsync();
+                var paidMonths = await _employeeSalaryMasterMonthNew.GetAll()
+                    .Where(x => employeeSalaryDetailNew.Select(y => y.EmployeeSalaryMasterNewId).Contains(x.EmployeeSalaryMasterNewId)).ToListAsync();
+                List<Months> unPaidMonths = new List<Months>();
+                foreach(var toPay in input.Months)
+                {
+                    if (paidMonths.Select(x => x.Month).Contains(toPay))
+                        continue;
+                    else
+                        unPaidMonths.Add(toPay);
+                }
+                // new added end
                 var monthlyAllowance = monthlyAllowances.Where(x => x.EmployeeCategory == employee.Category).ToList();
                 var data = new CreateEmployeeSalaryNewDto
                 {
@@ -389,8 +404,8 @@ namespace Suktas.Payroll.Payroll
                     InsuranceAmount = employee.InsuranceAmount,
                     InflationAllowance = monthlyAllowance.Count > 0 ? monthlyAllowance.Sum(x => x.Amount) : 0,
                     PrincipalAllowance = employee.IsPrincipal ? principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId) == null ? 0 : principalAllowanceSettins.FirstOrDefault(x => x.EmployeeLevelId == employee.EmployeeLevelId).Amount : 0,
-                    Month = input.Months.Count,
-                    MonthNames = string.Join(',', input.Months.Select(x => x.ToString())),
+                    Month = unPaidMonths.Count,
+                    MonthNames = string.Join(',', unPaidMonths.Select(x => x.ToString())),
                     InternalAmount = 0,
                 };
                 data.GradeRate = Math.Round(data.BasicSalary / 30, 0);

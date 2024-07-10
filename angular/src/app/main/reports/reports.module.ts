@@ -8,8 +8,10 @@ import { CommonModule } from "@angular/common";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { LevelWiseReportComponent } from "./levelWiseReport/levelWiseReport.component";
 import { TopicWiseReportComponent } from "./topicWiseReport/topicWiseReport.component";
+import { PhaseReportComponent } from "./phaseWiseReport/phaseReport.component";
+import { TeacherReportComponent } from "./teacherReport/teacherReport.component";
 
 @NgModule({
-    declarations: [SalaryReportComponent, SchoolWiseReportComponent, LevelWiseReportComponent,TopicWiseReportComponent],
+    declarations: [SalaryReportComponent, SchoolWiseReportComponent, LevelWiseReportComponent,TopicWiseReportComponent,PhaseReportComponent,TeacherReportComponent],
     imports: [AppSharedModule, ReportsRoutingModule, AdminSharedModule, NgSelectModule]
 }) export class ReportsModule { } 

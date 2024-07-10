@@ -1,0 +1,84 @@
+<div>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <!-- <sub-header [title]="'Salary Report' | localize">
+            <div role="actions">
+                <button (click)="Excel()" class="btn btn-outline btn-outline-success btn-active-light-success me-1">
+                    <i class="fa fa-file-excel"></i>
+                    {{ l('ExportToExcel') }}
+                </button>
+            </div>
+        </sub-header> -->
+
+        <form [formGroup]="form">
+            <div [class]="containerClass">
+                <div class="card card-bordered p-4">
+                    <div>
+                        <div class="row">
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label" for="Year">Year</label>
+                                <input (change)="GetSalaries()" type="number" class="form-control"
+                                    formControlName="year" name="year" />
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <button (click)="GetSalaries()" class="btn btn-outline btn-active-success mt-8"><i
+                                        class="fa fa-search"></i>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div [class]="containerClass">
+            <div class="overflow-x-auto card card-bordered p-4">
+                <table class="table table-row-dashed table-row-gray-300 table-striped">
+                    <thead>
+                        <tr class="bg-tableHead text-center">
+                            <th><b>S.N.</b></th>
+                            <th><b>Months</b></th>
+                            <th><b>Schools</b></th>
+                            <th><b>Total Amount</b></th>
+                            <th><b>Due Amount</b></th>
+                            <th><b>Extra Amount</b></th>
+                            <th><b>Final Amount</b></th>
+                            <th><b>Remarks</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of data; let i = index" class="text-center">
+                            <td>
+                                {{ i+1 }}.
+                            </td>
+                            <td>
+                                {{ row.months }}
+                            </td>
+                            <td>
+                                {{ row.schools }}
+                            </td>
+                            <td>
+                                {{ row.totalAmount }}
+                            </td>
+                            <td>
+                                {{ row.dueAmount }}
+                            </td>
+                            <td>
+                                {{ row.extraAmount }}
+                            </td>
+                            <td>
+                                {{ row.finalAmount }}
+                            </td>
+                            <td>
+                                {{ row.remarks }}
+                            </td>
+
+                        <tr *ngIf="!data || !data.length">
+                            <td> No Results Found!</td>
+                        </tr>
+                    </tbody>
+                    <tfoot fd-table-footer>
+                        <!-- {{ confirmationReason }} -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -597,6 +597,7 @@ namespace Suktas.Payroll.Migrations
                     DueAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ExtraAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FinalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

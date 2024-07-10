@@ -31,7 +31,7 @@ export class AppNavigationService {
                     new AppMenuItem('Principal Allowance', 'Pages.PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/tbl_PrincipalAllowanceSettings'),
                     new AppMenuItem('Monthly Allowance', 'Pages.PrincipalAllowanceSettings', 'flaticon-more', '/app/main/payroll/monthlyAllowance'),
                 ]),
-            new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
+         //   new AppMenuItem('FinancialYears', 'Pages.FinancialYears', 'flaticon-more', '/app/main/master/financialYears'),
             new AppMenuItem('Employees', 'Pages.Employees', 'flaticon-more', '/app/main/payroll/employees'),
         //    new AppMenuItem('EmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/employeeSalary'),
             new AppMenuItem('GenerateEmployeeSalary', 'Pages.EmployeeSalary', 'flaticon-more', '/app/main/payroll/generateEmployeeSalary'),
@@ -42,6 +42,8 @@ export class AppNavigationService {
                 new AppMenuItem('School Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/schoolWiseReport'),
                 new AppMenuItem('Level Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/levelWiseReport'),
                 new AppMenuItem('Topic Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/topicWiseReport'),
+                new AppMenuItem('Phase Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/phaseReport'),
+                new AppMenuItem('Teacher Wise Report', 'Pages.GradeUpgrades', 'fa-regular fa-file-chart-column', '/app/main/reports/teacherReport'),
             ]),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(

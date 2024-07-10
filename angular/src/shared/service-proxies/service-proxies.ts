@@ -16047,6 +16047,195 @@ export class ReportsServiceProxy {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param year (optional) 
+     * @return Success
+     */
+    phaseWiseReport(year: number | undefined): Observable<PhaseWiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/PhaseWiseReport?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPhaseWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPhaseWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PhaseWiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PhaseWiseReportDto[]>;
+        }));
+    }
+
+    protected processPhaseWiseReport(response: HttpResponseBase): Observable<PhaseWiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PhaseWiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param year (optional) 
+     * @param teacherId (optional) 
+     * @return Success
+     */
+    teacherWiseReport(year: number | undefined, teacherId: string | undefined): Observable<TeacherWiseReportDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/TeacherWiseReport?";
+        if (year === null)
+            throw new Error("The parameter 'year' cannot be null.");
+        else if (year !== undefined)
+            url_ += "year=" + encodeURIComponent("" + year) + "&";
+        if (teacherId === null)
+            throw new Error("The parameter 'teacherId' cannot be null.");
+        else if (teacherId !== undefined)
+            url_ += "teacherId=" + encodeURIComponent("" + teacherId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTeacherWiseReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTeacherWiseReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<TeacherWiseReportDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<TeacherWiseReportDto[]>;
+        }));
+    }
+
+    protected processTeacherWiseReport(response: HttpResponseBase): Observable<TeacherWiseReportDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(TeacherWiseReportDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllEmployee(): Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Reports/GetAllEmployee";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEmployee(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEmployee(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]>;
+        }));
+    }
+
+    protected processGetAllEmployee(response: HttpResponseBase): Observable<EmployeeSalaryEmployeeLevelLookupTableDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EmployeeSalaryEmployeeLevelLookupTableDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -35493,6 +35682,66 @@ export enum PercentOrAmount {
     Amount = 1,
 }
 
+export class PhaseWiseReportDto implements IPhaseWiseReportDto {
+    months!: string | undefined;
+    schools!: string | undefined;
+    totalAmount!: number;
+    dueAmount!: number;
+    extraAmount!: number;
+    finalAmount!: number;
+    remarks!: string | undefined;
+
+    constructor(data?: IPhaseWiseReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.months = _data["months"];
+            this.schools = _data["schools"];
+            this.totalAmount = _data["totalAmount"];
+            this.dueAmount = _data["dueAmount"];
+            this.extraAmount = _data["extraAmount"];
+            this.finalAmount = _data["finalAmount"];
+            this.remarks = _data["remarks"];
+        }
+    }
+
+    static fromJS(data: any): PhaseWiseReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PhaseWiseReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["months"] = this.months;
+        data["schools"] = this.schools;
+        data["totalAmount"] = this.totalAmount;
+        data["dueAmount"] = this.dueAmount;
+        data["extraAmount"] = this.extraAmount;
+        data["finalAmount"] = this.finalAmount;
+        data["remarks"] = this.remarks;
+        return data;
+    }
+}
+
+export interface IPhaseWiseReportDto {
+    months: string | undefined;
+    schools: string | undefined;
+    totalAmount: number;
+    dueAmount: number;
+    extraAmount: number;
+    finalAmount: number;
+    remarks: string | undefined;
+}
+
 export class PrincipalAllowanceSettingEmployeeLevelLookupTableDto implements IPrincipalAllowanceSettingEmployeeLevelLookupTableDto {
     id!: string | undefined;
     displayName!: string | undefined;
@@ -37377,6 +37626,118 @@ export interface ISwitchedAccountAuthenticateResultModel {
     accessToken: string | undefined;
     encryptedAccessToken: string | undefined;
     expireInSeconds: number;
+}
+
+export class TeacherWiseReportDto implements ITeacherWiseReportDto {
+    basicSalary!: number;
+    grade!: number;
+    gradeRate!: number;
+    gradeAmount!: number;
+    technicalGradeAmount!: number;
+    totalGradeAmount!: number;
+    total!: number;
+    epfAmount!: number;
+    insuranceAmount!: number;
+    totalSalary!: number;
+    inflationAllowance!: number;
+    principalAllowance!: number;
+    totalSalaryAmount!: number;
+    month!: number;
+    monthNames!: string | undefined;
+    totalForAllMonths!: number;
+    festivalAllowance!: number;
+    totalWithAllowanceForAllMonths!: number;
+    internalAmount!: number;
+    totalPaidAmount!: number;
+
+    constructor(data?: ITeacherWiseReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.basicSalary = _data["basicSalary"];
+            this.grade = _data["grade"];
+            this.gradeRate = _data["gradeRate"];
+            this.gradeAmount = _data["gradeAmount"];
+            this.technicalGradeAmount = _data["technicalGradeAmount"];
+            this.totalGradeAmount = _data["totalGradeAmount"];
+            this.total = _data["total"];
+            this.epfAmount = _data["epfAmount"];
+            this.insuranceAmount = _data["insuranceAmount"];
+            this.totalSalary = _data["totalSalary"];
+            this.inflationAllowance = _data["inflationAllowance"];
+            this.principalAllowance = _data["principalAllowance"];
+            this.totalSalaryAmount = _data["totalSalaryAmount"];
+            this.month = _data["month"];
+            this.monthNames = _data["monthNames"];
+            this.totalForAllMonths = _data["totalForAllMonths"];
+            this.festivalAllowance = _data["festivalAllowance"];
+            this.totalWithAllowanceForAllMonths = _data["totalWithAllowanceForAllMonths"];
+            this.internalAmount = _data["internalAmount"];
+            this.totalPaidAmount = _data["totalPaidAmount"];
+        }
+    }
+
+    static fromJS(data: any): TeacherWiseReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TeacherWiseReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["basicSalary"] = this.basicSalary;
+        data["grade"] = this.grade;
+        data["gradeRate"] = this.gradeRate;
+        data["gradeAmount"] = this.gradeAmount;
+        data["technicalGradeAmount"] = this.technicalGradeAmount;
+        data["totalGradeAmount"] = this.totalGradeAmount;
+        data["total"] = this.total;
+        data["epfAmount"] = this.epfAmount;
+        data["insuranceAmount"] = this.insuranceAmount;
+        data["totalSalary"] = this.totalSalary;
+        data["inflationAllowance"] = this.inflationAllowance;
+        data["principalAllowance"] = this.principalAllowance;
+        data["totalSalaryAmount"] = this.totalSalaryAmount;
+        data["month"] = this.month;
+        data["monthNames"] = this.monthNames;
+        data["totalForAllMonths"] = this.totalForAllMonths;
+        data["festivalAllowance"] = this.festivalAllowance;
+        data["totalWithAllowanceForAllMonths"] = this.totalWithAllowanceForAllMonths;
+        data["internalAmount"] = this.internalAmount;
+        data["totalPaidAmount"] = this.totalPaidAmount;
+        return data;
+    }
+}
+
+export interface ITeacherWiseReportDto {
+    basicSalary: number;
+    grade: number;
+    gradeRate: number;
+    gradeAmount: number;
+    technicalGradeAmount: number;
+    totalGradeAmount: number;
+    total: number;
+    epfAmount: number;
+    insuranceAmount: number;
+    totalSalary: number;
+    inflationAllowance: number;
+    principalAllowance: number;
+    totalSalaryAmount: number;
+    month: number;
+    monthNames: string | undefined;
+    totalForAllMonths: number;
+    festivalAllowance: number;
+    totalWithAllowanceForAllMonths: number;
+    internalAmount: number;
+    totalPaidAmount: number;
 }
 
 export enum TechnicalGrade {

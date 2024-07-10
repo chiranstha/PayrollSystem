@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Twilio.Rest.Messaging.V1;
 
 namespace Suktas.Payroll.Payroll
 {
@@ -17,10 +18,12 @@ namespace Suktas.Payroll.Payroll
         private readonly IRepository<EmployeeLevel, Guid> _employeeLevelRepository;
         private readonly IRepository<EmployeeSalaryMasterMonthNew, Guid> _employeeSalaryMasterMonthNew;
         private readonly IRepository<SchoolInfo, Guid> _lookupSchoolInfoRepository;
+        private readonly IRepository<Employee, Guid> _employeeRepository;
 
         public ReportsAppService(IRepository<EmployeeSalaryDetailNew, Guid> employeeSalaryDetailRepository,
             IRepository<EmployeeLevel, Guid> employeeLevelRepository,
             IRepository<SchoolInfo, Guid> lookupSchoolInfoRepository,
+            IRepository<Employee, Guid> employeeRepository,
             IRepository<EmployeeSalaryMasterMonthNew, Guid> employeeSalaryMasterMonthNew,
             IRepository<EmployeeSalaryMasterNew, Guid> employeeSalaryMasterRepository)
         {
@@ -28,6 +31,7 @@ namespace Suktas.Payroll.Payroll
             _employeeLevelRepository = employeeLevelRepository;
             _lookupSchoolInfoRepository = lookupSchoolInfoRepository;
             _employeeSalaryMasterMonthNew = employeeSalaryMasterMonthNew;
+            _employeeRepository = employeeRepository;
             _employeeSalaryDetailNewRepository = employeeSalaryDetailRepository;
         }
 
@@ -130,6 +134,70 @@ namespace Suktas.Payroll.Payroll
                     Id = schoolInfo.Id,
                     DisplayName = schoolInfo == null || schoolInfo.Name == null ? "" : schoolInfo.Name.ToString()
                 }).ToListAsync();
+        }
+
+        public async Task<List<PhaseWiseReportDto>> PhaseWiseReport(int year)
+        {
+            var result = new List<PhaseWiseReportDto>();
+            var data = await _employeeSalaryMasterNew.GetAll().Where(x => x.Year == year && x.TenantId == AbpSession.TenantId).ToListAsync();
+            foreach(var datum in data)
+            {
+                var schools = await _employeeSalaryDetailNewRepository.GetAll()
+                    .Where(x => x.EmployeeSalaryMasterNewId == datum.Id)
+                    .Select(x => x.SchoolInfoId).Distinct().ToListAsync();
+                var school = await _lookupSchoolInfoRepository.GetAll().Where(x => schools.Contains(x.Id)).Select(x => x.Name).ToListAsync();
+                var dat = new PhaseWiseReportDto
+                {
+                    Months = datum.Months,
+                    Schools = string.Join(",", school),
+                    TotalAmount = datum.TotalAmount,
+                    DueAmount = datum.DueAmount,
+                    ExtraAmount = datum.ExtraAmount,
+                    FinalAmount = datum.FinalAmount,
+                    Remarks = datum.Remarks,
+                };
+                result.Add(dat);
+            }
+            return result;
+        }
+
+        public async Task<List<TeacherWiseReportDto>> TeacherWiseReport(int year, Guid teacherId)
+        {
+            var data = await _employeeSalaryDetailNewRepository.GetAll().Include(x => x.EmployeeSalaryMasterNewFk)
+                .Where(x => x.EmployeeId == teacherId && x.EmployeeSalaryMasterNewFk.Year == year)
+                .Select(x => new TeacherWiseReportDto
+                {
+                    BasicSalary = x.BasicSalary,
+                    Grade = x.Grade,
+                    GradeAmount = x.GradeAmount,
+                    TechnicalGradeAmount = x.TechnicalGradeAmount,
+                    TotalGradeAmount = x.TotalGradeAmount,
+                    Total = x.Total,
+                    EPFAmount = x.EPFAmount,
+                    InflationAllowance = x.InflationAllowance,
+                    InsuranceAmount = x.InsuranceAmount,
+                    TotalSalary = x.TotalSalary,
+                    InternalAmount = x.InternalAmount,
+                    FestivalAllowance = x.FestivalAllowance,
+                    PrincipalAllowance = x.PrincipalAllowance,
+                    TotalForAllMonths = x.TotalForAllMonths,
+                    TotalPaidAmount = x.TotalPaidAmount,
+                    TotalSalaryAmount = x.TotalSalaryAmount,
+                    TotalWithAllowanceForAllMonths = x.TotalWithAllowanceForAllMonths,
+                    GradeRate = x.GradeRate,
+                    Month = x.Month,
+                    MonthNames = x.MonthNames,
+                }).ToListAsync();
+            return data;
+        }
+
+        public async Task<List<EmployeeSalaryEmployeeLevelLookupTableDto>> GetAllEmployee()
+        {
+            return (await _employeeRepository.GetAll().Select(x => new EmployeeSalaryEmployeeLevelLookupTableDto
+            {
+                Id = x.Id,
+                DisplayName = x.Name
+            }).ToListAsync());
         }
     }
 }
