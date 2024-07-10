@@ -161,7 +161,7 @@ export class CreateGenerateEmployeeSalaryComponent extends AppComponentBase impl
         this.createData = new CreateSalaryNewDto();
         this.createData.data = this.data;
         this.createData.months = month;
-        this.createData.year = 2081;
+        this.createData.year = this.form.get('year').value;
         var totalAmount = this.form.get('totalAmount').value;
         var dueAmount = this.form.get('dueAmount').value;
         var extraAmount = this.form.get('extraAmount').value;
