@@ -8,18 +8,15 @@
                 <div class="card card-custom gutter-b">
                     <div class="card-body">
                         <div class="row">
+
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                                <div class="form-group m-form__group">
-                                    <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
-                                    <select name="employeeLevelId" formControlName="employeeLevelId" class="form-select"
-                                        required>
-                                        <option value="">{{ l('SelectAEmployeeLevel') }}</option>
-                                        <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
-                                            {{ item.displayName }}
-                                        </option>
-                                    </select>
-                                </div>
+                                <label for="Employee_Name">{{ l('Name') }}</label>
+                                <input type="text" #Employee_Name id="Employee_Name" class="form-control"
+                                    formControlName="name" name="Name" />
+                                <validation-messages [formCtrl]="Employee_Name"></validation-messages>
                             </div>
+
+
 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
                                 <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
@@ -85,12 +82,22 @@
                                 </select>
                                 <validation-messages [formCtrl]="Employee_Category"></validation-messages>
                             </div>
+
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                                <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
-                                <input type="text" #Employee_ProvidentFund id="Employee_ProvidentFund"
-                                    class="form-control" formControlName="providentFund" name="ProvidentFund" />
-                                <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
+                                <div class="form-group m-form__group">
+                                    <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
+                                    <select name="employeeLevelId" formControlName="employeeLevelId" class="form-select"
+                                        required>
+                                        <option value="">{{ l('SelectAEmployeeLevel') }}</option>
+                                        <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
+
+
+
                         </div>
                         <br />
                         <div class="row">
@@ -111,19 +118,20 @@
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
                                 <label for="Employee_InsuranceAmount">{{ l('Insurance Amount') }}</label>
                                 <input type="number" #Employee_InsuranceAmount id="Employee_InsuranceAmount"
-                                    class="form-control" formControlName="insuranceAmount" name="InsuranceAmount" />
+                                    class="form-control" formControlName="insuranceAmount" name="InsuranceAmount"
+                                    min="0" />
                                 <validation-messages [formCtrl]="Employee_InsuranceAmount"></validation-messages>
                             </div>
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                                <label for="Employee_Name">{{ l('Name') }}</label>
-                                <input type="text" #Employee_Name id="Employee_Name" class="form-control"
-                                    formControlName="name" name="Name" />
-                                <validation-messages [formCtrl]="Employee_Name"></validation-messages>
-                            </div>
 
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
+                                <input type="text" #Employee_ProvidentFund id="Employee_ProvidentFund"
+                                    class="form-control" formControlName="providentFund" name="ProvidentFund" />
+                                <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
+                            </div>
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
                                 <label for="Employee_BankName">{{ l('BankName') }}</label>
                                 <input type="text" #Employee_BankName id="Employee_BankName" class="form-control"
@@ -181,7 +189,7 @@
                             <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                                 <label class="form-label">Amount</label>
                                 <input type="number" class="form-control" formControlName="municipalityAmount"
-                                name="municipalityAmount" />
+                                    name="municipalityAmount" />
                             </div>
                         </div>
                         <br />
@@ -217,12 +225,12 @@
                             </div>
                             <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                                 <input type="number" class="form-control" formControlName="provincePercent"
-                                name="provincePercent" />
+                                    name="provincePercent" />
                             </div>
                             <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                                 <input type="number" class="form-control" formControlName="provinceAmount"
                                     name="provinceAmount" />
-                            </div>                           
+                            </div>
                         </div>
                         <br />
                         <div class="row">
@@ -263,7 +271,7 @@
                             <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
                                 <input type="number" class="form-control" formControlName="stateAmount"
                                     name="stateAmount" />
-                            </div>                    
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
