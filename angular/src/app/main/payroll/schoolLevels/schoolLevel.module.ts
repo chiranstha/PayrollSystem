@@ -5,7 +5,7 @@ import { SchoolLevelRoutingModule } from './schoolLevel-routing.module';
 import { CreateOrEditSchoolLevelModalComponent } from './create-or-edit-schoolLevel-modal.component';
 import { ViewSchoolLevelModalComponent } from './view-schoolLevel-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SchoolLevelsComponent } from './employeeLevels.component';
+import { SchoolLevelsComponent } from './schoolLevels.component';
 
 @NgModule({
     declarations: [SchoolLevelsComponent, CreateOrEditSchoolLevelModalComponent, ViewSchoolLevelModalComponent],

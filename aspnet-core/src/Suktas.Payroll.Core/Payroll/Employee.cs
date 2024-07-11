@@ -37,7 +37,12 @@ namespace Suktas.Payroll.Payroll
 
         public virtual bool IsInternal { get; set; }
         public virtual bool IsTechnical { get; set; }
-
+        public virtual decimal MunicipalityPercent { get; set; }
+        public virtual decimal MunicipalityAmount { get; set; }
+        public virtual decimal ProvincePercent { get; set; }
+        public virtual decimal ProvinceAmount { get; set; }
+        public virtual decimal StatePercent { get; set; }
+        public virtual decimal StateAmount { get; set; }
         public virtual Guid EmployeeLevelId { get; set; }
 
         [ForeignKey("EmployeeLevelId")]

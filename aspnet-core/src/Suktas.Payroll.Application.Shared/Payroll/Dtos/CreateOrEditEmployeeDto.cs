@@ -39,6 +39,13 @@ namespace Suktas.Payroll.Payroll.Dtos
         public bool IsInternal { get; set; }
         public bool IsTechnical { get; set; }
 
+        public decimal MunicipalityPercent { get; set; }
+        public decimal MunicipalityAmount { get; set; }
+        public decimal ProvincePercent { get; set; }
+        public decimal ProvinceAmount { get; set; }
+        public decimal StatePercent { get; set; }
+        public decimal StateAmount { get; set; }
+
         public EmployeeGrade Grade { get; set; }
         public TechnicalGrade TechnicalGrade { get; set; }
 

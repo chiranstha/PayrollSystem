@@ -25,15 +25,11 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
     active = false;
     saving = false;
     form: FormGroup;
-   
-    
-
     allEmployeeLevels: EmployeeEmployeeLevelLookupTableDto[];
     allSchoolInfos: EmployeeSchoolInfoLookupTableDto[];
 
     breadcrumbs: BreadcrumbItem[] = [
         new BreadcrumbItem(this.l('Employee'), '/app/main/payroll/employees'),
-        new BreadcrumbItem(this.l('Entity_Name_Plural_Here') + '' + this.l('Details')),
     ];
     id: string;
 
@@ -57,58 +53,64 @@ export class CreateOrEditEmployeeComponent extends AppComponentBase implements O
 
 
     createForm(item: any = {}) {
-        this.form = this.fb.group({          
-            category: [item.category??""],
-            providentFund: [item.providentFund??""],
-            panNo: [item.panNo??""],
-            insuranceNo: [item.insuranceNo??""],
-            name: [item.name??""],
-            bankName: [item.bankName??""],
-            bankAccountNo: [item.bankAccountNo??""],
+        this.form = this.fb.group({
+            category: [item.category ?? ""],
+            providentFund: [item.providentFund ?? ""],
+            panNo: [item.panNo ?? ""],
+            insuranceNo: [item.insuranceNo ?? ""],
+            name: [item.name ?? ""],
+            bankName: [item.bankName ?? ""],
+            bankAccountNo: [item.bankAccountNo ?? ""],
             pansionMiti: [item.pansionMiti || '2081/3/20'],
             dateOfJoinMiti: [item.dateOfJoinMiti || '2081/3/20'],
-            insuranceAmount: [item.insuranceAmount??0],
-            isDearnessAllowance: [item.isDearnessAllowance??false],
-            addEPF: [item.addEPF??false],
-            isPrincipal: [item.isPrincipal??false],
-            isGovernment: [item.isGovernment??false],
-            isInternal: [item.isInternal??false],
-            isTechnical: [item.isTechnical??false],
+            insuranceAmount: [item.insuranceAmount ?? 0],
+            isDearnessAllowance: [item.isDearnessAllowance ?? false],
+            addEPF: [item.addEPF ?? false],
+            isPrincipal: [item.isPrincipal ?? false],
+            isGovernment: [item.isGovernment ?? false],
+            isInternal: [item.isInternal ?? false],
+            isTechnical: [item.isTechnical ?? false],
+            municipalityPercent: [item.MunicipalityPercent ?? 0],
+            municipalityAmount: [item.municipalityAmount ?? 0],
+            provincePercent: [item.provincePercent ?? 0],
+            provinceAmount: [item.provinceAmount ?? 0],
+            statePercent: [item.statePercent ?? 0],
+            stateAmount: [item.stateAmount ?? 0],
             grade: [item.grade],
             technicalGrade: [item.technicalGrade],
             employeeLevelId: [item.employeeLevelId],
             schoolInfoId: [item.schoolInfoId],
-            id: [item.id]            
+            id: [item.id]
         });
     }
 
     show(employeeId?: string): void {
         if (employeeId) {
-           this.id=employeeId;
-           
+            this.id = employeeId;
 
-       
+
+
             this._employeesServiceProxy.getEmployeeForEdit(employeeId).subscribe((result) => {
                 this.createForm(result);
 
                 this.active = true;
             });
         }
-       
-       
+
+
     }
 
-    getAllEmployeeLevelDropdown()
-    {
+    getAllEmployeeLevelDropdown() {
         this._employeesServiceProxy.getAllEmployeeLevelForTableDropdown().subscribe((result) => {
             this.allEmployeeLevels = result;
         });
     }
 
-    getAllSchoolInfoForTableDropdown()
-    { this._employeesServiceProxy.getAllSchoolInfoForTableDropdown().subscribe((result) => {
-        this.allSchoolInfos = result;
-    });}
+    getAllSchoolInfoForTableDropdown() {
+        this._employeesServiceProxy.getAllSchoolInfoForTableDropdown().subscribe((result) => {
+            this.allSchoolInfos = result;
+        });
+    }
 
     save(): void {
         this.saving = true;

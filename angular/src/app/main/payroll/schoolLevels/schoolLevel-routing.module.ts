@@ -1,6 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SchoolLevelsComponent } from './employeeLevels.component';
+import { SchoolLevelsComponent } from './schoolLevels.component';
 
 const routes: Routes = [
     {

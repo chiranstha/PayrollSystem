@@ -162,6 +162,12 @@ namespace Suktas.Payroll.Payroll
                 IsPrincipal = employee.IsPrincipal,
                 IsGovernment = employee.IsGovernment,
                 IsInternal = employee.IsInternal,
+                MunicipalityAmount = employee.MunicipalityAmount,
+                MunicipalityPercent = employee.MunicipalityPercent,
+                ProvinceAmount = employee.ProvinceAmount,
+                ProvincePercent = employee.ProvincePercent,
+                StatePercent = employee.StatePercent,
+                StateAmount = employee.StateAmount,
                 EmployeeLevelId = employee.EmployeeLevelId,
                 SchoolInfoId = employee.SchoolInfoId
             };
@@ -203,6 +209,12 @@ namespace Suktas.Payroll.Payroll
                 IsInternal = input.IsInternal,
                 EmployeeLevelId = input.EmployeeLevelId,
                 SchoolInfoId = input.SchoolInfoId,
+                MunicipalityAmount = input.MunicipalityAmount,
+                MunicipalityPercent = input.MunicipalityPercent,
+                ProvinceAmount = input.ProvinceAmount,
+                ProvincePercent = input.ProvincePercent,
+                StatePercent = input.StatePercent,
+                StateAmount = input.StateAmount,
                 IsTechnical = input.IsTechnical,
                 TenantId = AbpSession.GetTenantId()
             };
@@ -240,13 +252,19 @@ namespace Suktas.Payroll.Payroll
             employee.IsPrincipal = input.IsPrincipal;
             employee.IsGovernment = input.IsGovernment;
             employee.IsInternal = input.IsInternal;
+            employee.MunicipalityAmount = input.MunicipalityAmount;
+            employee.MunicipalityPercent = input.MunicipalityPercent;
+            employee.ProvinceAmount = input.ProvinceAmount;
+            employee.ProvincePercent = input.ProvincePercent;
+            employee.StatePercent = input.StatePercent;
+            employee.StateAmount = input.StateAmount;
             employee.EmployeeLevelId = input.EmployeeLevelId;
             employee.SchoolInfoId = input.SchoolInfoId;
             employee.IsTechnical = input.IsTechnical;
             await _employeeRepository.UpdateAsync(employee);
 
             var grade = await _gradeUpgradeRepository.FirstOrDefaultAsync(x => x.EmployeeId == input.Id);
-            if(grade != null)
+            if (grade != null)
             {
                 grade.TechnicalGrade = input.TechnicalGrade;
                 grade.Grade = input.Grade;

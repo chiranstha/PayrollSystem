@@ -4,255 +4,283 @@
             [breadcrumbs]="breadcrumbs"></sub-header>
 
         <div [class]="containerClass">
-            <form  [formGroup]="form"  autocomplete="off">
-            <div class="card card-custom gutter-b">
-                <div class="card-body">
-                    <div class="form-group m-form__group">
-                        <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
-                        <select name="employeeLevelId" formControlName="employeeLevelId"
-                            class="form-select" required>
-                            <option value="">{{ l('SelectAEmployeeLevel') }}</option>
-                            <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
+            <form [formGroup]="form" autocomplete="off">
+                <div class="card card-custom gutter-b">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <div class="form-group m-form__group">
+                                    <label for="EmployeeLevelName">{{ l('EmployeeLevel') }}</label>
+                                    <select name="employeeLevelId" formControlName="employeeLevelId" class="form-select"
+                                        required>
+                                        <option value="">{{ l('SelectAEmployeeLevel') }}</option>
+                                        <option *ngFor="let item of allEmployeeLevels" value="{{ item.id }}">
+                                            {{ item.displayName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
+                                <select name="schoolInfoId" formControlName="schoolInfoId" class="form-select">
+                                    <option value="">{{ l('SelectASchoolInfo') }}</option>
+                                    <option *ngFor="let item of allSchoolInfos" value="{{ item.id }}">
+                                        {{ item.displayName }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_Category">{{ l('Category') }}</label>
+                                <select #Employee_Category class="form-select" name="Category" id="Employee_Category"
+                                    formControlName="category">
+                                    <option value="0">{{ l('Permanent') }}</option>
+
+                                    <option value="1">{{ l('Temporary') }}</option>
+
+                                    <option value="2">{{ l('ChildDevelopment') }}</option>
+
+                                    <option value="3">{{ l('Donation') }}</option>
+
+                                    <option value="4">{{ l('Helper') }}</option>
+
+                                    <option value="5">{{ l('Contract') }}</option>
+                                </select>
+                                <validation-messages [formCtrl]="Employee_Category"></validation-messages>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_Grade">{{ l('Grade') }}</label>
+                                <select #Employee_Category class="form-select" name="Grade" id="Employee_Grade"
+                                    formControlName="grade">
+                                    <option value="1">{{ l('One') }}</option>
+                                    <option value="2">{{ l('Two') }}</option>
+
+                                    <option value="3">{{ l('Three') }}</option>
+
+                                    <option value="4">{{ l('Four') }}</option>
+
+                                    <option value="5">{{ l('Five') }}</option>
+
+                                    <option value="6">{{ l('Six') }}</option>
+
+                                    <option value="7">{{ l('Seven') }}</option>
+                                    <option value="7">{{ l('Eight') }}</option>
+                                </select>
+                                <validation-messages [formCtrl]="Employee_Category"></validation-messages>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Technical_Grade">{{ l('Technical Grade') }}</label>
+                                <select #Employee_Category class="form-select" name="Technical_Grade"
+                                    id="Technical_Grade" formControlName="technicalGrade">
+                                    <option value="0">{{ l('Zero') }}</option>
+
+                                    <option value="1">{{ l('One') }}</option>
+
+                                    <option value="2">{{ l('Two') }}</option>
+                                </select>
+                                <validation-messages [formCtrl]="Employee_Category"></validation-messages>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
+                                <input type="text" #Employee_ProvidentFund id="Employee_ProvidentFund"
+                                    class="form-control" formControlName="providentFund" name="ProvidentFund" />
+                                <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_PanNo">{{ l('PAN') }}</label>
+                                <input type="text" #Employee_PanNo id="Employee_PanNo" class="form-control"
+                                    formControlName="panNo" name="PanNo" />
+                                <validation-messages [formCtrl]="Employee_PanNo"></validation-messages>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_InsuranceNo">{{ l('Insurance No') }}</label>
+                                <input type="text" #Employee_InsuranceNo id="Employee_InsuranceNo" class="form-control"
+                                    formControlName="insuranceNo" name="InsuranceNo" />
+                                <validation-messages [formCtrl]="Employee_InsuranceNo"></validation-messages>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_InsuranceAmount">{{ l('Insurance Amount') }}</label>
+                                <input type="number" #Employee_InsuranceAmount id="Employee_InsuranceAmount"
+                                    class="form-control" formControlName="insuranceAmount" name="InsuranceAmount" />
+                                <validation-messages [formCtrl]="Employee_InsuranceAmount"></validation-messages>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_Name">{{ l('Name') }}</label>
+                                <input type="text" #Employee_Name id="Employee_Name" class="form-control"
+                                    formControlName="name" name="Name" />
+                                <validation-messages [formCtrl]="Employee_Name"></validation-messages>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_BankName">{{ l('BankName') }}</label>
+                                <input type="text" #Employee_BankName id="Employee_BankName" class="form-control"
+                                    formControlName="bankName" name="BankName" />
+                                <validation-messages [formCtrl]="Employee_BankName"></validation-messages>
+                            </div>
+
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <label for="Employee_BankAccountNo">{{ l('BankAccountNo') }}</label>
+                                <input type="text" #Employee_BankAccountNo id="Employee_BankAccountNo"
+                                    class="form-control" formControlName="bankAccountNo" name="BankAccountNo" />
+                                <validation-messages [formCtrl]="Employee_BankAccountNo"></validation-messages>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                                <label for="Employee_PansionMiti">{{l("PansionMiti")}}</label>
+                                <ne-datepicker [formControl]="form.controls['pansionMiti']" language="en"
+                                    id="pansionMiti"></ne-datepicker>
+
+                                <div *ngIf="
+                          this.form.get('pansionMiti').invalid &&
+                          (this.form.get('pansionMiti').dirty || this.form.get('pansionMiti').touched)
+                        ">
+                                    <div class="alert alert-danger alert-height mt-1" role="alert">
+                                        <div class="alert-div">DateMiti is required!</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                                <label for="Employee_DateOfJoinMiti">{{l("DateOfJoinMiti")}}</label>
+                                <ne-datepicker [formControl]="form.controls['dateOfJoinMiti']" language="en"
+                                    id="dateOfJoinMiti"></ne-datepicker>
+
+                                <div *ngIf="
+                          this.form.get('dateOfJoinMiti').invalid &&
+                          (this.form.get('dateOfJoinMiti').dirty || this.form.get('dateOfJoinMiti').touched)
+                        ">
+                                    <div class="alert alert-danger alert-height mt-1" role="alert">
+                                        <div class="alert-div">DateMiti is required!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label">------Source------</label>
+                                <label class="form-label">Municipality</label>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label">Percent</label>
+                                <input type="number" class="form-control" formControlName="municipalityPercent"
+                                    name="municipalityPercent" />
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-control" formControlName="municipalityAmount"
+                                name="municipalityAmount" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_IsDearnessAllowance" class="kt-checkbox">
+                                    <input #Employee_IsDearnessAllowance id="Employee_IsDearnessAllowance"
+                                        type="checkbox" name="IsDearnessAllowance"
+                                        formControlName="isDearnessAllowance" /> Dearness Allowance</label>
+                                <validation-messages [formCtrl]="Employee_IsDearnessAllowance"></validation-messages>
+                            </div>
+
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_AddEPF" class="kt-checkbox">
+                                    <input #Employee_AddEPF id="Employee_AddEPF" type="checkbox" name="AddEPF"
+                                        formControlName="addEPF" />
+                                    {{ l('Add EPF') }}
+                                    <span></span>
+                                </label>
+                                <validation-messages [formCtrl]="Employee_AddEPF"></validation-messages>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_IsPrincipal" class="kt-checkbox">
+                                    <input #Employee_IsPrincipal id="Employee_IsPrincipal" type="checkbox"
+                                        name="IsPrincipal" formControlName="isPrincipal" />
+                                    {{ l('IsPrincipal') }}
+                                    <span></span>
+                                </label>
+                                <validation-messages [formCtrl]="Employee_IsPrincipal"></validation-messages>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label">Province</label>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <input type="number" class="form-control" formControlName="provincePercent"
+                                name="provincePercent" />
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <input type="number" class="form-control" formControlName="provinceAmount"
+                                    name="provinceAmount" />
+                            </div>                           
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_IsGovernment" class="kt-checkbox">
+                                    <input #Employee_IsGovernment id="Employee_IsGovernment" type="checkbox"
+                                        name="IsGovernment" formControlName="isGovernment" />
+                                    {{ l('IsGovernment') }}
+                                    <span></span>
+                                </label>
+                                <validation-messages [formCtrl]="Employee_IsGovernment"></validation-messages>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_IsInternal" class="kt-checkbox">
+                                    <input #Employee_IsInternal id="Employee_IsInternal" type="checkbox"
+                                        name="IsInternal" formControlName="isInternal" />
+                                    {{ l('IsInternal') }}
+                                    <span></span>
+                                </label>
+                                <validation-messages [formCtrl]="Employee_IsInternal"></validation-messages>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label for="Employee_IsTechnical" class="kt-checkbox">
+                                    <input #Employee_IsTechnical id="Employee_IsTechnical" type="checkbox"
+                                        name="IsTechnical" formControlName="isTechnical" />
+                                    {{ l('IsTechnical') }}
+                                    <span></span>
+                                </label>
+                                <validation-messages [formCtrl]="Employee_IsTechnical"></validation-messages>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <label class="form-label">State</label>
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <input type="number" class="form-control" formControlName="statePercent"
+                                    name="statePercent" />
+                            </div>
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                                <input type="number" class="form-control" formControlName="stateAmount"
+                                    name="stateAmount" />
+                            </div>                    
+                        </div>
                     </div>
-
-                    <div class="form-group m-form__group">
-                        <label for="SchoolInfoName">{{ l('SchoolInfo') }}</label>
-                        <select name="schoolInfoId" formControlName="schoolInfoId" class="form-select">
-                            <option value="">{{ l('SelectASchoolInfo') }}</option>
-                            <option *ngFor="let item of allSchoolInfos" value="{{ item.id }}">
-                                {{ item.displayName }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_Category">{{ l('Category') }}</label>
-                        <select #Employee_Category class="form-select" name="Category" id="Employee_Category"
-                            formControlName="category">
-                            <option value="0">{{ l('Permanent') }}</option>
-
-                            <option value="1">{{ l('Temporary') }}</option>
-
-                            <option value="2">{{ l('ChildDevelopment') }}</option>
-
-                            <option value="3">{{ l('Donation') }}</option>
-
-                            <option value="4">{{ l('Helper') }}</option>
-
-                            <option value="5">{{ l('Contract') }}</option>
-                        </select>
-                        <validation-messages [formCtrl]="Employee_Category"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_Grade">{{ l('Grade') }}</label>
-                        <select #Employee_Category class="form-select" name="Grade" id="Employee_Grade"
-                            formControlName="grade">
-                            <option value="1">{{ l('One') }}</option>
-                            <option value="2">{{ l('Two') }}</option>
-
-                            <option value="3">{{ l('Three') }}</option>
-
-                            <option value="4">{{ l('Four') }}</option>
-
-                            <option value="5">{{ l('Five') }}</option>
-
-                            <option value="6">{{ l('Six') }}</option>
-
-                            <option value="7">{{ l('Seven') }}</option>
-                            <option value="7">{{ l('Eight') }}</option>
-                        </select>
-                        <validation-messages [formCtrl]="Employee_Category"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Technical_Grade">{{ l('Technical Grade') }}</label>
-                        <select #Employee_Category class="form-select" name="Technical_Grade" id="Technical_Grade"
-                            formControlName="technicalGrade">
-                            <option value="0">{{ l('Zero') }}</option>
-
-                            <option value="1">{{ l('One') }}</option>
-
-                            <option value="2">{{ l('Two') }}</option>
-                        </select>
-                        <validation-messages [formCtrl]="Employee_Category"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_ProvidentFund">{{ l('Employee Provident Fund Number') }}</label>
-                        <input type="text" #Employee_ProvidentFund id="Employee_ProvidentFund"
-                            class="form-control" formControlName="providentFund" name="ProvidentFund" />
-                        <validation-messages [formCtrl]="Employee_ProvidentFund"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_PanNo">{{ l('PAN') }}</label>
-                        <input type="text" #Employee_PanNo id="Employee_PanNo" class="form-control"
-                            formControlName="panNo" name="PanNo" />
-                        <validation-messages [formCtrl]="Employee_PanNo"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_InsuranceNo">{{ l('Insurance No') }}</label>
-                        <input type="text" #Employee_InsuranceNo id="Employee_InsuranceNo"
-                            class="form-control" formControlName="insuranceNo" name="InsuranceNo" />
-                        <validation-messages [formCtrl]="Employee_InsuranceNo"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_InsuranceAmount">{{ l('Insurance Amount') }}</label>
-                        <input type="number" #Employee_InsuranceAmount id="Employee_InsuranceAmount"
-                            class="form-control" formControlName="insuranceAmount" name="InsuranceAmount" />
-                        <validation-messages [formCtrl]="Employee_InsuranceAmount"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_Name">{{ l('Name') }}</label>
-                        <input type="text" #Employee_Name id="Employee_Name" class="form-control"
-                            formControlName="name" name="Name" />
-                        <validation-messages [formCtrl]="Employee_Name"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_BankName">{{ l('BankName') }}</label>
-                        <input type="text" #Employee_BankName id="Employee_BankName" class="form-control"
-                            formControlName="bankName" name="BankName" />
-                        <validation-messages [formCtrl]="Employee_BankName"></validation-messages>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="Employee_BankAccountNo">{{ l('BankAccountNo') }}</label>
-                        <input type="text" #Employee_BankAccountNo id="Employee_BankAccountNo"
-                            class="form-control" formControlName="bankAccountNo" name="BankAccountNo" />
-                        <validation-messages [formCtrl]="Employee_BankAccountNo"></validation-messages>
-                    </div>
-
-                    <!-- <div class="form-group">
-                        <label for="Employee_PansionMiti">{{ l('PansionMiti') }}</label>
-                        <input type="text" #Employee_PansionMiti id="Employee_PansionMiti"
-                            class="form-control" formControlName="pansionMiti" name="PansionMiti" />
-                        <validation-messages [formCtrl]="Employee_PansionMiti"></validation-messages>
-                    </div> -->
-
-                    <div class="form-group">
-						<label for="Employee_PansionMiti">{{l("PansionMiti")}}</label>
-						<ne-datepicker [formControl]="form.controls['pansionMiti']" language="en" id="pansionMiti"></ne-datepicker>
-
-						<div *ngIf="
-                      this.form.get('pansionMiti').invalid &&
-                      (this.form.get('pansionMiti').dirty || this.form.get('pansionMiti').touched)
-                    ">
-							<div class="alert alert-danger alert-height mt-1" role="alert">
-								<div class="alert-div">DateMiti is required!</div>
-							</div>
-						</div>
-					</div>
-
-                    <!-- <div class="form-group">
-                        <label for="Employee_DateOfJoinMiti">{{ l('DateOfJoinMiti') }}</label>
-                        <input type="text" #Employee_DateOfJoinMiti id="Employee_DateOfJoinMiti"
-                            class="form-control" formControlName="dateOfJoinMiti" name="DateOfJoinMiti" />
-                        <validation-messages [formCtrl]="Employee_DateOfJoinMiti"></validation-messages>
-                    </div> -->
-
-
-                    <div class="form-group">
-						<label for="Employee_DateOfJoinMiti">{{l("DateOfJoinMiti")}}</label>
-						<ne-datepicker [formControl]="form.controls['dateOfJoinMiti']" language="en" id="dateOfJoinMiti"></ne-datepicker>
-
-						<div *ngIf="
-                      this.form.get('dateOfJoinMiti').invalid &&
-                      (this.form.get('dateOfJoinMiti').dirty || this.form.get('dateOfJoinMiti').touched)
-                    ">
-							<div class="alert alert-danger alert-height mt-1" role="alert">
-								<div class="alert-div">DateMiti is required!</div>
-							</div>
-						</div>
-					</div>
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_IsDearnessAllowance" class="kt-checkbox">
-                            <input #Employee_IsDearnessAllowance id="Employee_IsDearnessAllowance"
-                                type="checkbox" name="IsDearnessAllowance" formControlName="isDearnessAllowance" />
-                            {{ l('IsDearnessAllowance') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_IsDearnessAllowance"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_AddEPF" class="kt-checkbox">
-                            <input #Employee_AddEPF id="Employee_AddEPF" type="checkbox" name="AddEPF"
-                                formControlName="addEPF" />
-                            {{ l('Add EPF') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_AddEPF"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_IsPrincipal" class="kt-checkbox">
-                            <input #Employee_IsPrincipal id="Employee_IsPrincipal" type="checkbox"
-                                name="IsPrincipal" formControlName="isPrincipal" />
-                            {{ l('IsPrincipal') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_IsPrincipal"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_IsGovernment" class="kt-checkbox">
-                            <input #Employee_IsGovernment id="Employee_IsGovernment" type="checkbox"
-                                name="IsGovernment" formControlName="isGovernment" />
-                            {{ l('IsGovernment') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_IsGovernment"></validation-messages>
-                    </div>
-
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_IsInternal" class="kt-checkbox">
-                            <input #Employee_IsInternal id="Employee_IsInternal" type="checkbox"
-                                name="IsInternal" formControlName="isInternal" />
-                            {{ l('IsInternal') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_IsInternal"></validation-messages>
-                    </div>
-                    <br />
-                    <div class="m-checkbox-list">
-                        <label for="Employee_IsTechnical" class="kt-checkbox">
-                            <input #Employee_IsTechnical id="Employee_IsTechnical" type="checkbox"
-                                name="IsTechnical" formControlName="isTechnical" />
-                            {{ l('IsTechnical') }}
-                            <span></span>
-                        </label>
-                        <validation-messages [formCtrl]="Employee_IsTechnical"></validation-messages>
+                    <div class="card-footer">
+                        <div class="col-lg-12">
+                            <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
+                                [busyText]="l('SavingWithThreeDot')">
+                                <i class="fa fa-save"></i>
+                                <span>{{ l('Save') }}</span>
+                            </button>
+                            <button *ngIf="!this.id" (click)="saveAndNew()" class="btn btn-primary blue float-right"
+                                [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                                <i class="fa fa-save"></i>
+                                <span>{{ l('SaveAndNew') }}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="col-lg-12">
-                        <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                            [busyText]="l('SavingWithThreeDot')">
-                            <i class="fa fa-save"></i>
-                            <span>{{ l('Save') }}</span>
-                        </button>
-                        <button *ngIf="!this.id" (click)="saveAndNew()"
-                            class="btn btn-primary blue float-right" [buttonBusy]="saving"
-                            [busyText]="l('SavingWithThreeDot')">
-                            <i class="fa fa-save"></i>
-                            <span>{{ l('SaveAndNew') }}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
             </form>
         </div>
     </div>
