@@ -18,11 +18,12 @@ namespace Suktas.Payroll.Payroll
     public class SchoolLevelAppService : PayrollAppServiceBase, ISchoolLevelAppService
     {
         private readonly IRepository<SchoolLevel, Guid> _SchoolLevelRepository;
+        private readonly IRepository<CategorySalary, Guid> _categorySalaryRepository;
 
-        public SchoolLevelAppService(IRepository<SchoolLevel, Guid> schoolLevelRepository)
+        public SchoolLevelAppService(IRepository<SchoolLevel, Guid> schoolLevelRepository, IRepository<CategorySalary, Guid> categorySalaryRepository)
         {
             _SchoolLevelRepository = schoolLevelRepository;
-
+            _categorySalaryRepository = categorySalaryRepository;
         }
         public virtual async Task<PagedResultDto<GetSchoolLevelForView>> GetAll(GetAllSchoolLevelsInput input)
         {
@@ -153,8 +154,8 @@ namespace Suktas.Payroll.Payroll
             if (SchoolLevel == null)
                 throw new UserFriendlyException("Data not found");
 
-            //if (await _categorySalaryRepository.GetAll().AnyAsync(x => x.SchoolLevelId == input.Id))
-            throw new UserFriendlyException("Can not Delete", "Reference Exists in Category Salary");
+            //if (await _categorySalaryRepository.GetAll().AnyAsync(x => x.EmployeeLevelId == input.Id))
+            //throw new UserFriendlyException("Can not Delete", "Reference Exists in Category Salary");
             await _SchoolLevelRepository.DeleteAsync(SchoolLevel);
         }
 
