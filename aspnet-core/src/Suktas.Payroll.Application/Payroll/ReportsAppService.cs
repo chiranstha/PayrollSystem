@@ -71,12 +71,12 @@ namespace Suktas.Payroll.Payroll
         public virtual async Task<List<SchoolWiseReportDto>> GetCategoryWiseReport(int year, Guid schoolId,CategoryEnum category)
         {
             var result = new List<SchoolWiseReportDto>();
-            var data = await _employeeSalaryDetailNewRepository.GetAll().ToListAsync();
+        //    var data = await _employeeSalaryDetailNewRepository.GetAll().Where(x => x.SchoolInfoId == schoolId).ToListAsync();
             var master = _employeeSalaryMasterNew.GetAll().Where(x => x.Year == year);         
             var masterIds = master.Select(x => x.Id).Distinct();
             var months = await _employeeSalaryMasterMonthNew.GetAll().Where(x => masterIds.Contains(x.EmployeeSalaryMasterNewId)).ToListAsync();
 
-            var details = await _employeeSalaryDetailNewRepository.GetAll().Where(x => masterIds.Contains(x.EmployeeSalaryMasterNewId)).ToListAsync();
+            var details = await _employeeSalaryDetailNewRepository.GetAll().Where(x => masterIds.Contains(x.EmployeeSalaryMasterNewId) && x.SchoolInfoId == schoolId).ToListAsync();
             foreach(var masterId in masterIds)
             {
                 decimal total = 0;
