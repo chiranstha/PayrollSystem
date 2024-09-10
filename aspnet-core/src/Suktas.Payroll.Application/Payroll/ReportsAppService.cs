@@ -19,6 +19,7 @@ namespace Suktas.Payroll.Payroll
         private readonly IRepository<EmployeeSalaryMasterMonthNew, Guid> _employeeSalaryMasterMonthNew;
         private readonly IRepository<SchoolInfo, Guid> _lookupSchoolInfoRepository;
         private readonly IRepository<Employee, Guid> _employeeRepository;
+        private readonly IRepository<Employee, Guid> _employeeReRepository;
 
         public ReportsAppService(IRepository<EmployeeSalaryDetailNew, Guid> employeeSalaryDetailRepository,
             IRepository<EmployeeLevel, Guid> employeeLevelRepository,
